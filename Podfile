@@ -22,6 +22,7 @@ target 'VideoMerger' do
   pod 'Alamofire'
   pod 'SVProgressHUD'
   pod 'SDWebImage'
+  pod 'lottie-ios'
   RxSwiftPod()
   RIBsPod()
 

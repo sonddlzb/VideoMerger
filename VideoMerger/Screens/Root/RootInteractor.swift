@@ -10,6 +10,7 @@ import RxSwift
 
 protocol RootRouting: ViewableRouting {
     func routeToSplash()
+    func routeToHome()
 }
 
 protocol RootPresentable: Presentable {
