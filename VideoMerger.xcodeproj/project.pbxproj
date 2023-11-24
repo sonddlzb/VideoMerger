@@ -75,6 +75,8 @@
 		C8BD87302B1089F50078AABA /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD872B2B1089F50078AABA /* HomeInteractor.swift */; };
 		C8BD87312B1089F50078AABA /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8BD872C2B1089F50078AABA /* HomeViewController.xib */; };
 		C8BD87352B108AA70078AABA /* RootComponent+Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87342B108AA70078AABA /* RootComponent+Home.swift */; };
+		C8BD87382B1094F20078AABA /* PlayBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87372B1094F20078AABA /* PlayBarView.swift */; };
+		C8BD873B2B1095220078AABA /* PlayBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8BD873A2B1095220078AABA /* PlayBarView.xib */; };
 		CBE0F7AAAC16ED9ADD383963 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8B91A2F76950715A15B1D /* CGPointExtensions.swift */; };
 		CC3CE463B9C2BFBC10A54E15 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E17F144BA40D3D3D72373 /* CGFloatExtensions.swift */; };
 		CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B767617101C4CE45B54B29 /* UIImageExtensions.swift */; };
@@ -159,6 +161,8 @@
 		C8BD872B2B1089F50078AABA /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
 		C8BD872C2B1089F50078AABA /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		C8BD87342B108AA70078AABA /* RootComponent+Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Home.swift"; sourceTree = "<group>"; };
+		C8BD87372B1094F20078AABA /* PlayBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayBarView.swift; sourceTree = "<group>"; };
+		C8BD873A2B1095220078AABA /* PlayBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlayBarView.xib; sourceTree = "<group>"; };
 		C97E17364362ADA616F3F838 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D0CBF109B62D24BAEA67D209 /* Outfit-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Outfit-SemiBold.otf"; sourceTree = "<group>"; };
 		DBE6976454FB36E2BC4D4728 /* AVMutableCompositionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMutableCompositionExtensions.swift; sourceTree = "<group>"; };
@@ -403,6 +407,7 @@
 		BD8478F34F0A4C0063272DA3 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				C8BD87362B1094DA0078AABA /* CommonView */,
 				561A07DCF8B4B8139A510BFD /* Base */,
 				35873519EFD6504FCE3476D8 /* CoreUtils */,
 			);
@@ -436,6 +441,23 @@
 				C8BD87252B1089690078AABA /* RootInteractor+Splash.swift */,
 			);
 			path = Interactor;
+			sourceTree = "<group>";
+		};
+		C8BD87362B1094DA0078AABA /* CommonView */ = {
+			isa = PBXGroup;
+			children = (
+				C8BD87392B1095160078AABA /* Xib */,
+				C8BD87372B1094F20078AABA /* PlayBarView.swift */,
+			);
+			path = CommonView;
+			sourceTree = "<group>";
+		};
+		C8BD87392B1095160078AABA /* Xib */ = {
+			isa = PBXGroup;
+			children = (
+				C8BD873A2B1095220078AABA /* PlayBarView.xib */,
+			);
+			path = Xib;
 			sourceTree = "<group>";
 		};
 		CDC14861A2BA9F0D3CA35CAE /* RxSwiftExtensions */ = {
@@ -521,6 +543,7 @@
 				191B94545846A482C155B068 /* Outfit-SemiBold.otf in Resources */,
 				A6464D2D3384AC344C1A335F /* SplashAnimation.json in Resources */,
 				F7D5436E22DD35F3AC3F2243 /* SplashViewController.xib in Resources */,
+				C8BD873B2B1095220078AABA /* PlayBarView.xib in Resources */,
 				C8BD87312B1089F50078AABA /* HomeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -592,6 +615,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8BD87382B1094F20078AABA /* PlayBarView.swift in Sources */,
 				3652A3D46B395121F782C0EB /* AVAssetExtension.swift in Sources */,
 				9902EDB148E5948BBF66F9C2 /* AVAudioFileExtensions.swift in Sources */,
 				AEFDEDD4796552F1BD9E4144 /* AVAudioPlayerNodeExtensions.swift in Sources */,
