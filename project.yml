@@ -1,0 +1,29 @@
+---
+ name: VideoMerger
+ options:
+   postGenCommand: pod install
+ targets:
+    VideoMerger:
+     type: application
+     deploymentTarget: '13.0'
+     platform: iOS
+     # postBuildScripts:
+     #   - inputFiles:
+     #       - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
+     #       - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
+     #     name: Crashlytics
+     #     script: ${PODS_ROOT}/FirebaseCrashlytics/run
+     preBuildScripts:
+       - name: SwiftLint
+         script: ${PODS_ROOT}/SwiftLint/swiftlint
+     settings:
+       base:
+         CODE_SIGN_IDENTITY: iPhone Developer
+         CODE_SIGN_STYLE: Manual
+         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+         INFOPLIST_FILE: VideoMerger/App/Info.plist
+         SWIFT_VERSION: 5
+         TARGETED_DEVICE_FAMILY: 1
+     sources:
+       - path: VideoMerger
+

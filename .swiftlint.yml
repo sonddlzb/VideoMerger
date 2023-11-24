@@ -1,0 +1,49 @@
+included:
+  - VideoMerger
+
+excluded:
+  - Pods
+
+analyzer_rules:
+  - explicit_self
+
+force_cast: warning
+force_try:
+  severity: warning
+
+line_length: 300
+
+file_length:
+  warning: 1000
+  error: 1500
+
+type_name:
+  min_length: 3
+  max_length:
+    warning: 40
+    error: 50
+identifier_name:
+  min_length:
+    warning: 2
+    error: 3
+  excluded:
+    - id
+
+function_body_length:
+  warning: 50
+  error: 150
+
+custom_rules:
+  codeblock_trailing:
+    included: ".*\\.swift"
+    name: "Codeblock trailing"
+    regex: "(?i)(^[\ ]+\\}\n[ ]*[a-z]+)"
+    message: "After code block must be constain a newline"
+    severity: error
+  close_breaket_trailing:
+    included: ".*\\.swift"
+    name: "Close breaket trailing"
+    regex: "(?i)(\\}\n([\ ]*\n[\ ]*)[\ ]*\\})"
+    message: "Before close braket can not have a newline"
+    severity: error
+reporter: "xcode"
