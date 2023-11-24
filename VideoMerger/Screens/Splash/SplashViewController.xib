@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SplashViewController">
             <connections>
+                <outlet property="splashAnimationView" destination="JfW-2e-MUV" id="qvg-TJ-fVZ"/>
                 <outlet property="view" destination="iN0-l3-epB" id="jYO-eb-xeE"/>
             </connections>
         </placeholder>
@@ -17,9 +18,33 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_splash" translatesAutoresizingMaskIntoConstraints="NO" id="atg-8B-16j">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JfW-2e-MUV" customClass="LottieAnimationView" customModule="Lottie">
+                    <rect key="frame" x="62" y="339.5" width="290" height="231"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="JfW-2e-MUV" secondAttribute="height" multiplier="105.19:84" id="DXr-20-sLx"/>
+                    </constraints>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="JfW-2e-MUV" firstAttribute="width" secondItem="atg-8B-16j" secondAttribute="width" multiplier="0.7" id="5b1-5a-9b0"/>
+                <constraint firstItem="atg-8B-16j" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6ws-85-0VU"/>
+                <constraint firstItem="atg-8B-16j" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JIb-xk-E5D"/>
+                <constraint firstItem="JfW-2e-MUV" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="LMV-na-DLJ"/>
+                <constraint firstAttribute="bottom" secondItem="atg-8B-16j" secondAttribute="bottom" id="Ody-1u-T3R"/>
+                <constraint firstAttribute="trailing" secondItem="atg-8B-16j" secondAttribute="trailing" id="hfJ-YF-OdO"/>
+                <constraint firstItem="JfW-2e-MUV" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="p2I-Uj-iq6"/>
+            </constraints>
             <point key="canvasLocation" x="-394" y="74"/>
         </view>
     </objects>
+    <resources>
+        <image name="bg_splash" width="430" height="932"/>
+    </resources>
 </document>

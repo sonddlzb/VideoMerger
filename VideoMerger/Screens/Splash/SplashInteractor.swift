@@ -16,9 +16,10 @@ protocol SplashPresentable: Presentable {
 }
 
 protocol SplashListener: AnyObject {
+    func routeToHome()
 }
 
-final class SplashInteractor: PresentableInteractor<SplashPresentable>, SplashInteractable, SplashPresentableListener {
+final class SplashInteractor: PresentableInteractor<SplashPresentable>, SplashInteractable {
 
     weak var router: SplashRouting?
     weak var listener: SplashListener?
@@ -34,5 +35,12 @@ final class SplashInteractor: PresentableInteractor<SplashPresentable>, SplashIn
 
     override func willResignActive() {
         super.willResignActive()
+    }
+}
+
+// MARK: - SplashPresentableListener
+extension SplashInteractor: SplashPresentableListener {
+    func openHome() {
+        self.listener?.routeToHome()
     }
 }

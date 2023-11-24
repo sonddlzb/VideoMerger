@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.7.1)
+  - lottie-ios (4.2.0)
   - Resolver (1.5.0)
   - RIBs (0.9.3):
     - RxRelay (~> 5.1)
@@ -19,6 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - lottie-ios
   - Resolver
   - RIBs (from `https://github.com/uber/RIBs/`, tag `v0.10.0`)
   - RxCocoa
@@ -31,6 +33,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - lottie-ios
     - Resolver
     - RxCocoa
     - RxRelay
@@ -52,6 +55,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
   RIBs: d4c4c7e7e4580f0bbe88bdc88b6c11704a738b7f
   RxCocoa: e2ed092d5432e4296aa818021d27de4090ac0354
@@ -62,6 +66,6 @@ SPEC CHECKSUMS:
   SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
   TLLogging: 636a4873bf1aaa9d60c4b938433b17e3ce33cb51
 
-PODFILE CHECKSUM: 3be750b1b972ce1be32f2b02c4fa192e22a8c16d
+PODFILE CHECKSUM: 0a06c232bfcbb59d9e369867a48d7a16e8480dd6
 
 COCOAPODS: 1.12.1
