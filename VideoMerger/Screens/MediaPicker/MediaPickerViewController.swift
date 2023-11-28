@@ -8,6 +8,7 @@
 import RIBs
 import RxSwift
 import UIKit
+import Photos
 
 private struct Const {
     static let contentInset = UIEdgeInsets(top: 0.0, left: 4.0, bottom: 0.0, right: 4.0)
@@ -17,6 +18,7 @@ private struct Const {
 
 protocol MediaPickerPresentableListener: AnyObject {
     func didTapDismiss()
+    func didSelect(at index: Int, isVideo: Bool)
 }
 
 final class MediaPickerViewController: UIViewController, MediaPickerViewControllable {
@@ -116,6 +118,10 @@ extension MediaPickerViewController: UICollectionViewDelegate, UICollectionViewD
         cell.delegate = self
         cell.bind(itemViewModel: self.viewModel.item(at: indexPath.row, isVideo: collectionView == self.videosCollectionView))
         return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.listener?.didSelect(at: indexPath.row, isVideo: collectionView == self.videosCollectionView)
     }
 }
 
