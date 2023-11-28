@@ -17,6 +17,7 @@ class ConfirmDialog: UIView {
     // MARK: - Outlets
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var messageLabel: UILabel!
+    @IBOutlet private weak var confirmLabel: UILabel!
 
     weak var delegate: ConfirmDialogDelegate?
 
@@ -54,6 +55,19 @@ class ConfirmDialog: UIView {
         }
     }
 
+    private func show(superview: UIView, message: String, confirmTitle: String, iconImage: UIImage?) {
+        self.alpha = 0
+        self.messageLabel.text = message
+        self.imageView.image = iconImage
+        self.confirmLabel.text = confirmTitle
+        superview.addSubview(self)
+        self.fitSuperviewConstraint()
+
+        UIView.animate(withDuration: 0.25) {
+            self.alpha = 1
+        }
+    }
+
     // MARK: - Static function
     static func show(message: String) {
         guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
@@ -62,6 +76,15 @@ class ConfirmDialog: UIView {
         }
 
         shared.show(superview: window, message: message)
+    }
+
+    static func show(message: String, confirmTitle: String, iconImage: UIImage?) {
+        guard let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow }),
+              shared.superview == nil else {
+            return
+        }
+
+        shared.show(superview: window, message: message, confirmTitle: confirmTitle, iconImage: iconImage)
     }
 
     static func dismiss() {

@@ -20,5 +20,9 @@ extension DIConnector {
         DIContainer.register(HomeBuildable.self) { _, args in
             return HomeBuilder(dependency: args.get())
         }
+
+        DIContainer.register(MediaPickerBuildable.self) { _, args in
+            return MediaPickerBuilder(dependency: args.get())
+        }
     }
 }
