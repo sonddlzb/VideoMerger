@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol MediaPickerInteractable: Interactable, PreviewImageListener {
+protocol MediaPickerInteractable: Interactable, PreviewImageListener, PreviewVideoListener {
     var router: MediaPickerRouting? { get set }
     var listener: MediaPickerListener? { get set }
 }
@@ -20,10 +20,15 @@ final class MediaPickerRouter: ViewableRouter<MediaPickerInteractable, MediaPick
     private var previewImageRouter: PreviewImageRouting?
     private var previewImageBuilder: PreviewImageBuildable
 
+    private var previewVideoRouter: PreviewVideoRouting?
+    private var previewVideoBuilder: PreviewVideoBuildable
+
     init(interactor: MediaPickerInteractable,
          viewController: MediaPickerViewControllable,
-         previewImageBuilder: PreviewImageBuildable) {
+         previewImageBuilder: PreviewImageBuildable,
+         previewVideoBuilder: PreviewVideoBuildable) {
         self.previewImageBuilder = previewImageBuilder
+        self.previewVideoBuilder = previewVideoBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -51,5 +56,27 @@ extension MediaPickerRouter: MediaPickerRouting {
         router.viewControllable.dismiss()
         self.detachChild(router)
         self.previewImageRouter = nil
+    }
+
+    func openPreviewVideo(_ asset: PHAsset) {
+        guard self.previewVideoRouter == nil else {
+            return
+        }
+
+        let router = self.previewVideoBuilder.build(withListener: self.interactor, asset: asset)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.attachChild(router)
+        self.previewVideoRouter = router
+    }
+
+    func dismissPreviewVideo() {
+        guard let router = self.previewVideoRouter else {
+            return
+        }
+
+        router.viewControllable.dismiss()
+        self.detachChild(router)
+        self.previewVideoRouter = nil
     }
 }

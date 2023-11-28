@@ -28,5 +28,9 @@ extension DIConnector {
         DIContainer.register(PreviewImageBuildable.self) { _, args in
             return PreviewImageBuilder(dependency: args.get())
         }
+
+        DIContainer.register(PreviewVideoBuildable.self) { _, args in
+            return PreviewVideoBuilder(dependency: args.get())
+        }
     }
 }

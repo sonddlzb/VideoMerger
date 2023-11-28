@@ -13,6 +13,8 @@ import Photos
 protocol MediaPickerRouting: ViewableRouting {
     func openPreviewImage(_ asset: PHAsset)
     func dismissPreviewImage()
+    func openPreviewVideo(_ asset: PHAsset)
+    func dismissPreviewVideo()
 }
 
 protocol MediaPickerPresentable: Presentable {
@@ -82,6 +84,8 @@ extension MediaPickerInteractor: MediaPickerPresentableListener {
         let asset = isVideo ? self.viewModel.listVideoAssets()[index] : self.viewModel.listPhotoAssets()[index]
         if !isVideo {
             self.router?.openPreviewImage(asset)
+        } else {
+            self.router?.openPreviewVideo(asset)
         }
     }
 }
