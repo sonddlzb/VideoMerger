@@ -11,6 +11,8 @@ import UIKit
 import Photos
 
 protocol MediaPickerRouting: ViewableRouting {
+    func openPreviewImage(_ asset: PHAsset)
+    func dismissPreviewImage()
 }
 
 protocol MediaPickerPresentable: Presentable {
@@ -74,5 +76,12 @@ final class MediaPickerInteractor: PresentableInteractor<MediaPickerPresentable>
 extension MediaPickerInteractor: MediaPickerPresentableListener {
     func didTapDismiss() {
         self.listener?.mediaPickerWantToDismiss()
+    }
+
+    func didSelect(at index: Int, isVideo: Bool) {
+        let asset = isVideo ? self.viewModel.listVideoAssets()[index] : self.viewModel.listPhotoAssets()[index]
+        if !isVideo {
+            self.router?.openPreviewImage(asset)
+        }
     }
 }

@@ -24,5 +24,9 @@ extension DIConnector {
         DIContainer.register(MediaPickerBuildable.self) { _, args in
             return MediaPickerBuilder(dependency: args.get())
         }
+
+        DIContainer.register(PreviewImageBuildable.self) { _, args in
+            return PreviewImageBuilder(dependency: args.get())
+        }
     }
 }
