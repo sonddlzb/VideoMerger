@@ -144,4 +144,20 @@ public extension PHAsset {
             return Disposables.create()
         }
     }
+
+    // MARK: convert video duration
+    func formatVideoDuration() -> String {
+        var res: String
+        let interval = Int(self.duration)
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        res = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        if interval < 60 {
+            let index = res.index(res.endIndex, offsetBy: -5)
+            res = String(res.suffix(from: index))
+        }
+
+        return res
+    }
 }

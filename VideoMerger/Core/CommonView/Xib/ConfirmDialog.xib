@@ -137,6 +137,7 @@
                 <constraint firstItem="Hrc-at-qTE" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="244:430" id="yAn-VU-u8O"/>
             </constraints>
             <connections>
+                <outlet property="confirmLabel" destination="pIL-Lg-VNR" id="JXY-NA-umB"/>
                 <outlet property="imageView" destination="FXY-fT-YKx" id="i24-us-Kxg"/>
                 <outlet property="messageLabel" destination="wGc-A2-FRo" id="BRq-e3-0GT"/>
             </connections>

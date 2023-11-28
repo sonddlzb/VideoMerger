@@ -16,9 +16,10 @@ private struct Const {
 }
 
 protocol HomePresentableListener: AnyObject {
+    func didSelectCreateNewProject()
 }
 
-final class HomeViewController: UIViewController, HomePresentable, HomeViewControllable {
+final class HomeViewController: UIViewController, HomeViewControllable {
     // MARK: - Outlets
     @IBOutlet weak var containerProject: UIView!
     @IBOutlet weak var containerCollectionView: UIView!
@@ -62,6 +63,7 @@ final class HomeViewController: UIViewController, HomePresentable, HomeViewContr
     }
 
     @IBAction func didTapCreateNewProject(_ sender: Any) {
+        self.listener?.didSelectCreateNewProject()
     }
 }
 
@@ -91,5 +93,12 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return Const.cellSpacing
+    }
+}
+
+// MARK: - HomePresentable
+extension HomeViewController: HomePresentable {
+    func showOpenSettingDialog() {
+        ConfirmDialog.show(message: "Video Merger want to access your photo library", confirmTitle: "Open Setting", iconImage: UIImage(named: "ic_setting"))
     }
 }

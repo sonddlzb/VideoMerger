@@ -82,6 +82,17 @@
 		C87D925B2B13872C00CEF826 /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87D92592B13872C00CEF826 /* ProjectCell.xib */; };
 		C87D925E2B1397CA00CEF826 /* PermissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87D925D2B1397CA00CEF826 /* PermissionHelper.swift */; };
 		C87D92602B1397D700CEF826 /* MediaStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87D925F2B1397D700CEF826 /* MediaStorage.swift */; };
+		C8BD87422B1434630078AABA /* MediaPickerRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD873D2B1434630078AABA /* MediaPickerRouter.swift */; };
+		C8BD87432B1434630078AABA /* MediaPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD873E2B1434630078AABA /* MediaPickerViewController.swift */; };
+		C8BD87442B1434630078AABA /* MediaPickerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD873F2B1434630078AABA /* MediaPickerBuilder.swift */; };
+		C8BD87452B1434630078AABA /* MediaPickerInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87402B1434630078AABA /* MediaPickerInteractor.swift */; };
+		C8BD87462B1434630078AABA /* MediaPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8BD87412B1434630078AABA /* MediaPickerViewController.xib */; };
+		C8BD87482B1435550078AABA /* HomeComponent+MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87472B1435550078AABA /* HomeComponent+MediaPicker.swift */; };
+		C8BD874A2B143C890078AABA /* HomeInteractor+MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87492B143C890078AABA /* HomeInteractor+MediaPicker.swift */; };
+		C8BD874D2B1445AA0078AABA /* MediaPickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD874C2B1445AA0078AABA /* MediaPickerViewModel.swift */; };
+		C8BD874F2B1447C20078AABA /* MediaPickerItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD874E2B1447C20078AABA /* MediaPickerItemViewModel.swift */; };
+		C8BD87532B1449BE0078AABA /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8BD87512B1449BE0078AABA /* MediaCell.swift */; };
+		C8BD87542B1449BE0078AABA /* MediaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C8BD87522B1449BE0078AABA /* MediaCell.xib */; };
 		CBE0F7AAAC16ED9ADD383963 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8B91A2F76950715A15B1D /* CGPointExtensions.swift */; };
 		CC3CE463B9C2BFBC10A54E15 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E17F144BA40D3D3D72373 /* CGFloatExtensions.swift */; };
 		CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B767617101C4CE45B54B29 /* UIImageExtensions.swift */; };
@@ -102,7 +113,7 @@
 /* Begin PBXFileReference section */
 		0146B8C7865F4EAC9BDD75EE /* Outfit-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Outfit-Medium.otf"; sourceTree = "<group>"; };
 		018A51AAE4999B46B3AEB1F8 /* DIConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIConnector.swift; sourceTree = "<group>"; };
-		023A6B1FCAB9BEEA60418952 /* VideoMerger.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = VideoMerger.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		023A6B1FCAB9BEEA60418952 /* VideoMerger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VideoMerger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		084ABB32F8908AF0A0F9810C /* TimeIntervalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtensions.swift; sourceTree = "<group>"; };
 		0A0F1520B6D07F0104A97E34 /* SolarRequestPermissionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarRequestPermissionResponse.swift; sourceTree = "<group>"; };
 		1220FA1B470BE01BB71EFE8E /* CollectionViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtensions.swift; sourceTree = "<group>"; };
@@ -175,6 +186,17 @@
 		C87D92592B13872C00CEF826 /* ProjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectCell.xib; sourceTree = "<group>"; };
 		C87D925D2B1397CA00CEF826 /* PermissionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionHelper.swift; sourceTree = "<group>"; };
 		C87D925F2B1397D700CEF826 /* MediaStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaStorage.swift; sourceTree = "<group>"; };
+		C8BD873D2B1434630078AABA /* MediaPickerRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerRouter.swift; sourceTree = "<group>"; };
+		C8BD873E2B1434630078AABA /* MediaPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerViewController.swift; sourceTree = "<group>"; };
+		C8BD873F2B1434630078AABA /* MediaPickerBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerBuilder.swift; sourceTree = "<group>"; };
+		C8BD87402B1434630078AABA /* MediaPickerInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerInteractor.swift; sourceTree = "<group>"; };
+		C8BD87412B1434630078AABA /* MediaPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaPickerViewController.xib; sourceTree = "<group>"; };
+		C8BD87472B1435550078AABA /* HomeComponent+MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeComponent+MediaPicker.swift"; sourceTree = "<group>"; };
+		C8BD87492B143C890078AABA /* HomeInteractor+MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeInteractor+MediaPicker.swift"; sourceTree = "<group>"; };
+		C8BD874C2B1445AA0078AABA /* MediaPickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerViewModel.swift; sourceTree = "<group>"; };
+		C8BD874E2B1447C20078AABA /* MediaPickerItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerItemViewModel.swift; sourceTree = "<group>"; };
+		C8BD87512B1449BE0078AABA /* MediaCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
+		C8BD87522B1449BE0078AABA /* MediaCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MediaCell.xib; sourceTree = "<group>"; };
 		C97E17364362ADA616F3F838 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D0182208E915994AE64C71D6 /* ConfirmDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmDialog.xib; sourceTree = "<group>"; };
 		D0CBF109B62D24BAEA67D209 /* Outfit-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Outfit-SemiBold.otf"; sourceTree = "<group>"; };
@@ -314,6 +336,8 @@
 				60D1310C9D03383D191171EF /* HomeRouter.swift */,
 				647B87802A1DD6102A46562E /* HomeViewController.swift */,
 				323C22C4C21527E29CC8EF58 /* HomeViewController.xib */,
+				C8BD87472B1435550078AABA /* HomeComponent+MediaPicker.swift */,
+				C8BD87492B143C890078AABA /* HomeInteractor+MediaPicker.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -451,6 +475,7 @@
 		B6C73F5BDE13A5486E0EB714 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C8BD873C2B14344E0078AABA /* MediaPicker */,
 				5DF7AC11DDE729EDCBA6CDE2 /* DIRIBsConfiguration.swift */,
 				6F98E072E4B2363EB7EAE3BC /* Home */,
 				67E6EA5410D5C92E575B6419 /* Root */,
@@ -495,6 +520,38 @@
 				C87D925F2B1397D700CEF826 /* MediaStorage.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		C8BD873C2B14344E0078AABA /* MediaPicker */ = {
+			isa = PBXGroup;
+			children = (
+				C8BD87502B1449570078AABA /* Cell */,
+				C8BD874B2B1445990078AABA /* ViewModel */,
+				C8BD873D2B1434630078AABA /* MediaPickerRouter.swift */,
+				C8BD873E2B1434630078AABA /* MediaPickerViewController.swift */,
+				C8BD873F2B1434630078AABA /* MediaPickerBuilder.swift */,
+				C8BD87402B1434630078AABA /* MediaPickerInteractor.swift */,
+				C8BD87412B1434630078AABA /* MediaPickerViewController.xib */,
+			);
+			path = MediaPicker;
+			sourceTree = "<group>";
+		};
+		C8BD874B2B1445990078AABA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C8BD874C2B1445AA0078AABA /* MediaPickerViewModel.swift */,
+				C8BD874E2B1447C20078AABA /* MediaPickerItemViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C8BD87502B1449570078AABA /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C8BD87512B1449BE0078AABA /* MediaCell.swift */,
+				C8BD87522B1449BE0078AABA /* MediaCell.xib */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		CDC14861A2BA9F0D3CA35CAE /* RxSwiftExtensions */ = {
@@ -546,11 +603,6 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1200;
-				TargetAttributes = {
-					A249CE7C940556366CDE8776 = {
-						ProvisioningStyle = Manual;
-					};
-				};
 			};
 			buildConfigurationList = 3E06052915AD647B48A9F6FE /* Build configuration list for PBXProject "VideoMerger" */;
 			compatibilityVersion = "Xcode 11.0";
@@ -581,6 +633,7 @@
 				678217AC19F9E3F6A03CC455 /* Inter-SemiBold.ttf in Resources */,
 				C737ACE0A58BA79A9C7AF1D5 /* LaunchScreen.storyboard in Resources */,
 				32D28CCD7ADEBB7139C72EEB /* Outfit-Bold.otf in Resources */,
+				C8BD87462B1434630078AABA /* MediaPickerViewController.xib in Resources */,
 				13A47553B56D12445B86937E /* Outfit-Light.otf in Resources */,
 				C87D925B2B13872C00CEF826 /* ProjectCell.xib in Resources */,
 				D13B431E14177F3189E92F74 /* Outfit-Medium.otf in Resources */,
@@ -588,6 +641,7 @@
 				191B94545846A482C155B068 /* Outfit-SemiBold.otf in Resources */,
 				4397209E505356B66CCA68E3 /* PlayBarView.xib in Resources */,
 				A6464D2D3384AC344C1A335F /* SplashAnimation.json in Resources */,
+				C8BD87542B1449BE0078AABA /* MediaCell.xib in Resources */,
 				F7D5436E22DD35F3AC3F2243 /* SplashViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -661,6 +715,7 @@
 			files = (
 				3652A3D46B395121F782C0EB /* AVAssetExtension.swift in Sources */,
 				9902EDB148E5948BBF66F9C2 /* AVAudioFileExtensions.swift in Sources */,
+				C8BD87442B1434630078AABA /* MediaPickerBuilder.swift in Sources */,
 				AEFDEDD4796552F1BD9E4144 /* AVAudioPlayerNodeExtensions.swift in Sources */,
 				36091FC9C4F610B7B3016247 /* AVAudioSessionExtensions.swift in Sources */,
 				9E61AC66C5BAF2779FBB2797 /* AVMutableCompositionExtensions.swift in Sources */,
@@ -688,6 +743,7 @@
 				A1C84AF3590D4632D433933C /* DIConnector.swift in Sources */,
 				C16C7559D726F60B1AA60135 /* DIContainer.swift in Sources */,
 				A050B945410D469B3874C61C /* DIRIBsConfiguration.swift in Sources */,
+				C8BD87452B1434630078AABA /* MediaPickerInteractor.swift in Sources */,
 				EE75F9E776E5411C4EB6CD35 /* DateExtensions.swift in Sources */,
 				946E1BEF84476C69661173CB /* DeviceExtensions.swift in Sources */,
 				B5A513F248A5CF520E04A451 /* DictionaryExtension.swift in Sources */,
@@ -704,7 +760,9 @@
 				303E84EF6FDFA16E164C0515 /* Inter.swift in Sources */,
 				1D6DC02EE452B3789C76C701 /* Observable+Retry.swift in Sources */,
 				1E5BDD1455381764DB790D6F /* Outfit.swift in Sources */,
+				C8BD87482B1435550078AABA /* HomeComponent+MediaPicker.swift in Sources */,
 				4CAD7071649B4BAA3A2984CE /* PHAssetExtension.swift in Sources */,
+				C8BD874F2B1447C20078AABA /* MediaPickerItemViewModel.swift in Sources */,
 				22C3F120D4F9E839B626C7E2 /* PlayBarView.swift in Sources */,
 				8C6E6866F5434C98DD3FB86E /* Presentable+Loading.swift in Sources */,
 				09CB7A8E8E585C8013769906 /* PresentableExtensions.swift in Sources */,
@@ -725,12 +783,17 @@
 				D390A121AA6E62C0223C4516 /* StringExtensions.swift in Sources */,
 				459ED40CB9E021F52CB7B6C5 /* TableViewExtensions.swift in Sources */,
 				4ED1FE09D813D3C521253007 /* TapableView.swift in Sources */,
+				C8BD87532B1449BE0078AABA /* MediaCell.swift in Sources */,
 				EB9AE6F6CE9F19E1D2C04DE0 /* TimeIntervalExtensions.swift in Sources */,
 				CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */,
+				C8BD874D2B1445AA0078AABA /* MediaPickerViewModel.swift in Sources */,
 				66A8F119F9BA62A322625470 /* UIImageViewExtensions.swift in Sources */,
+				C8BD87422B1434630078AABA /* MediaPickerRouter.swift in Sources */,
 				8940E4655B45E2EE68B7BCD8 /* UIViewControllerExtensions.swift in Sources */,
 				83C97BB354CCB7C339917CAB /* UIViewExtensions.swift in Sources */,
 				18AE3CA9D6D7FAAB53CE5C9E /* URLExtensions.swift in Sources */,
+				C8BD87432B1434630078AABA /* MediaPickerViewController.swift in Sources */,
+				C8BD874A2B143C890078AABA /* HomeInteractor+MediaPicker.swift in Sources */,
 				82048BB36411AEA3E1882961 /* URLRequestExtensions.swift in Sources */,
 				EE3B5329523C482DB710A64D /* UserDefaultExtensions.swift in Sources */,
 				338797C381FD51D2362385A1 /* ViewControllableExtensions.swift in Sources */,
@@ -756,15 +819,17 @@
 			baseConfigurationReference = A814B8E6296BFC2138F2C615 /* Pods-VideoMerger.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = PV2U5MLT4Y;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -838,15 +903,17 @@
 			baseConfigurationReference = A004F77D3D82C75A6688E9FC /* Pods-VideoMerger.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = PV2U5MLT4Y;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5;
 				TARGETED_DEVICE_FAMILY = 1;
