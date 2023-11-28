@@ -86,6 +86,16 @@
 		C85C5E942B1597F700656AAA /* PreviewImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85C5E8E2B1597F700656AAA /* PreviewImageViewController.xib */; };
 		C85C5E962B159A8600656AAA /* MediaPickerComponent+PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E952B159A8600656AAA /* MediaPickerComponent+PreviewImage.swift */; };
 		C85C5E982B159BEE00656AAA /* MediaPickerInteractor+PreviewImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E972B159BEE00656AAA /* MediaPickerInteractor+PreviewImage.swift */; };
+		C85C5EA32B15A5C300656AAA /* PreviewVideoBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E9A2B15A5C300656AAA /* PreviewVideoBuilder.swift */; };
+		C85C5EA42B15A5C300656AAA /* PreviewVideoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E9C2B15A5C300656AAA /* PreviewVideoViewModel.swift */; };
+		C85C5EA52B15A5C300656AAA /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E9D2B15A5C300656AAA /* PreviewVideoViewController.swift */; };
+		C85C5EA62B15A5C300656AAA /* PreviewVideoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5E9E2B15A5C300656AAA /* PreviewVideoRouter.swift */; };
+		C85C5EA72B15A5C300656AAA /* SeekBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5EA02B15A5C300656AAA /* SeekBarView.swift */; };
+		C85C5EA82B15A5C300656AAA /* PreviewVideoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C85C5EA12B15A5C300656AAA /* PreviewVideoViewController.xib */; };
+		C85C5EA92B15A5C400656AAA /* PreviewVideoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5EA22B15A5C300656AAA /* PreviewVideoInteractor.swift */; };
+		C85C5EAB2B15A69C00656AAA /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5EAA2B15A69C00656AAA /* PlayerView.swift */; };
+		C85C5EAD2B15A86E00656AAA /* MediaPickerComponet+PreviewVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5EAC2B15A86E00656AAA /* MediaPickerComponet+PreviewVideo.swift */; };
+		C85C5EAF2B15A89700656AAA /* MediaPickerInteractor+PreviewVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C85C5EAE2B15A89700656AAA /* MediaPickerInteractor+PreviewVideo.swift */; };
 		C87D925A2B13872C00CEF826 /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87D92582B13872C00CEF826 /* ProjectCell.swift */; };
 		C87D925B2B13872C00CEF826 /* ProjectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C87D92592B13872C00CEF826 /* ProjectCell.xib */; };
 		C87D925E2B1397CA00CEF826 /* PermissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87D925D2B1397CA00CEF826 /* PermissionHelper.swift */; };
@@ -198,6 +208,16 @@
 		C85C5E8E2B1597F700656AAA /* PreviewImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewImageViewController.xib; sourceTree = "<group>"; };
 		C85C5E952B159A8600656AAA /* MediaPickerComponent+PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaPickerComponent+PreviewImage.swift"; sourceTree = "<group>"; };
 		C85C5E972B159BEE00656AAA /* MediaPickerInteractor+PreviewImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaPickerInteractor+PreviewImage.swift"; sourceTree = "<group>"; };
+		C85C5E9A2B15A5C300656AAA /* PreviewVideoBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoBuilder.swift; sourceTree = "<group>"; };
+		C85C5E9C2B15A5C300656AAA /* PreviewVideoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewModel.swift; sourceTree = "<group>"; };
+		C85C5E9D2B15A5C300656AAA /* PreviewVideoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoViewController.swift; sourceTree = "<group>"; };
+		C85C5E9E2B15A5C300656AAA /* PreviewVideoRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoRouter.swift; sourceTree = "<group>"; };
+		C85C5EA02B15A5C300656AAA /* SeekBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeekBarView.swift; sourceTree = "<group>"; };
+		C85C5EA12B15A5C300656AAA /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
+		C85C5EA22B15A5C300656AAA /* PreviewVideoInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewVideoInteractor.swift; sourceTree = "<group>"; };
+		C85C5EAA2B15A69C00656AAA /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		C85C5EAC2B15A86E00656AAA /* MediaPickerComponet+PreviewVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaPickerComponet+PreviewVideo.swift"; sourceTree = "<group>"; };
+		C85C5EAE2B15A89700656AAA /* MediaPickerInteractor+PreviewVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MediaPickerInteractor+PreviewVideo.swift"; sourceTree = "<group>"; };
 		C87D92582B13872C00CEF826 /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		C87D92592B13872C00CEF826 /* ProjectCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProjectCell.xib; sourceTree = "<group>"; };
 		C87D925D2B1397CA00CEF826 /* PermissionHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PermissionHelper.swift; sourceTree = "<group>"; };
@@ -266,6 +286,7 @@
 		293689516384CCF56DD4B239 /* CommonView */ = {
 			isa = PBXGroup;
 			children = (
+				C85C5EAA2B15A69C00656AAA /* PlayerView.swift */,
 				59F3350A0890B137CAFB8CBB /* ConfirmDialog.swift */,
 				64736E967633FEEB02F8225D /* PlayBarView.swift */,
 				4B4F254A45807FEC24B73797 /* TapableView.swift */,
@@ -491,6 +512,7 @@
 		B6C73F5BDE13A5486E0EB714 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C85C5E992B15A5C300656AAA /* PreviewVideo */,
 				C85C5E872B1597F700656AAA /* PreviewImage */,
 				C8BD873C2B14344E0078AABA /* MediaPicker */,
 				5DF7AC11DDE729EDCBA6CDE2 /* DIRIBsConfiguration.swift */,
@@ -542,6 +564,36 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		C85C5E992B15A5C300656AAA /* PreviewVideo */ = {
+			isa = PBXGroup;
+			children = (
+				C85C5E9A2B15A5C300656AAA /* PreviewVideoBuilder.swift */,
+				C85C5E9B2B15A5C300656AAA /* ViewModel */,
+				C85C5E9D2B15A5C300656AAA /* PreviewVideoViewController.swift */,
+				C85C5E9E2B15A5C300656AAA /* PreviewVideoRouter.swift */,
+				C85C5E9F2B15A5C300656AAA /* View */,
+				C85C5EA12B15A5C300656AAA /* PreviewVideoViewController.xib */,
+				C85C5EA22B15A5C300656AAA /* PreviewVideoInteractor.swift */,
+			);
+			path = PreviewVideo;
+			sourceTree = "<group>";
+		};
+		C85C5E9B2B15A5C300656AAA /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C85C5E9C2B15A5C300656AAA /* PreviewVideoViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C85C5E9F2B15A5C300656AAA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C85C5EA02B15A5C300656AAA /* SeekBarView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C87D92572B1386E500CEF826 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,6 +624,8 @@
 				C8BD87412B1434630078AABA /* MediaPickerViewController.xib */,
 				C85C5E952B159A8600656AAA /* MediaPickerComponent+PreviewImage.swift */,
 				C85C5E972B159BEE00656AAA /* MediaPickerInteractor+PreviewImage.swift */,
+				C85C5EAC2B15A86E00656AAA /* MediaPickerComponet+PreviewVideo.swift */,
+				C85C5EAE2B15A89700656AAA /* MediaPickerInteractor+PreviewVideo.swift */,
 			);
 			path = MediaPicker;
 			sourceTree = "<group>";
@@ -682,6 +736,7 @@
 				191B94545846A482C155B068 /* Outfit-SemiBold.otf in Resources */,
 				4397209E505356B66CCA68E3 /* PlayBarView.xib in Resources */,
 				A6464D2D3384AC344C1A335F /* SplashAnimation.json in Resources */,
+				C85C5EA82B15A5C300656AAA /* PreviewVideoViewController.xib in Resources */,
 				C8BD87542B1449BE0078AABA /* MediaCell.xib in Resources */,
 				F7D5436E22DD35F3AC3F2243 /* SplashViewController.xib in Resources */,
 			);
@@ -756,7 +811,9 @@
 			files = (
 				C85C5E902B1597F700656AAA /* PreviewImageBuilder.swift in Sources */,
 				3652A3D46B395121F782C0EB /* AVAssetExtension.swift in Sources */,
+				C85C5EA42B15A5C300656AAA /* PreviewVideoViewModel.swift in Sources */,
 				9902EDB148E5948BBF66F9C2 /* AVAudioFileExtensions.swift in Sources */,
+				C85C5EA72B15A5C300656AAA /* SeekBarView.swift in Sources */,
 				C8BD87442B1434630078AABA /* MediaPickerBuilder.swift in Sources */,
 				AEFDEDD4796552F1BD9E4144 /* AVAudioPlayerNodeExtensions.swift in Sources */,
 				36091FC9C4F610B7B3016247 /* AVAudioSessionExtensions.swift in Sources */,
@@ -769,6 +826,7 @@
 				07C8DBBC7B5E0823C197AEE2 /* BaseFont.swift in Sources */,
 				C85C5E982B159BEE00656AAA /* MediaPickerInteractor+PreviewImage.swift in Sources */,
 				4D70EFAD46BA58BA2D1AA5BE /* BaseNavigationController.swift in Sources */,
+				C85C5EA52B15A5C300656AAA /* PreviewVideoViewController.swift in Sources */,
 				49289FBD7720936F11C4F073 /* BaseViewController.swift in Sources */,
 				6B5EEC29A7D8EC689C762206 /* BezierPathExtensions.swift in Sources */,
 				004B3745CBFF00A58C15BAE1 /* BundleExtensions.swift in Sources */,
@@ -779,6 +837,7 @@
 				BB21BD266EA81DA967D59A7A /* CIImageExtensions.swift in Sources */,
 				8BB3BF78BF50832332113988 /* CLPlacemarkExtensions.swift in Sources */,
 				85EDC40A79CD005679CAA382 /* CMTimeExtensions.swift in Sources */,
+				C85C5EAF2B15A89700656AAA /* MediaPickerInteractor+PreviewVideo.swift in Sources */,
 				3A091C3DD62ADB3FD15933B0 /* CalendarExtensions.swift in Sources */,
 				833BF6B27A9E2CEF28D5DF1D /* CollectionViewExtensions.swift in Sources */,
 				F0A6B513DA8D52604A5EE9B4 /* ColorExtensions.swift in Sources */,
@@ -802,6 +861,7 @@
 				06A533A225E78E2087D8709F /* HomeRouter.swift in Sources */,
 				43E9CC30AE5C12DEA2781446 /* HomeViewController.swift in Sources */,
 				F081FCE11649F5028131DD00 /* IntExtensions.swift in Sources */,
+				C85C5EA32B15A5C300656AAA /* PreviewVideoBuilder.swift in Sources */,
 				303E84EF6FDFA16E164C0515 /* Inter.swift in Sources */,
 				1D6DC02EE452B3789C76C701 /* Observable+Retry.swift in Sources */,
 				1E5BDD1455381764DB790D6F /* Outfit.swift in Sources */,
@@ -827,10 +887,14 @@
 				4DFE0DE0B54BFB088E26288B /* SplashViewController.swift in Sources */,
 				DD23529211DAF293ED74D1F3 /* String+Mime.swift in Sources */,
 				D390A121AA6E62C0223C4516 /* StringExtensions.swift in Sources */,
+				C85C5EA62B15A5C300656AAA /* PreviewVideoRouter.swift in Sources */,
+				C85C5EAD2B15A86E00656AAA /* MediaPickerComponet+PreviewVideo.swift in Sources */,
 				C85C5E922B1597F700656AAA /* PreviewImageInteractor.swift in Sources */,
+				C85C5EAB2B15A69C00656AAA /* PlayerView.swift in Sources */,
 				459ED40CB9E021F52CB7B6C5 /* TableViewExtensions.swift in Sources */,
 				4ED1FE09D813D3C521253007 /* TapableView.swift in Sources */,
 				C8BD87532B1449BE0078AABA /* MediaCell.swift in Sources */,
+				C85C5EA92B15A5C400656AAA /* PreviewVideoInteractor.swift in Sources */,
 				EB9AE6F6CE9F19E1D2C04DE0 /* TimeIntervalExtensions.swift in Sources */,
 				CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */,
 				C8BD874D2B1445AA0078AABA /* MediaPickerViewModel.swift in Sources */,
