@@ -11,10 +11,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HomeViewController">
             <connections>
+                <outlet property="cancelView" destination="tbz-Uf-N9M" id="0v7-12-eeD"/>
                 <outlet property="collectionView" destination="5FJ-3u-4aq" id="VKT-fL-ZoA"/>
                 <outlet property="containerCollectionView" destination="gnJ-tk-oo0" id="9Kx-bm-u6a"/>
                 <outlet property="containerProject" destination="o3F-HA-eiB" id="9TS-Ix-0UC"/>
                 <outlet property="imgStatus" destination="uFo-dX-jlf" id="zyg-kS-9kT"/>
+                <outlet property="lblSelect" destination="HKR-BX-BXh" id="ow1-PB-Ugq"/>
                 <outlet property="lblStatus" destination="HKR-BX-BXh" id="il7-LS-CXf"/>
                 <outlet property="view" destination="iN0-l3-epB" id="jYO-eb-xeE"/>
             </connections>
@@ -162,15 +164,47 @@
                                         <action selector="didTapSelectMode:" destination="-1" eventType="touchUpInside" id="psl-XN-7yJ"/>
                                     </connections>
                                 </view>
+                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tbz-Uf-N9M" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="236.5" y="0.0" width="70.5" height="21"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vDN-Hj-jwS">
+                                            <rect key="frame" x="25" y="2" width="45.5" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                            <color key="textColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xmark" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="EXQ-jT-oDa">
+                                            <rect key="frame" x="0.0" y="2.5" width="20" height="15.5"/>
+                                            <color key="tintColor" red="0.59215686270000001" green="0.59215686270000001" blue="0.59215686270000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="EXQ-jT-oDa" secondAttribute="height" id="854-z1-BDq"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="EXQ-jT-oDa" firstAttribute="centerY" secondItem="tbz-Uf-N9M" secondAttribute="centerY" id="7wg-E7-uQv"/>
+                                        <constraint firstAttribute="trailing" secondItem="vDN-Hj-jwS" secondAttribute="trailing" id="8Pc-Ae-cRT"/>
+                                        <constraint firstItem="EXQ-jT-oDa" firstAttribute="leading" secondItem="tbz-Uf-N9M" secondAttribute="leading" id="F6C-zD-7eD"/>
+                                        <constraint firstItem="vDN-Hj-jwS" firstAttribute="leading" secondItem="EXQ-jT-oDa" secondAttribute="trailing" constant="5" id="KMV-bt-grJ"/>
+                                        <constraint firstItem="vDN-Hj-jwS" firstAttribute="centerY" secondItem="tbz-Uf-N9M" secondAttribute="centerY" id="mGq-Lq-heN"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="didTapCancel:" destination="-1" eventType="touchUpInside" id="bFV-Cl-oNI"/>
+                                    </connections>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="eZt-C8-gMk" firstAttribute="top" secondItem="Q5g-EA-9KN" secondAttribute="top" id="0es-t7-LFu"/>
+                                <constraint firstItem="tbz-Uf-N9M" firstAttribute="top" secondItem="Q5g-EA-9KN" secondAttribute="top" id="5AU-Gu-yW2"/>
                                 <constraint firstItem="NWV-eR-teJ" firstAttribute="top" secondItem="Q5g-EA-9KN" secondAttribute="top" id="N5F-Eu-2aD"/>
                                 <constraint firstAttribute="bottom" secondItem="NWV-eR-teJ" secondAttribute="bottom" id="O0l-9x-wFE"/>
                                 <constraint firstAttribute="bottom" secondItem="eZt-C8-gMk" secondAttribute="bottom" id="UGN-O6-OhX"/>
                                 <constraint firstAttribute="trailing" secondItem="NWV-eR-teJ" secondAttribute="trailing" constant="17" id="UWF-dP-Pg5"/>
+                                <constraint firstAttribute="bottom" secondItem="tbz-Uf-N9M" secondAttribute="bottom" id="ZZb-ja-NvY"/>
                                 <constraint firstItem="eZt-C8-gMk" firstAttribute="leading" secondItem="Q5g-EA-9KN" secondAttribute="leading" constant="17" id="jDD-tS-pgE"/>
+                                <constraint firstItem="NWV-eR-teJ" firstAttribute="leading" secondItem="tbz-Uf-N9M" secondAttribute="trailing" constant="15" id="m1g-TB-xhf"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gnJ-tk-oo0">
@@ -231,6 +265,7 @@
         <image name="ic_not_selected" width="10" height="10"/>
         <image name="ic_plus" width="27" height="27"/>
         <image name="ic_setting" width="36" height="36"/>
+        <image name="xmark" catalog="system" width="128" height="113"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
