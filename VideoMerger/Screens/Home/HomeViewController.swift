@@ -26,11 +26,16 @@ final class HomeViewController: UIViewController, HomeViewControllable {
     @IBOutlet weak var imgStatus: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var lblStatus: UILabel!
+    @IBOutlet weak var cancelView: TapableView!
+    @IBOutlet weak var lblSelect: UILabel!
 
     // MARK: - Variables
     weak var listener: HomePresentableListener?
     var isSelectedMode = false {
         didSet {
+            self.cancelView.isHidden = !isSelectedMode
+            self.lblSelect.text = isSelectedMode ? "Delete(s)" : "Select(s)"
+            self.lblSelect.textColor = isSelectedMode ? UIColor(rgb: 0xFF0000) : UIColor(rgb: 0x979797)
             self.collectionView.reloadData()
         }
     }
@@ -56,7 +61,12 @@ final class HomeViewController: UIViewController, HomeViewControllable {
 
     // MARK: - Action
     @IBAction func didTapSelectMode(_ sender: Any) {
-        self.isSelectedMode = !self.isSelectedMode
+        if self.isSelectedMode {
+            onDeleteProjects()
+            self.isSelectedMode = false
+        } else {
+            self.isSelectedMode = true
+        }
     }
 
     @IBAction func didTapSetting(_ sender: Any) {
@@ -64,6 +74,14 @@ final class HomeViewController: UIViewController, HomeViewControllable {
 
     @IBAction func didTapCreateNewProject(_ sender: Any) {
         self.listener?.didSelectCreateNewProject()
+    }
+    @IBAction func didTapCancel(_ sender: Any) {
+        self.isSelectedMode = false
+    }
+
+    // MARK: - Helpers
+    func onDeleteProjects() {
+        // handle later
     }
 }
 
