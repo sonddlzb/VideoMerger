@@ -88,4 +88,8 @@ extension MediaPickerInteractor: MediaPickerPresentableListener {
             self.router?.openPreviewVideo(asset)
         }
     }
+
+    func shouldReloadData() {
+        self.fetchAsset()
+    }
 }

@@ -19,6 +19,7 @@ private struct Const {
 protocol MediaPickerPresentableListener: AnyObject {
     func didTapDismiss()
     func didSelect(at index: Int, isVideo: Bool)
+    func shouldReloadData()
 }
 
 final class MediaPickerViewController: UIViewController, MediaPickerViewControllable {
@@ -32,6 +33,8 @@ final class MediaPickerViewController: UIViewController, MediaPickerViewControll
 
     // MARK: - Variables
     weak var listener: MediaPickerPresentableListener?
+    var photosRefresher: UIRefreshControl!
+    var videosRefresher: UIRefreshControl!
     var viewModel = MediaPickerViewModel.makeEmptyListAsset()
     var isVideosSelected = true {
         didSet {
@@ -65,6 +68,18 @@ final class MediaPickerViewController: UIViewController, MediaPickerViewControll
         self.photosCollectionView.delegate = self
         self.photosCollectionView.dataSource = self
         self.photosCollectionView.registerCell(type: MediaCell.self)
+
+        self.photosRefresher = UIRefreshControl()
+        self.photosRefresher.tintColor = .white
+        self.photosCollectionView.alwaysBounceVertical = true
+        self.photosRefresher.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        self.photosCollectionView.refreshControl = photosRefresher
+
+        self.videosRefresher = UIRefreshControl()
+        self.videosRefresher.tintColor = .white
+        self.videosCollectionView.alwaysBounceVertical = true
+        self.videosRefresher.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        self.videosCollectionView.refreshControl = videosRefresher
     }
 
     func reloadSelectedState() {
@@ -77,6 +92,16 @@ final class MediaPickerViewController: UIViewController, MediaPickerViewControll
     }
 
     // MARK: - Actions
+    @objc func reloadData() {
+        if isVideosSelected {
+            self.videosRefresher.beginRefreshing()
+        } else {
+            self.photosRefresher.beginRefreshing()
+        }
+
+        self.listener?.shouldReloadData()
+     }
+
     @IBAction func didTapCancel(_ sender: Any) {
         self.listener?.didTapDismiss()
     }
@@ -149,6 +174,13 @@ extension MediaPickerViewController: MediaPickerPresentable {
         self.viewModel = viewModel
         self.videosCollectionView.reloadData()
         self.photosCollectionView.reloadData()
+        if self.photosRefresher != nil {
+            self.photosRefresher.endRefreshing()
+        }
+
+        if self.videosRefresher != nil {
+            self.videosRefresher.endRefreshing()
+        }
     }
 }
 
