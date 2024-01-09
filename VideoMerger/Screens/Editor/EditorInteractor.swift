@@ -16,7 +16,7 @@ protocol EditorPresentable: Presentable {
     var listener: EditorPresentableListener? { get set }
 
     func bind(viewModel: EditorViewModel)
-    func bind(currentTime: String)
+    func bind(currentTime: Double)
 }
 
 protocol EditorListener: AnyObject {
@@ -53,6 +53,6 @@ extension EditorInteractor: EditorPresentableListener {
 
     func updateCurrentVideoTime(currentTime: Double) {
         viewModel.currentTime = currentTime
-        self.presenter.bind(currentTime: String(Int(viewModel.currentTime)).formatVideoDuration())
+        self.presenter.bind(currentTime: currentTime)
     }
 }
