@@ -7,10 +7,13 @@
 
 import RIBs
 import RxSwift
+import Photos
 
 protocol HomeRouting: ViewableRouting {
     func showMediaPicker()
     func dismissMediaPicker()
+    func openEditor(_ listAssets: [PHAsset])
+    func dismissEditor()
 }
 
 protocol HomePresentable: Presentable {

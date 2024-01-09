@@ -73,4 +73,19 @@ public extension String {
     func matches(regex: String) -> Bool {
         return self.range(of: regex, options: .regularExpression, range: nil, locale: nil) != nil
     }
+
+    func formatVideoDuration() -> String {
+        var res: String
+        let interval = Int(self) ?? 0
+        let seconds = interval % 60
+        let minutes = (interval / 60) % 60
+        let hours = (interval / 3600)
+        res = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        if interval < 3600 {
+            let index = res.index(res.endIndex, offsetBy: -5)
+            res = String(res.suffix(from: index))
+        }
+
+        return res
+    }
 }

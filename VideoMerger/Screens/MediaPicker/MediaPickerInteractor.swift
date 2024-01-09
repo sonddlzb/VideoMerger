@@ -25,6 +25,7 @@ protocol MediaPickerPresentable: Presentable {
 
 protocol MediaPickerListener: AnyObject {
     func mediaPickerWantToDismiss()
+    func mediaPickerWantToOpenEditor(for listAssets: [PHAsset])
 }
 
 final class MediaPickerInteractor: PresentableInteractor<MediaPickerPresentable>, MediaPickerInteractable {
@@ -91,5 +92,9 @@ extension MediaPickerInteractor: MediaPickerPresentableListener {
 
     func shouldReloadData() {
         self.fetchAsset()
+    }
+
+    func didSelect(_ listSelectedAsset: [PHAsset]) {
+        self.listener?.mediaPickerWantToOpenEditor(for: listSelectedAsset)
     }
 }

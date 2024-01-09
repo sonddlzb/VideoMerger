@@ -6,9 +6,7 @@
 //
 
 protocol PlayBarViewDelegate: AnyObject {
-    func playBarViewDidTapBackward(_ playBarView: PlayBarView)
     func playBarViewDidTapPlay(_ playBarView: PlayBarView, isPlaying: Bool)
-    func playBarViewDidTapForward(_ playBarView: PlayBarView)
     func playBarViewDidTapFullScreen(_ playBarView: PlayBarView)
     func playBarViewDidTapUndo(_ playBarView: PlayBarView)
     func playBarViewDidTapRedo(_ playBarView: PlayBarView)
@@ -18,6 +16,8 @@ import UIKit
 
 class PlayBarView: UIView {
     // MARK: - Outlets
+    @IBOutlet weak var lblCurrentTime: UILabel!
+    @IBOutlet weak var lblDuration: UILabel!
     @IBOutlet weak var imgPlay: UIImageView!
 
     // MARK: - Variables
@@ -28,22 +28,35 @@ class PlayBarView: UIView {
         }
     }
 
-    // MARK: - Actions
-    static func loadView() -> PlayBarView {
-        return PlayBarView.loadView(fromNib: "PlayBarView")!
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.loadView()
     }
 
-    @IBAction func didTapBackward(_ sender: Any) {
-        delegate?.playBarViewDidTapBackward(self)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.loadView()
     }
+
+    func loadView() {
+        let playBar = Bundle.main.loadNibNamed("PlayBarView", owner: self, options: nil)?[0] as? UIView ?? UIView()
+        playBar.fixInView(self)
+    }
+
+    // MARK: - Bind
+    func bind(duration: String) {
+        self.lblDuration.text = duration
+    }
+
+    func bind(currentTime: String) {
+        self.lblCurrentTime.text = currentTime
+    }
+
+    // MARK: - Actions
 
     @IBAction func didTapPlay(_ sender: Any) {
         self.isPlaying = !self.isPlaying
         delegate?.playBarViewDidTapPlay(self, isPlaying: isPlaying)
-    }
-
-    @IBAction func didTapForward(_ sender: Any) {
-        delegate?.playBarViewDidTapForward(self)
     }
 
     @IBAction func didTapFullScreen(_ sender: Any) {
