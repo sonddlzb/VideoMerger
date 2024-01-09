@@ -21,8 +21,11 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var playView: PlayerView!
     @IBOutlet weak var playBarView: PlayBarView!
+    @IBOutlet weak var frameScrollView: UIScrollView!
 
+    @IBOutlet weak var borderView: UIView!
     // MARK: - Variables
+    @IBOutlet weak var frameStackView: UIStackView!
     weak var listener: EditorPresentableListener?
     var viewModel = EditorViewModel.makeEmpty()
     private var timeObserverToken: Any?
@@ -59,6 +62,27 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             if let asset = avAsset {
                 DispatchQueue.main.async {
                     self.playView.replacePlayerItem(AVPlayerItem(asset: asset))
+                    self.frameStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
+                    let leftPaddingView = UIView()
+                    leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
+                    self.frameStackView.addArrangedSubview(leftPaddingView)
+                    leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
+                    asset.extractFrames(fps: 1) { listFrames, error in
+                        guard error == nil else {
+                            print("Error when extracting frames: \(error!.localizedDescription)")
+                            return
+                        }
+
+                        DispatchQueue.main.async {
+                            listFrames?.forEach({ image in
+                                let imageView = UIImageView()
+                                imageView.translatesAutoresizingMaskIntoConstraints = false
+                                imageView.image = image
+                                self.frameStackView.addArrangedSubview(imageView)
+                                imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*image.scale).isActive = true
+                            })
+                        }
+                    }
                 }
             }
         })

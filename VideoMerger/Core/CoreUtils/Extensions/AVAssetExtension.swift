@@ -75,4 +75,25 @@ public extension AVAsset {
     private func radiansToDegrees(_ value: CGFloat) -> CGFloat {
         return value * 180 / CGFloat.pi
     }
+
+    func extractFrames(fps: Int64, completion: @escaping ([UIImage]?, Error?) -> Void) {
+        let imageGenerator = AVAssetImageGenerator(asset: self)
+        imageGenerator.appliesPreferredTrackTransform = true
+        var frames: [UIImage] = []
+        let duration = CMTimeGetSeconds(self.duration)
+        let times = (1...Int64(duration)).map{CMTime(seconds: Double($0), preferredTimescale: 60)}.map{ NSValue(time: $0) }
+        imageGenerator.generateCGImagesAsynchronously(forTimes: times) { _, cgImage, _, _, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+
+            if let cgImage = cgImage {
+                let uiImage = UIImage(cgImage: cgImage)
+                frames.insert(uiImage, at: 0)
+            }
+
+            completion(frames, nil)
+        }
+    }
 }
