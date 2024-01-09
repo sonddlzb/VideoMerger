@@ -32,8 +32,10 @@ final class HomeBuilder: Builder<HomeDependency>, HomeBuildable {
         let interactor = HomeInteractor(presenter: viewController)
         interactor.listener = listener
         let mediaPickerBuilder = DIContainer.resolve(MediaPickerBuildable.self, agrument: component)
+        let editorBuilder = DIContainer.resolve(EditorBuildable.self, agrument: component)
         return HomeRouter(interactor: interactor,
                           viewController: viewController,
-                          mediaPickerBuilder: mediaPickerBuilder)
+                          mediaPickerBuilder: mediaPickerBuilder,
+                          editorBuilder: editorBuilder)
     }
 }

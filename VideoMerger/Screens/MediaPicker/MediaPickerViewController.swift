@@ -20,6 +20,7 @@ protocol MediaPickerPresentableListener: AnyObject {
     func didTapDismiss()
     func didSelect(at index: Int, isVideo: Bool)
     func shouldReloadData()
+    func didSelect(_ listSelectedAsset: [PHAsset])
 }
 
 final class MediaPickerViewController: UIViewController, MediaPickerViewControllable {
@@ -122,6 +123,7 @@ final class MediaPickerViewController: UIViewController, MediaPickerViewControll
         self.isVideosSelected = false
     }
     @IBAction func didTapAddMedia(_ sender: Any) {
+        self.listener?.didSelect(self.viewModel.listSelectedAssets)
     }
 }
 

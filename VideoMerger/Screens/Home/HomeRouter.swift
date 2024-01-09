@@ -6,8 +6,9 @@
 //
 
 import RIBs
+import Photos
 
-protocol HomeInteractable: Interactable, MediaPickerListener {
+protocol HomeInteractable: Interactable, MediaPickerListener, EditorListener {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -19,8 +20,15 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
     var mediaPickerBuilder: MediaPickerBuildable
     var mediaPickerRouter: MediaPickerRouting?
 
-    init(interactor: HomeInteractable, viewController: HomeViewControllable, mediaPickerBuilder: MediaPickerBuildable) {
+    var editorBuilder: EditorBuildable
+    var editorRouter: EditorRouting?
+
+    init(interactor: HomeInteractable,
+         viewController: HomeViewControllable,
+         mediaPickerBuilder: MediaPickerBuildable,
+         editorBuilder: EditorBuildable) {
         self.mediaPickerBuilder = mediaPickerBuilder
+        self.editorBuilder = editorBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -48,5 +56,26 @@ extension HomeRouter: HomeRouting {
         self.viewControllable.dismiss()
         detachChild(router)
         self.mediaPickerRouter = nil
+    }
+
+    func openEditor(_ listAssets: [PHAsset]) {
+        guard self.editorRouter == nil else {
+            return
+        }
+
+        let router = self.editorBuilder.build(withListener: self.interactor, listAssets: listAssets)
+        self.attachChild(router)
+        self.viewControllable.push(viewControllable: router.viewControllable)
+        self.editorRouter = router
+    }
+
+    func dismissEditor() {
+        guard let router = self.editorRouter else {
+            return
+        }
+
+        self.detachChild(router)
+        router.viewControllable.popViewControllale()
+        self.editorRouter = nil
     }
 }

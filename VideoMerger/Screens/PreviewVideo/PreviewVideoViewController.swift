@@ -84,7 +84,11 @@ final class PreviewVideoViewController: BaseViewControler, PreviewVideoViewContr
 
     // MARK: Config
     func configVideoContentView() {
-        self.viewModel.fetchAVAsset(completion: { avAsset in
+        self.viewModel.fetchAVAsset(completion: { [weak self] avAsset in
+            guard let self = self else {
+                return
+            }
+
             if let asset = avAsset {
                 DispatchQueue.main.async {
                     self.videoContentView.replacePlayerItem(AVPlayerItem(asset: asset))
