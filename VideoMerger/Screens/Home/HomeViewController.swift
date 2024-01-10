@@ -8,6 +8,8 @@
 import RIBs
 import RxSwift
 import UIKit
+import UserMessagingPlatform
+import GoogleMobileAds
 
 private struct Const {
     static let contentInset = UIEdgeInsets(top: 20.0, left: 17.0, bottom: 0.0, right: 17.0)
@@ -44,6 +46,49 @@ final class HomeViewController: UIViewController, HomeViewControllable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.config()
+        UMPConsentInformation.sharedInstance.requestConsentInfoUpdate(with: nil) { [weak self] requestConsentError in
+            guard let self else {
+                return
+            }
+
+            if let consentError = requestConsentError {
+              // Consent gathering failed.
+              return print("Error: \(consentError.localizedDescription)")
+            }
+
+            UMPConsentForm.loadAndPresentIfRequired(from: self) {  [weak self] loadAndPresentError in
+                guard let self else { return }
+                if let consentError = loadAndPresentError {
+                  // Consent gathering failed.
+                  return print("Error: \(consentError.localizedDescription)")
+                }
+
+                if UMPConsentInformation.sharedInstance.canRequestAds {
+                  self.startGoogleMobileAdsSDK()
+                }
+            }
+        }
+    }
+
+    private var isMobileAdsStartCalled = false
+    private func startGoogleMobileAdsSDK() {
+      DispatchQueue.main.async {
+        guard !self.isMobileAdsStartCalled else { return }
+
+        self.isMobileAdsStartCalled = true
+
+        // Initialize the Google Mobile Ads SDK.
+        GADMobileAds.sharedInstance().start()
+
+        // TODO: Request an ad.
+          GADInterstitialAd.load(withAdUnitID: "ca-app-pub-1605199145122120/9627671441", request: nil) { gad, error in
+              if let error = error {
+                  print("error loading google ad \(error.localizedDescription)")
+              } else {
+                  print("load ad sc")
+              }
+          }
+      }
     }
 
     private func config() {

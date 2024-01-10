@@ -23,6 +23,8 @@ target 'VideoMerger' do
   pod 'SVProgressHUD'
   pod 'SDWebImage'
   pod 'lottie-ios'
+  pod 'GoogleUserMessagingPlatform'
+  pod 'Google-Mobile-Ads-SDK'
   RxSwiftPod()
   RIBsPod()
 
