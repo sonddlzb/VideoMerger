@@ -9,23 +9,27 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditMainTabBarView" customModule="VideoMerger" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditMainTabBarView" customModule="VideoMerger" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="pVA-K1-mMM" id="l2o-bd-4Zm"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="1139" height="334"/>
+            <rect key="frame" x="0.0" y="0.0" width="1143" height="324"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVA-K1-mMM">
-                    <rect key="frame" x="0.0" y="59" width="1139" height="275"/>
+                    <rect key="frame" x="0.0" y="59" width="1143" height="265"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="39o-N5-wMB">
-                            <rect key="frame" x="0.0" y="0.0" width="1139" height="275"/>
+                            <rect key="frame" x="0.0" y="0.0" width="1143" height="265"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJG-xI-9J8" userLabel="EditView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="227.66666666666666" height="275"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_edit_picker" translatesAutoresizingMaskIntoConstraints="NO" id="nEK-Fx-Aqr">
-                                            <rect key="frame" x="66.333333333333329" y="86" width="94.999999999999986" height="103"/>
+                                            <rect key="frame" x="68.666666666666686" y="82.666666666666657" width="91.333333333333314" height="99.666666666666657"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="nEK-Fx-Aqr" secondAttribute="height" multiplier="47:51" id="g1Q-t5-BGV"/>
                                             </constraints>
@@ -42,10 +46,10 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJq-jg-S3f" userLabel="MusicView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
-                                    <rect key="frame" x="227.66666666666663" y="0.0" width="228" height="275"/>
+                                    <rect key="frame" x="228.66666666666669" y="0.0" width="228.66666666666669" height="265"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_music_picker" translatesAutoresizingMaskIntoConstraints="NO" id="9AM-HJ-6yw">
-                                            <rect key="frame" x="66.666666666666657" y="86" width="95" height="103"/>
+                                            <rect key="frame" x="68.333333333333343" y="82.666666666666657" width="91.666666666666657" height="99.666666666666657"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="9AM-HJ-6yw" secondAttribute="height" multiplier="47:51" id="qLP-I9-FCL"/>
                                             </constraints>
@@ -62,10 +66,10 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NvF-s2-M7Y" userLabel="TextView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
-                                    <rect key="frame" x="455.66666666666669" y="0.0" width="227.66666666666669" height="275"/>
+                                    <rect key="frame" x="457.33333333333331" y="0.0" width="228.33333333333331" height="265"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_text_picker" translatesAutoresizingMaskIntoConstraints="NO" id="Jcr-T0-R0i">
-                                            <rect key="frame" x="66.333333333333314" y="86" width="95" height="103"/>
+                                            <rect key="frame" x="68.333333333333314" y="82.666666666666657" width="91.666666666666686" height="99.666666666666657"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Jcr-T0-R0i" secondAttribute="height" multiplier="47:51" id="oTN-83-1PW"/>
                                             </constraints>
@@ -82,10 +86,10 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sfw-TE-6Sa" userLabel="StickerView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
-                                    <rect key="frame" x="683.33333333333337" y="0.0" width="228" height="275"/>
+                                    <rect key="frame" x="685.66666666666663" y="0.0" width="228.66666666666663" height="265"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_sticker_picker" translatesAutoresizingMaskIntoConstraints="NO" id="nnu-73-ras">
-                                            <rect key="frame" x="66.333333333333258" y="86" width="95" height="103"/>
+                                            <rect key="frame" x="68.666666666666742" y="82.666666666666657" width="91.666666666666686" height="99.666666666666657"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="nnu-73-ras" secondAttribute="height" multiplier="47:51" id="2FU-Ka-dY6"/>
                                             </constraints>
@@ -102,16 +106,16 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLa-hJ-wwR" userLabel="ExportView">
-                                    <rect key="frame" x="911.33333333333337" y="0.0" width="227.66666666666663" height="275"/>
+                                    <rect key="frame" x="914.33333333333337" y="0.0" width="228.66666666666663" height="265"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_export_picker" translatesAutoresizingMaskIntoConstraints="NO" id="c9h-VP-glf">
-                                            <rect key="frame" x="0.0" y="0.0" width="227.66666666666666" height="275"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-p4-ka6" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="227.66666666666666" height="275"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_export_picker" translatesAutoresizingMaskIntoConstraints="NO" id="enT-nz-ZJf">
-                                                    <rect key="frame" x="66.333333333333258" y="86" width="95" height="103"/>
+                                                    <rect key="frame" x="68.666666666666629" y="82.666666666666657" width="91.333333333333314" height="99.666666666666657"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="enT-nz-ZJf" secondAttribute="height" multiplier="47:51" id="vpv-i5-fHO"/>
                                                     </constraints>
@@ -163,7 +167,7 @@
                 <constraint firstItem="pVA-K1-mMM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="h0b-UK-Q37"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="477.09923664122135" y="-195.07042253521126"/>
+            <point key="canvasLocation" x="480.15267175572518" y="-198.59154929577466"/>
         </view>
     </objects>
     <resources>

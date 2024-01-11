@@ -17,9 +17,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditorViewController">
             <connections>
                 <outlet property="borderView" destination="6vV-Tj-Z5f" id="VNL-y8-uPI"/>
+                <outlet property="editMainTabBarView" destination="Hy1-Mb-vnG" id="Vu2-rP-wV8"/>
                 <outlet property="frameScrollView" destination="nSI-fm-Pr9" id="4hj-oY-Esl"/>
                 <outlet property="frameStackView" destination="Gy9-bJ-ryA" id="8wd-5D-LL0"/>
-                <outlet property="editMainTabBarView" destination="Hy1-Mb-vnG" id="Vu2-rP-wV8"/>
                 <outlet property="gradientView" destination="OoI-Yr-OcH" id="7XI-JS-UHe"/>
                 <outlet property="headerView" destination="0Q5-CF-3mX" id="xGP-t7-wgm"/>
                 <outlet property="imgMute" destination="y8W-fb-MFw" id="6k5-6y-Sxf"/>
@@ -72,7 +72,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zny-az-KUQ">
-                                    <rect key="frame" x="0.0" y="61.5" width="414" height="327.5"/>
+                                    <rect key="frame" x="0.0" y="61.5" width="414" height="344.5"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFi-Bv-IpD">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="40"/>
@@ -224,10 +224,10 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="Zny-az-KUQ" secondAttribute="bottom" id="4gb-kz-5HH"/>
-                                <constraint firstItem="Zny-az-KUQ" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="QdQ-4a-b2i"/>
-                                <constraint firstItem="Zny-az-KUQ" firstAttribute="top" secondItem="ZxD-eW-nqD" secondAttribute="bottom" id="XLH-BC-Hc2"/>
                                 <constraint firstAttribute="trailing" secondItem="Hy1-Mb-vnG" secondAttribute="trailing" id="OJ7-25-3WQ"/>
+                                <constraint firstItem="Zny-az-KUQ" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="QdQ-4a-b2i"/>
                                 <constraint firstAttribute="bottom" secondItem="Hy1-Mb-vnG" secondAttribute="bottom" id="T3v-EH-wJa"/>
+                                <constraint firstItem="Zny-az-KUQ" firstAttribute="top" secondItem="ZxD-eW-nqD" secondAttribute="bottom" id="XLH-BC-Hc2"/>
                                 <constraint firstItem="ZxD-eW-nqD" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="ZdQ-lo-ZA4"/>
                                 <constraint firstItem="ZxD-eW-nqD" firstAttribute="top" secondItem="uJg-Me-YVd" secondAttribute="top" id="b8W-yC-DLW"/>
                                 <constraint firstItem="Hy1-Mb-vnG" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="cKP-oU-9pj"/>
@@ -236,7 +236,7 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vV-Tj-Z5f">
-                            <rect key="frame" x="235.5" y="495.5" width="3" height="282.5"/>
+                            <rect key="frame" x="235.5" y="512.5" width="3" height="213"/>
                             <color key="backgroundColor" red="1" green="0.84313725490196079" blue="0.25098039215686274" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="3" id="The-Jh-JZN"/>
@@ -248,7 +248,6 @@
                         <constraint firstItem="QvM-ps-Snd" firstAttribute="height" secondItem="Qo7-34-IUC" secondAttribute="height" multiplier="0.5" id="2xl-kP-63R"/>
                         <constraint firstItem="OoI-Yr-OcH" firstAttribute="leading" secondItem="Qo7-34-IUC" secondAttribute="leading" id="93S-Mw-YEM"/>
                         <constraint firstItem="uJg-Me-YVd" firstAttribute="top" secondItem="QvM-ps-Snd" secondAttribute="bottom" id="Bwy-Ot-7n6"/>
-                        <constraint firstAttribute="bottom" secondItem="6vV-Tj-Z5f" secondAttribute="bottom" id="Fjg-be-zAv"/>
                         <constraint firstItem="OoI-Yr-OcH" firstAttribute="bottom" secondItem="uJg-Me-YVd" secondAttribute="top" id="ar3-QF-jzG"/>
                         <constraint firstAttribute="bottom" secondItem="uJg-Me-YVd" secondAttribute="bottom" id="b60-UV-5za"/>
                         <constraint firstItem="6vV-Tj-Z5f" firstAttribute="leading" secondItem="nSI-fm-Pr9" secondAttribute="centerX" id="cN6-Ff-d5L"/>
@@ -256,6 +255,7 @@
                         <constraint firstItem="QvM-ps-Snd" firstAttribute="leading" secondItem="Qo7-34-IUC" secondAttribute="leading" id="dcy-Sq-iAT"/>
                         <constraint firstAttribute="trailing" secondItem="uJg-Me-YVd" secondAttribute="trailing" id="diH-uD-nug"/>
                         <constraint firstItem="QvM-ps-Snd" firstAttribute="top" secondItem="Qo7-34-IUC" secondAttribute="top" id="kH1-EN-l2s"/>
+                        <constraint firstItem="6vV-Tj-Z5f" firstAttribute="bottom" secondItem="Hy1-Mb-vnG" secondAttribute="top" id="kR2-VY-ah9"/>
                         <constraint firstAttribute="trailing" secondItem="QvM-ps-Snd" secondAttribute="trailing" id="l9A-tD-Aqv"/>
                         <constraint firstItem="uJg-Me-YVd" firstAttribute="leading" secondItem="Qo7-34-IUC" secondAttribute="leading" id="pEQ-sb-2hE"/>
                         <constraint firstAttribute="trailing" secondItem="OoI-Yr-OcH" secondAttribute="trailing" id="pct-aY-R5e"/>

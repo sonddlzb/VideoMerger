@@ -17,12 +17,17 @@ protocol EditMainTabBarDelegate: AnyObject {
 
 class EditMainTabBarView: UIView {
     // MARK: Variable
+    @IBOutlet weak var contentView: UIView!
     weak var delegate: EditMainTabBarDelegate?
 
     // MARK: Method
     func loadView() {
         let editMainTabBar = Bundle.main.loadNibNamed("EditMainTabBarView", owner: self, options: nil)?[0] as? UIView ?? UIView()
         editMainTabBar.fixInView(self)
+        self.contentView.layer.shadowOpacity = 0.5
+        self.contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+        self.contentView.layer.shadowRadius = 4
+        self.contentView.layer.masksToBounds = false
     }
 
     // MARK: Override method
