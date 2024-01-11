@@ -127,6 +127,8 @@
 		D390A121AA6E62C0223C4516 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E17364362ADA616F3F838 /* StringExtensions.swift */; };
 		DD135D217282A947796CFCC8 /* ConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3350A0890B137CAFB8CBB /* ConfirmDialog.swift */; };
 		DD23529211DAF293ED74D1F3 /* String+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBED4B350A34F3BF1DE2BFC /* String+Mime.swift */; };
+		DF906E6B2B4F9884004D066F /* EditMainTabBarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF906E6A2B4F9884004D066F /* EditMainTabBarView.xib */; };
+		DF906E6D2B4F98C8004D066F /* EditMainTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF906E6C2B4F98C8004D066F /* EditMainTabBarView.swift */; };
 		EB9AE6F6CE9F19E1D2C04DE0 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084ABB32F8908AF0A0F9810C /* TimeIntervalExtensions.swift */; };
 		EE3B5329523C482DB710A64D /* UserDefaultExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786E45BF83F9CE6541A5DB3A /* UserDefaultExtensions.swift */; };
 		EE75F9E776E5411C4EB6CD35 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1C698E60EDC7D53F90E257 /* DateExtensions.swift */; };
@@ -255,6 +257,8 @@
 		D2522A3B4342E4596D9208FA /* RootComponent+Splash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RootComponent+Splash.swift"; sourceTree = "<group>"; };
 		DBE6976454FB36E2BC4D4728 /* AVMutableCompositionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMutableCompositionExtensions.swift; sourceTree = "<group>"; };
 		DC225CC807A1C9A4C1EE5537 /* PHAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAssetExtension.swift; sourceTree = "<group>"; };
+		DF906E6A2B4F9884004D066F /* EditMainTabBarView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditMainTabBarView.xib; sourceTree = "<group>"; };
+		DF906E6C2B4F98C8004D066F /* EditMainTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMainTabBarView.swift; sourceTree = "<group>"; };
 		E37AB77E121539770E0107CC /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		E7B767617101C4CE45B54B29 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		E7F278184D59DB95404FCE73 /* SplashAnimation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SplashAnimation.json; sourceTree = "<group>"; };
@@ -295,6 +299,7 @@
 			children = (
 				D0182208E915994AE64C71D6 /* ConfirmDialog.xib */,
 				335759F9F8BADB10D2606BF8 /* PlayBarView.xib */,
+				DF906E6A2B4F9884004D066F /* EditMainTabBarView.xib */,
 			);
 			path = Xib;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 				64736E967633FEEB02F8225D /* PlayBarView.swift */,
 				4B4F254A45807FEC24B73797 /* TapableView.swift */,
 				0CC9620C892D7B0CECC3AB52 /* Xib */,
+				DF906E6C2B4F98C8004D066F /* EditMainTabBarView.swift */,
 			);
 			path = CommonView;
 			sourceTree = "<group>";
@@ -779,6 +785,7 @@
 				A6464D2D3384AC344C1A335F /* SplashAnimation.json in Resources */,
 				C85C5EA82B15A5C300656AAA /* PreviewVideoViewController.xib in Resources */,
 				C8BD87542B1449BE0078AABA /* MediaCell.xib in Resources */,
+				DF906E6B2B4F9884004D066F /* EditMainTabBarView.xib in Resources */,
 				F7D5436E22DD35F3AC3F2243 /* SplashViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -871,6 +878,7 @@
 				49289FBD7720936F11C4F073 /* BaseViewController.swift in Sources */,
 				6B5EEC29A7D8EC689C762206 /* BezierPathExtensions.swift in Sources */,
 				004B3745CBFF00A58C15BAE1 /* BundleExtensions.swift in Sources */,
+				DF906E6D2B4F98C8004D066F /* EditMainTabBarView.swift in Sources */,
 				C8C0BE042B4656C3002B0828 /* HomeComponent+Editor.swift in Sources */,
 				CC3CE463B9C2BFBC10A54E15 /* CGFloatExtensions.swift in Sources */,
 				CBE0F7AAAC16ED9ADD383963 /* CGPointExtensions.swift in Sources */,
@@ -982,7 +990,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PV2U5MLT4Y;
+				DEVELOPMENT_TEAM = P634K2UB3K;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1066,7 +1074,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PV2U5MLT4Y;
+				DEVELOPMENT_TEAM = P634K2UB3K;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

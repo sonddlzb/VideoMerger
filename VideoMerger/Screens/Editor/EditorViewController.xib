@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,6 +19,7 @@
                 <outlet property="borderView" destination="6vV-Tj-Z5f" id="VNL-y8-uPI"/>
                 <outlet property="frameScrollView" destination="nSI-fm-Pr9" id="4hj-oY-Esl"/>
                 <outlet property="frameStackView" destination="Gy9-bJ-ryA" id="8wd-5D-LL0"/>
+                <outlet property="editMainTabBarView" destination="Hy1-Mb-vnG" id="Vu2-rP-wV8"/>
                 <outlet property="gradientView" destination="OoI-Yr-OcH" id="7XI-JS-UHe"/>
                 <outlet property="headerView" destination="0Q5-CF-3mX" id="xGP-t7-wgm"/>
                 <outlet property="imgMute" destination="y8W-fb-MFw" id="6k5-6y-Sxf"/>
@@ -35,13 +36,13 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qo7-34-IUC">
-                    <rect key="frame" x="0.0" y="84" width="414" height="778"/>
+                    <rect key="frame" x="0.0" y="84" width="414" height="812"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QvM-ps-Snd">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="389"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="406"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ng-lR-jIj" customClass="PlayerView" customModule="VideoMerger" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="389"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="406"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
@@ -54,14 +55,14 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoI-Yr-OcH">
-                            <rect key="frame" x="0.0" y="359" width="414" height="30"/>
+                            <rect key="frame" x="0.0" y="376" width="414" height="30"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="ztm-Lk-zB5"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJg-Me-YVd">
-                            <rect key="frame" x="0.0" y="389" width="414" height="389"/>
+                            <rect key="frame" x="0.0" y="406" width="414" height="406"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZxD-eW-nqD" customClass="PlayBarView" customModule="VideoMerger" customModuleProvider="target">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="61.5"/>
@@ -212,14 +213,24 @@
                                         <constraint firstItem="gFi-Bv-IpD" firstAttribute="leading" secondItem="Zny-az-KUQ" secondAttribute="leading" id="nMZ-BR-ko7"/>
                                     </constraints>
                                 </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hy1-Mb-vnG" userLabel="Edit Main Tab Bar View" customClass="EditMainTabBarView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="319.5" width="414" height="86.5"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="Hy1-Mb-vnG" secondAttribute="height" multiplier="430:90" id="gc5-z2-NwE"/>
+                                    </constraints>
+                                </view>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="bottom" secondItem="Zny-az-KUQ" secondAttribute="bottom" id="4gb-kz-5HH"/>
                                 <constraint firstItem="Zny-az-KUQ" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="QdQ-4a-b2i"/>
                                 <constraint firstItem="Zny-az-KUQ" firstAttribute="top" secondItem="ZxD-eW-nqD" secondAttribute="bottom" id="XLH-BC-Hc2"/>
+                                <constraint firstAttribute="trailing" secondItem="Hy1-Mb-vnG" secondAttribute="trailing" id="OJ7-25-3WQ"/>
+                                <constraint firstAttribute="bottom" secondItem="Hy1-Mb-vnG" secondAttribute="bottom" id="T3v-EH-wJa"/>
                                 <constraint firstItem="ZxD-eW-nqD" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="ZdQ-lo-ZA4"/>
                                 <constraint firstItem="ZxD-eW-nqD" firstAttribute="top" secondItem="uJg-Me-YVd" secondAttribute="top" id="b8W-yC-DLW"/>
+                                <constraint firstItem="Hy1-Mb-vnG" firstAttribute="leading" secondItem="uJg-Me-YVd" secondAttribute="leading" id="cKP-oU-9pj"/>
                                 <constraint firstAttribute="trailing" secondItem="ZxD-eW-nqD" secondAttribute="trailing" id="mK2-in-fjd"/>
                                 <constraint firstAttribute="trailing" secondItem="Zny-az-KUQ" secondAttribute="trailing" id="oqs-RR-ZkP"/>
                             </constraints>
@@ -326,12 +337,12 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Qo7-34-IUC" secondAttribute="bottom" id="7BD-md-xht"/>
                 <constraint firstItem="Qo7-34-IUC" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="9ni-kw-mpr"/>
                 <constraint firstAttribute="trailing" secondItem="0Q5-CF-3mX" secondAttribute="trailing" id="Ew8-pQ-c3r"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Qo7-34-IUC" secondAttribute="trailing" id="Ufp-Iw-Hnv"/>
                 <constraint firstItem="0Q5-CF-3mX" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mhh-Yn-hBO"/>
                 <constraint firstItem="0Q5-CF-3mX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="r7p-hY-cNp"/>
+                <constraint firstAttribute="bottom" secondItem="Qo7-34-IUC" secondAttribute="bottom" id="wPj-Do-kNE"/>
                 <constraint firstItem="Qo7-34-IUC" firstAttribute="top" secondItem="0Q5-CF-3mX" secondAttribute="bottom" id="whb-9V-KDc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="top" secondItem="BOE-5r-Kj3" secondAttribute="top" constant="8" id="yYr-um-r9C"/>
             </constraints>

@@ -27,6 +27,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet weak var frameStackView: UIStackView!
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var imgMute: UIImageView!
+    @IBOutlet weak var editMainTabBarView: EditMainTabBarView!
 
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
@@ -64,6 +65,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         playBarView.delegate = self
         frameScrollView.delegate = self
         frameScrollView.showsHorizontalScrollIndicator = false
+        editMainTabBarView.delegate = self
     }
 
     func loadAssets() {
@@ -273,5 +275,28 @@ extension EditorViewController: UIScrollViewDelegate {
             self.playView.play()
             self.playBarView.isPlaying = true
         }
+    }
+}
+
+// MARK: EditMainTabBarDelegate
+extension EditorViewController: EditMainTabBarDelegate {
+    func onTapEdit() {
+        print("---onTapEdit")
+    }
+
+    func onTapMusic() {
+        print("---onTapMusic")
+    }
+
+    func onTapText() {
+        print("---onTapText")
+    }
+
+    func onTapSticker() {
+        print("---onTapSticker")
+    }
+
+    func onTapExport() {
+        print("---onTapExport")
     }
 }
