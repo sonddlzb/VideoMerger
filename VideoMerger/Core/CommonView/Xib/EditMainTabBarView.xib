@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditMainTabBarView" customModule="VideoMerger" customModuleProvider="target">
+            <connections>
+                <outlet property="contentView" destination="pVA-K1-mMM" id="l2o-bd-4Zm"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="1143" height="324"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pVA-K1-mMM">
+                    <rect key="frame" x="0.0" y="59" width="1143" height="265"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="39o-N5-wMB">
+                            <rect key="frame" x="0.0" y="0.0" width="1143" height="265"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rJG-xI-9J8" userLabel="EditView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_edit_picker" translatesAutoresizingMaskIntoConstraints="NO" id="nEK-Fx-Aqr">
+                                            <rect key="frame" x="68.666666666666686" y="82.666666666666657" width="91.333333333333314" height="99.666666666666657"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="nEK-Fx-Aqr" secondAttribute="height" multiplier="47:51" id="g1Q-t5-BGV"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="nEK-Fx-Aqr" firstAttribute="centerX" secondItem="rJG-xI-9J8" secondAttribute="centerX" id="MID-DZ-oUf"/>
+                                        <constraint firstItem="nEK-Fx-Aqr" firstAttribute="height" secondItem="rJG-xI-9J8" secondAttribute="height" multiplier="24/64" id="NMP-oC-XVj"/>
+                                        <constraint firstItem="nEK-Fx-Aqr" firstAttribute="centerY" secondItem="rJG-xI-9J8" secondAttribute="centerY" id="fsT-9h-iNC"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="onTapEditButton:" destination="-1" eventType="touchUpInside" id="QNQ-6F-rBD"/>
+                                    </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aJq-jg-S3f" userLabel="MusicView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="228.66666666666669" y="0.0" width="228.66666666666669" height="265"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_music_picker" translatesAutoresizingMaskIntoConstraints="NO" id="9AM-HJ-6yw">
+                                            <rect key="frame" x="68.333333333333343" y="82.666666666666657" width="91.666666666666657" height="99.666666666666657"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="9AM-HJ-6yw" secondAttribute="height" multiplier="47:51" id="qLP-I9-FCL"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="9AM-HJ-6yw" firstAttribute="height" secondItem="aJq-jg-S3f" secondAttribute="height" multiplier="24/64" id="7Go-6x-8FW"/>
+                                        <constraint firstItem="9AM-HJ-6yw" firstAttribute="centerX" secondItem="aJq-jg-S3f" secondAttribute="centerX" id="PRn-Zi-qbp"/>
+                                        <constraint firstItem="9AM-HJ-6yw" firstAttribute="centerY" secondItem="aJq-jg-S3f" secondAttribute="centerY" id="bwU-Ce-ueS"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="onTapMusicButton:" destination="-1" eventType="touchUpInside" id="Hil-RZ-qC8"/>
+                                    </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NvF-s2-M7Y" userLabel="TextView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="457.33333333333331" y="0.0" width="228.33333333333331" height="265"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_text_picker" translatesAutoresizingMaskIntoConstraints="NO" id="Jcr-T0-R0i">
+                                            <rect key="frame" x="68.333333333333314" y="82.666666666666657" width="91.666666666666686" height="99.666666666666657"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="Jcr-T0-R0i" secondAttribute="height" multiplier="47:51" id="oTN-83-1PW"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="Jcr-T0-R0i" firstAttribute="height" secondItem="NvF-s2-M7Y" secondAttribute="height" multiplier="24/64" id="PFu-YF-Mre"/>
+                                        <constraint firstItem="Jcr-T0-R0i" firstAttribute="centerY" secondItem="NvF-s2-M7Y" secondAttribute="centerY" id="wlN-XV-SHZ"/>
+                                        <constraint firstItem="Jcr-T0-R0i" firstAttribute="centerX" secondItem="NvF-s2-M7Y" secondAttribute="centerX" id="xgz-zH-eWG"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="onTapTextButton:" destination="-1" eventType="touchUpInside" id="mU9-nj-T5o"/>
+                                    </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sfw-TE-6Sa" userLabel="StickerView" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="685.66666666666663" y="0.0" width="228.66666666666663" height="265"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_sticker_picker" translatesAutoresizingMaskIntoConstraints="NO" id="nnu-73-ras">
+                                            <rect key="frame" x="68.666666666666742" y="82.666666666666657" width="91.666666666666686" height="99.666666666666657"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="nnu-73-ras" secondAttribute="height" multiplier="47:51" id="2FU-Ka-dY6"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="nnu-73-ras" firstAttribute="centerY" secondItem="Sfw-TE-6Sa" secondAttribute="centerY" id="Kko-0w-ROj"/>
+                                        <constraint firstItem="nnu-73-ras" firstAttribute="height" secondItem="Sfw-TE-6Sa" secondAttribute="height" multiplier="24/64" id="UeC-TI-1eb"/>
+                                        <constraint firstItem="nnu-73-ras" firstAttribute="centerX" secondItem="Sfw-TE-6Sa" secondAttribute="centerX" id="xz4-cH-Deo"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="onTapStickerButton:" destination="-1" eventType="touchUpInside" id="ndB-9F-RSh"/>
+                                    </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OLa-hJ-wwR" userLabel="ExportView">
+                                    <rect key="frame" x="914.33333333333337" y="0.0" width="228.66666666666663" height="265"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_export_picker" translatesAutoresizingMaskIntoConstraints="NO" id="c9h-VP-glf">
+                                            <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pM1-p4-ka6" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="228.66666666666666" height="265"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_export_picker" translatesAutoresizingMaskIntoConstraints="NO" id="enT-nz-ZJf">
+                                                    <rect key="frame" x="68.666666666666629" y="82.666666666666657" width="91.333333333333314" height="99.666666666666657"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="enT-nz-ZJf" secondAttribute="height" multiplier="47:51" id="vpv-i5-fHO"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="enT-nz-ZJf" firstAttribute="centerX" secondItem="pM1-p4-ka6" secondAttribute="centerX" id="pOa-ca-Hwc"/>
+                                                <constraint firstItem="enT-nz-ZJf" firstAttribute="centerY" secondItem="pM1-p4-ka6" secondAttribute="centerY" id="sJL-ph-GeT"/>
+                                            </constraints>
+                                            <connections>
+                                                <action selector="onTapExportButton:" destination="-1" eventType="touchUpInside" id="0au-R3-dtz"/>
+                                            </connections>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="c9h-VP-glf" secondAttribute="bottom" id="Hqo-Rd-zYY"/>
+                                        <constraint firstAttribute="trailing" secondItem="pM1-p4-ka6" secondAttribute="trailing" id="KaZ-Gp-hlE"/>
+                                        <constraint firstItem="pM1-p4-ka6" firstAttribute="leading" secondItem="OLa-hJ-wwR" secondAttribute="leading" id="ONi-Og-aNg"/>
+                                        <constraint firstAttribute="trailing" secondItem="c9h-VP-glf" secondAttribute="trailing" id="SKW-vV-SBy"/>
+                                        <constraint firstAttribute="bottom" secondItem="pM1-p4-ka6" secondAttribute="bottom" id="SfY-hm-4a1"/>
+                                        <constraint firstItem="pM1-p4-ka6" firstAttribute="centerX" secondItem="OLa-hJ-wwR" secondAttribute="centerX" id="dds-XH-0iD"/>
+                                        <constraint firstItem="pM1-p4-ka6" firstAttribute="centerY" secondItem="OLa-hJ-wwR" secondAttribute="centerY" id="lW9-Ia-bh9"/>
+                                        <constraint firstItem="c9h-VP-glf" firstAttribute="leading" secondItem="OLa-hJ-wwR" secondAttribute="leading" id="nKO-SS-3W7"/>
+                                        <constraint firstItem="c9h-VP-glf" firstAttribute="top" secondItem="OLa-hJ-wwR" secondAttribute="top" id="oAa-cO-HKN"/>
+                                        <constraint firstItem="enT-nz-ZJf" firstAttribute="height" secondItem="OLa-hJ-wwR" secondAttribute="height" multiplier="24/64" id="uJD-Kx-Bby"/>
+                                        <constraint firstItem="pM1-p4-ka6" firstAttribute="top" secondItem="OLa-hJ-wwR" secondAttribute="top" id="wd2-80-IgD"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="39o-N5-wMB" firstAttribute="leading" secondItem="pVA-K1-mMM" secondAttribute="leading" id="6A8-IZ-2Em"/>
+                        <constraint firstAttribute="trailing" secondItem="39o-N5-wMB" secondAttribute="trailing" id="k30-gm-SSI"/>
+                        <constraint firstAttribute="bottom" secondItem="39o-N5-wMB" secondAttribute="bottom" id="kq8-JE-bmL"/>
+                        <constraint firstItem="39o-N5-wMB" firstAttribute="top" secondItem="pVA-K1-mMM" secondAttribute="top" id="ncy-TX-y3F"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="pVA-K1-mMM" secondAttribute="bottom" id="F4e-Xc-Xmn"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="pVA-K1-mMM" secondAttribute="trailing" id="bQ8-oQ-yTd"/>
+                <constraint firstItem="pVA-K1-mMM" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="dzg-ys-Y3j"/>
+                <constraint firstItem="pVA-K1-mMM" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="h0b-UK-Q37"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="480.15267175572518" y="-198.59154929577466"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bg_export_picker" width="86" height="90"/>
+        <image name="ic_edit_picker" width="48" height="51"/>
+        <image name="ic_export_picker" width="48" height="52.333332061767578"/>
+        <image name="ic_music_picker" width="48" height="50"/>
+        <image name="ic_sticker_picker" width="48" height="50"/>
+        <image name="ic_text_picker" width="48" height="49.333332061767578"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
