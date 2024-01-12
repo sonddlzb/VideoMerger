@@ -13,6 +13,7 @@ import Photos
 protocol EditorPresentableListener: AnyObject {
     func didTapBack()
     func updateCurrentVideoTime(currentTime: Double)
+    func composeAsset()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -42,6 +43,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         }
     }
 
+    var scale = -1.0
+    let dispatchGroup = DispatchGroup()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.config()
@@ -68,80 +72,129 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         editMainTabBarView.delegate = self
     }
 
-    func loadAssets() {
-        self.viewModel.fetchAVAsset(completion: { [weak self] avAsset in
-            guard let self = self else {
-                return
-            }
+    func loadAssets(index: Int) {
+        let phAsset = self.viewModel.asset(at: index)
+        if phAsset.mediaType == .video {
+            dispatchGroup.enter()
+            self.viewModel.fetchAVAsset(asset: phAsset, completion: { [weak self] avAsset in
+                guard let self = self else {
+                    return
+                }
 
-            if let asset = avAsset {
-                DispatchQueue.main.async {
-                    self.playView.replacePlayerItem(AVPlayerItem(asset: asset))
-                    self.frameStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
-                    self.timeStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
+                if let asset = avAsset {
+                    DispatchQueue.main.async {
+                        self.addLeftFramesPadding(isFirstFrame: index == 0)
+                        asset.extractFrames(fps: 1) { image, error, second, isFinish, scale in
+                            guard error == nil else {
+                                print("Error when extracting frames: \(error!.localizedDescription)")
+                                return
+                            }
 
-                    let leftPaddingView = UIView()
-                    leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
-                    self.frameStackView.addArrangedSubview(leftPaddingView)
-                    leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-
-                    let leftTimePaddingView = UIView()
-                    leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
-                    self.timeStackView.addArrangedSubview(leftTimePaddingView)
-                    leftTimePaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-
-                    asset.extractFrames(fps: 1) { image, error, second, isFinish, scale in
-                        guard error == nil else {
-                            print("Error when extracting frames: \(error!.localizedDescription)")
-                            return
-                        }
-
-                        DispatchQueue.main.async {
-                            if let image = image {
-                                let imageView = UIImageView()
-                                imageView.translatesAutoresizingMaskIntoConstraints = false
-                                imageView.image = image
-                                self.frameStackView.addArrangedSubview(imageView)
-                                imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*scale).isActive = true
-
-                                let timeLabel = UILabel()
-                                timeLabel.textAlignment = .left
-                                timeLabel.textColor = UIColor(rgb: 0x9E9E9E)
-                                timeLabel.font = .systemFont(ofSize: 10, weight: .regular)
-                                timeLabel.text = String(second).formatVideoDuration()
-                                timeLabel.translatesAutoresizingMaskIntoConstraints = false
-                                self.timeStackView.addArrangedSubview(timeLabel)
-                                timeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
-
-                                if isFinish {
-                                    let rightPaddingView = UIView()
-                                    rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
-                                    self.frameStackView.addArrangedSubview(rightPaddingView)
-                                    rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-
-                                    let rightTimePaddingView = UIView()
-                                    rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
-                                    self.timeStackView.addArrangedSubview(rightTimePaddingView)
-                                    rightTimePaddingView.widthAnchor.constraint(equalTo: self.timeStackView.widthAnchor, multiplier: 0.5).isActive = true
-                                }
+                            DispatchQueue.main.async {
+                                self.insertFrames(image: image, second: second, isFinish: isFinish, scale: scale, index: index)
                             }
                         }
                     }
                 }
+            })
+        } else if phAsset.mediaType == .image {
+            DispatchQueue.main.async {
+                self.addLeftFramesPadding(isFirstFrame: index == 0)
+                self.insertFrame(phAsset.getImage(), index: index)
             }
-        })
+        }
 
         addPeriodicTimeObserverForVideo()
         self.playView.setLayerVideoGravity(.resizeAspect)
         self.playView.loopEnable = false
         self.playView.delegate = self
 
-        self.playBarView.bind(duration: self.viewModel.duration())
         if self.playBarView.isPlaying {
             self.playView.play()
         } else {
             self.playView.pause()
         }
+    }
+
+    func insertFrames(image: UIImage?, second: Int, isFinish: Bool, scale: Double, index: Int) {
+        if let image = image {
+            if self.scale < 0 {
+                self.scale = scale
+            }
+
+            let imageView = UIImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.image = image
+            self.frameStackView.addArrangedSubview(imageView)
+            imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*self.scale).isActive = true
+
+            let timeLabel = UILabel()
+            timeLabel.textAlignment = .left
+            timeLabel.textColor = UIColor(rgb: 0x9E9E9E)
+            timeLabel.font = .systemFont(ofSize: 10, weight: .regular)
+            timeLabel.text = String(self.viewModel.secondAt(second, index: index)).formatVideoDuration()
+            timeLabel.translatesAutoresizingMaskIntoConstraints = false
+            self.timeStackView.addArrangedSubview(timeLabel)
+            timeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
+
+            if isFinish {
+                dispatchGroup.leave()
+                dispatchGroup.notify(queue: .main) {
+                    if index < self.viewModel.numberOfAsset() - 1 {
+                        self.loadAssets(index: index+1)
+                    } else {
+                        self.listener?.composeAsset()
+                    }
+
+                    if index == self.viewModel.numberOfAsset()-1 {
+                        self.addRightFramesPadding()
+                    }
+                }
+            }
+        }
+    }
+
+    func insertFrame(_ image: UIImage?, index: Int) {
+        // MARK: - handle for image later
+    }
+
+    func addLeftFramesPadding(isFirstFrame: Bool) {
+        if isFirstFrame {
+            self.frameStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
+            self.timeStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
+
+            let leftPaddingView = UIView()
+            leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
+            self.frameStackView.addArrangedSubview(leftPaddingView)
+            leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
+
+            let leftTimePaddingView = UIView()
+            leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
+            self.timeStackView.addArrangedSubview(leftTimePaddingView)
+            leftTimePaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
+        } else {
+            let leftPaddingView = UIView()
+            leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
+            self.frameStackView.addArrangedSubview(leftPaddingView)
+            leftPaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
+
+            let leftTimePaddingView = UIView()
+            leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
+            self.timeStackView.addArrangedSubview(leftTimePaddingView)
+            leftTimePaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
+        }
+    }
+
+    func addRightFramesPadding() {
+        let rightPaddingView = UIView()
+        rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
+        self.frameStackView.addArrangedSubview(rightPaddingView)
+        rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
+
+        let rightTimePaddingView = UIView()
+        rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
+        self.timeStackView.addArrangedSubview(rightTimePaddingView)
+        rightTimePaddingView.widthAnchor.constraint(equalTo: self.timeStackView.widthAnchor, multiplier: 0.5).isActive = true
     }
 
     func addPeriodicTimeObserverForVideo() {
@@ -216,7 +269,12 @@ extension EditorViewController: EditorPresentable {
     func bind(viewModel: EditorViewModel) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
-        self.loadAssets()
+        if let composedAsset = self.viewModel.currentComposedAsset {
+            self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
+            self.playBarView.bind(duration: self.viewModel.duration())
+        } else {
+            self.loadAssets(index: 0)
+        }
     }
 
     func bind(currentTime: Double) {
