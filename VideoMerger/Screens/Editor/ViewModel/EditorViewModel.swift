@@ -13,16 +13,38 @@ struct EditorViewModel {
     var listAssets: [PHAsset]
     var disposeBag = DisposeBag()
     var currentTime = 0.0
+    var currentComposedAsset: AVAsset?
 
     static func makeEmpty() -> EditorViewModel {
         return EditorViewModel(listAssets: [])
     }
 
-    func fetchAVAsset(completion: @escaping ((_ avAsset: AVAsset?) -> Void)) {
-        listAssets.first?.fetchAVAsset().subscribe(onNext: completion).disposed(by: disposeBag)
+    func fetchAVAsset(asset: PHAsset, completion: @escaping ((_ avAsset: AVAsset?) -> Void)) {
+        asset.fetchAVAsset().subscribe(onNext: completion).disposed(by: disposeBag)
     }
 
     func duration() -> String {
-        return self.listAssets.first?.formatVideoDuration() ?? "00:00"
+        return self.currentComposedAsset?.duration.toDurationString() ?? "00:00"
+    }
+
+    func numberOfAsset() -> Int {
+        return self.listAssets.count
+    }
+
+    func asset(at index: Int) -> PHAsset {
+        return listAssets[index]
+    }
+
+    func secondAt(_ localSecond: Int, index: Int) -> Int {
+        guard index > 0 else {
+            return localSecond
+        }
+
+        var currentSecond = 0
+        for id in 0...index-1 {
+            currentSecond += Int(self.listAssets[id].duration)
+        }
+
+        return currentSecond + localSecond
     }
 }

@@ -55,4 +55,40 @@ extension EditorInteractor: EditorPresentableListener {
         viewModel.currentTime = currentTime
         self.presenter.bind(currentTime: currentTime)
     }
+
+    func composeAsset() {
+        let composition = AVMutableComposition()
+        guard let videoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+            return
+        }
+
+        let audioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
+
+        var currentTime = CMTime.zero
+        for asset in self.viewModel.listAssets {
+            let options = PHVideoRequestOptions()
+            options.isNetworkAccessAllowed = true
+
+            PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { aVAsset, _, _ in
+                if let aVAsset = aVAsset as? AVURLAsset {
+                    do {
+                        try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration), of: aVAsset.tracks(withMediaType: .video)[0], at: currentTime)
+                        try audioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration),
+                                                         of: aVAsset.tracks(withMediaType: .audio)[0],
+                                                         at: currentTime)
+
+                        currentTime = CMTimeAdd(currentTime, aVAsset.duration)
+                        if asset == self.viewModel.listAssets.last {
+                            self.viewModel.currentComposedAsset = composition
+                            DispatchQueue.main.async {
+                                self.presenter.bind(viewModel: self.viewModel)
+                            }
+                        }
+                    } catch {
+                        print("Error when composing asset \(error.localizedDescription)")
+                    }
+                }
+            }
+        }
+    }
 }
