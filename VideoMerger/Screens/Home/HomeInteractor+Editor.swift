@@ -11,4 +11,8 @@ extension HomeInteractor: EditorListener {
     func editorWantToDismiss() {
         self.router?.dismissEditor()
     }
+
+    func editorWantToOpenMediaPicker() {
+        self.router?.showMediaPicker(isAddMore: true)
+    }
 }

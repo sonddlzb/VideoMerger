@@ -10,20 +10,22 @@ import RxSwift
 import Photos
 
 protocol EditorRouting: ViewableRouting {
+    func bind(listAddedAssets: [PHAsset])
 }
 
 protocol EditorPresentable: Presentable {
     var listener: EditorPresentableListener? { get set }
 
-    func bind(viewModel: EditorViewModel)
+    func bind(viewModel: EditorViewModel, isNeedToReload: Bool)
     func bind(currentTime: Double)
 }
 
 protocol EditorListener: AnyObject {
     func editorWantToDismiss()
+    func editorWantToOpenMediaPicker()
 }
 
-final class EditorInteractor: PresentableInteractor<EditorPresentable>, EditorInteractable {
+final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
     weak var router: EditorRouting?
     weak var listener: EditorListener?
@@ -37,7 +39,7 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable>, EditorIn
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        self.presenter.bind(viewModel: self.viewModel)
+        self.presenter.bind(viewModel: self.viewModel, isNeedToReload: true)
     }
 
     override func willResignActive() {
@@ -81,7 +83,7 @@ extension EditorInteractor: EditorPresentableListener {
                         if asset == self.viewModel.listAssets.last {
                             self.viewModel.currentComposedAsset = composition
                             DispatchQueue.main.async {
-                                self.presenter.bind(viewModel: self.viewModel)
+                                self.presenter.bind(viewModel: self.viewModel, isNeedToReload: false)
                             }
                         }
                     } catch {
@@ -90,5 +92,17 @@ extension EditorInteractor: EditorPresentableListener {
                 }
             }
         }
+    }
+
+    func didTapAddMore() {
+        self.listener?.editorWantToOpenMediaPicker()
+    }
+}
+
+// MARK: - EditorInteractable
+extension EditorInteractor: EditorInteractable {
+    func bind(listAddedAssets: [PHAsset]) {
+        self.viewModel.addMoreAssets(listAddedAssets)
+        self.presenter.bind(viewModel: self.viewModel, isNeedToReload: true)
     }
 }

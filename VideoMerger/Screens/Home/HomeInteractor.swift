@@ -10,9 +10,9 @@ import RxSwift
 import Photos
 
 protocol HomeRouting: ViewableRouting {
-    func showMediaPicker()
+    func showMediaPicker(isAddMore: Bool)
     func dismissMediaPicker()
-    func openEditor(_ listAssets: [PHAsset])
+    func openEditor(_ listAssets: [PHAsset], isAddMore: Bool)
     func dismissEditor()
 }
 
@@ -54,7 +54,7 @@ extension HomeInteractor: HomePresentableListener {
             }
 
             if granted {
-                self.router?.showMediaPicker()
+                self.router?.showMediaPicker(isAddMore: false)
             }
         }
     }

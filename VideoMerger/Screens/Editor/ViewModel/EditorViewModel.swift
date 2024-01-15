@@ -47,4 +47,8 @@ struct EditorViewModel {
 
         return currentSecond + localSecond
     }
+
+    mutating func addMoreAssets(_ listAssets: [PHAsset]) {
+        self.listAssets.append(contentsOf: listAssets)
+    }
 }
