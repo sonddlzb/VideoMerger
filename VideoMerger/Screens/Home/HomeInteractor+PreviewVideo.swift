@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension MediaPickerInteractor: PreviewVideoListener {
+extension HomeInteractor: PreviewVideoListener {
     func previewVideoWantToDismiss() {
         self.router?.dismissPreviewVideo()
     }

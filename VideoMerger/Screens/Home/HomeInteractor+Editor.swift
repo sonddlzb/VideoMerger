@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Photos
 
 extension HomeInteractor: EditorListener {
     func editorWantToDismiss() {
@@ -14,5 +15,9 @@ extension HomeInteractor: EditorListener {
 
     func editorWantToOpenMediaPicker() {
         self.router?.showMediaPicker(isAddMore: true)
+    }
+
+    func editorWantToOpenPreview(avAsset: AVAsset) {
+        self.router?.openPreviewVideo(avAsset)
     }
 }

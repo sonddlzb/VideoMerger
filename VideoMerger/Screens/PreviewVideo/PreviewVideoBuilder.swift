@@ -19,6 +19,7 @@ final class PreviewVideoComponent: Component<PreviewVideoDependency> {
 
 protocol PreviewVideoBuildable: Buildable {
     func build(withListener listener: PreviewVideoListener, asset: PHAsset) -> PreviewVideoRouting
+    func build(withListener listener: PreviewVideoListener, asset: AVAsset) -> PreviewVideoRouting
 }
 
 final class PreviewVideoBuilder: Builder<PreviewVideoDependency>, PreviewVideoBuildable {
@@ -32,7 +33,18 @@ final class PreviewVideoBuilder: Builder<PreviewVideoDependency>, PreviewVideoBu
         let viewController = PreviewVideoViewController()
         viewController.modalTransitionStyle = .coverVertical
         viewController.modalPresentationStyle = .fullScreen
-        let interactor = PreviewVideoInteractor(presenter: viewController, asset: asset)
+        let interactor = PreviewVideoInteractor(presenter: viewController, asset: asset, avAsset: nil)
         interactor.listener = listener
-        return PreviewVideoRouter(interactor: interactor, viewController: viewController)    }
+        return PreviewVideoRouter(interactor: interactor, viewController: viewController)
+    }
+
+    func build(withListener listener: PreviewVideoListener, asset: AVAsset) -> PreviewVideoRouting {
+        // let component = PreviewVideoComponent(dependency: dependency)
+        let viewController = PreviewVideoViewController()
+        viewController.modalTransitionStyle = .coverVertical
+        viewController.modalPresentationStyle = .fullScreen
+        let interactor = PreviewVideoInteractor(presenter: viewController, asset: nil, avAsset: asset)
+        interactor.listener = listener
+        return PreviewVideoRouter(interactor: interactor, viewController: viewController)
+    }
 }

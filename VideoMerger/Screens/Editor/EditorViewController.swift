@@ -15,6 +15,7 @@ protocol EditorPresentableListener: AnyObject {
     func updateCurrentVideoTime(currentTime: Double)
     func composeAsset()
     func didTapAddMore()
+    func didTapPreview()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -256,7 +257,7 @@ extension EditorViewController: PlayBarViewDelegate {
     }
 
     func playBarViewDidTapFullScreen(_ playBarView: PlayBarView) {
-
+        self.listener?.didTapPreview()
     }
 
     func playBarViewDidTapUndo(_ playBarView: PlayBarView) {

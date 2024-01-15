@@ -14,6 +14,11 @@ protocol HomeRouting: ViewableRouting {
     func dismissMediaPicker()
     func openEditor(_ listAssets: [PHAsset], isAddMore: Bool)
     func dismissEditor()
+    func openPreviewImage(_ asset: PHAsset)
+    func dismissPreviewImage()
+    func openPreviewVideo(_ asset: PHAsset)
+    func dismissPreviewVideo()
+    func openPreviewVideo(_ asset: AVAsset)
 }
 
 protocol HomePresentable: Presentable {
