@@ -17,7 +17,7 @@ final class MediaPickerComponent: Component<MediaPickerDependency> {
 // MARK: - Builder
 
 protocol MediaPickerBuildable: Buildable {
-    func build(withListener listener: MediaPickerListener) -> MediaPickerRouting
+    func build(withListener listener: MediaPickerListener, isAddMore: Bool) -> MediaPickerRouting
 }
 
 final class MediaPickerBuilder: Builder<MediaPickerDependency>, MediaPickerBuildable {
@@ -26,10 +26,10 @@ final class MediaPickerBuilder: Builder<MediaPickerDependency>, MediaPickerBuild
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: MediaPickerListener) -> MediaPickerRouting {
+    func build(withListener listener: MediaPickerListener, isAddMore: Bool) -> MediaPickerRouting {
         let component = MediaPickerComponent(dependency: dependency)
         let viewController = MediaPickerViewController()
-        let interactor = MediaPickerInteractor(presenter: viewController)
+        let interactor = MediaPickerInteractor(presenter: viewController, isAddMore: isAddMore)
         interactor.listener = listener
         let previewImageBuilder = DIContainer.resolve(PreviewImageBuildable.self, agrument: component)
         let previewVideoBuilder = DIContainer.resolve(PreviewVideoBuildable.self, agrument: component)

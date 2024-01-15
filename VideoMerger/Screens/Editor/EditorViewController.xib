@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -184,6 +184,30 @@
                                                         <constraint firstItem="nSI-fm-Pr9" firstAttribute="top" secondItem="bb0-dR-GrM" secondAttribute="top" id="fxs-Y2-7bS"/>
                                                     </constraints>
                                                 </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="j3a-6c-o0I" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                                    <rect key="frame" x="379" y="38.5" width="23" height="23"/>
+                                                    <subviews>
+                                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_plus_more" translatesAutoresizingMaskIntoConstraints="NO" id="SL6-as-Nn2">
+                                                            <rect key="frame" x="0.0" y="0.0" width="23" height="23"/>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <constraints>
+                                                        <constraint firstItem="SL6-as-Nn2" firstAttribute="leading" secondItem="j3a-6c-o0I" secondAttribute="leading" id="8s0-fr-XkY"/>
+                                                        <constraint firstAttribute="bottom" secondItem="SL6-as-Nn2" secondAttribute="bottom" id="F7u-lt-y6e"/>
+                                                        <constraint firstAttribute="width" secondItem="j3a-6c-o0I" secondAttribute="height" id="Gi7-1c-b0p"/>
+                                                        <constraint firstItem="SL6-as-Nn2" firstAttribute="top" secondItem="j3a-6c-o0I" secondAttribute="top" id="uG5-gW-cxl"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SL6-as-Nn2" secondAttribute="trailing" id="x9G-kR-3oX"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <real key="value" value="2"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                    <connections>
+                                                        <action selector="didTapAddMoreButton:" destination="-1" eventType="touchUpInside" id="W3O-n7-1aO"/>
+                                                    </connections>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
@@ -191,12 +215,15 @@
                                                 <constraint firstItem="y8W-fb-MFw" firstAttribute="leading" secondItem="jja-kp-vPU" secondAttribute="leading" constant="8" id="I7a-FA-kBk"/>
                                                 <constraint firstAttribute="bottom" secondItem="bb0-dR-GrM" secondAttribute="bottom" id="OAc-vB-GCx"/>
                                                 <constraint firstItem="oLI-sc-Dee" firstAttribute="top" secondItem="y8W-fb-MFw" secondAttribute="top" id="WdD-L2-puM"/>
+                                                <constraint firstAttribute="trailing" secondItem="j3a-6c-o0I" secondAttribute="trailing" constant="12" id="b9y-Yc-Ho9"/>
                                                 <constraint firstItem="bb0-dR-GrM" firstAttribute="top" secondItem="jja-kp-vPU" secondAttribute="top" id="cEV-OS-ALZ"/>
                                                 <constraint firstAttribute="trailing" secondItem="bb0-dR-GrM" secondAttribute="trailing" id="jE3-aZ-MaB"/>
                                                 <constraint firstItem="oLI-sc-Dee" firstAttribute="trailing" secondItem="y8W-fb-MFw" secondAttribute="trailing" id="jbP-aV-nli"/>
+                                                <constraint firstItem="j3a-6c-o0I" firstAttribute="height" secondItem="jja-kp-vPU" secondAttribute="height" multiplier="24:83.17" id="k2q-2n-4Ap"/>
                                                 <constraint firstItem="oLI-sc-Dee" firstAttribute="leading" secondItem="y8W-fb-MFw" secondAttribute="leading" id="lpP-I9-PUd"/>
                                                 <constraint firstItem="y8W-fb-MFw" firstAttribute="height" secondItem="jja-kp-vPU" secondAttribute="height" multiplier="41:83.17" id="nkg-u6-K7x"/>
                                                 <constraint firstItem="bb0-dR-GrM" firstAttribute="leading" secondItem="y8W-fb-MFw" secondAttribute="trailing" constant="10" id="nob-uD-4cc"/>
+                                                <constraint firstItem="j3a-6c-o0I" firstAttribute="centerY" secondItem="y8W-fb-MFw" secondAttribute="centerY" id="oDh-xc-Jqu"/>
                                                 <constraint firstItem="oLI-sc-Dee" firstAttribute="bottom" secondItem="y8W-fb-MFw" secondAttribute="bottom" id="q3n-Jd-D7D"/>
                                                 <constraint firstItem="y8W-fb-MFw" firstAttribute="centerY" secondItem="Gy9-bJ-ryA" secondAttribute="centerY" id="zs5-HJ-Fud"/>
                                             </constraints>
@@ -353,6 +380,7 @@
         <image name="ic_back" width="100" height="100"/>
         <image name="ic_mute_enable" width="41" height="41"/>
         <image name="ic_pencil" width="14" height="14"/>
+        <image name="ic_plus_more" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

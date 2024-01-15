@@ -25,7 +25,7 @@ protocol MediaPickerPresentable: Presentable {
 
 protocol MediaPickerListener: AnyObject {
     func mediaPickerWantToDismiss()
-    func mediaPickerWantToOpenEditor(for listAssets: [PHAsset])
+    func mediaPickerWantToOpenEditor(for listAssets: [PHAsset], isAddMore: Bool)
 }
 
 final class MediaPickerInteractor: PresentableInteractor<MediaPickerPresentable>, MediaPickerInteractable {
@@ -33,8 +33,10 @@ final class MediaPickerInteractor: PresentableInteractor<MediaPickerPresentable>
     weak var router: MediaPickerRouting?
     weak var listener: MediaPickerListener?
     var viewModel = MediaPickerViewModel.makeEmptyListAsset()
+    var isAddMore: Bool
 
-    override init(presenter: MediaPickerPresentable) {
+    init(presenter: MediaPickerPresentable, isAddMore: Bool) {
+        self.isAddMore = isAddMore
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -95,6 +97,6 @@ extension MediaPickerInteractor: MediaPickerPresentableListener {
     }
 
     func didSelect(_ listSelectedAsset: [PHAsset]) {
-        self.listener?.mediaPickerWantToOpenEditor(for: listSelectedAsset)
+        self.listener?.mediaPickerWantToOpenEditor(for: listSelectedAsset, isAddMore: isAddMore)
     }
 }

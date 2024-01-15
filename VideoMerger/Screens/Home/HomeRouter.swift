@@ -36,12 +36,12 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
 
 // MARK: - HomeRouting
 extension HomeRouter: HomeRouting {
-    func showMediaPicker() {
+    func showMediaPicker(isAddMore: Bool) {
         guard self.mediaPickerRouter == nil else {
             return
         }
 
-        let router = self.mediaPickerBuilder.build(withListener: self.interactor)
+        let router = self.mediaPickerBuilder.build(withListener: self.interactor, isAddMore: isAddMore)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
         self.viewControllable.present(viewControllable: router.viewControllable)
         self.attachChild(router)
@@ -58,8 +58,12 @@ extension HomeRouter: HomeRouting {
         self.mediaPickerRouter = nil
     }
 
-    func openEditor(_ listAssets: [PHAsset]) {
-        guard self.editorRouter == nil else {
+    func openEditor(_ listAssets: [PHAsset], isAddMore: Bool) {
+        if self.editorRouter != nil {
+            if isAddMore {
+                self.editorRouter?.bind(listAddedAssets: listAssets)
+            }
+
             return
         }
 

@@ -14,6 +14,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapBack()
     func updateCurrentVideoTime(currentTime: Double)
     func composeAsset()
+    func didTapAddMore()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -234,6 +235,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBAction func didTapMuteButton(_ sender: Any) {
         self.isSoundMuted = !self.isSoundMuted
     }
+    @IBAction func didTapAddMoreButton(_ sender: Any) {
+        self.listener?.didTapAddMore()
+    }
 }
 
 // MARK: - PlayBarViewDelegate
@@ -266,12 +270,14 @@ extension EditorViewController: PlayBarViewDelegate {
 
 // MARK: - EditorPresentable
 extension EditorViewController: EditorPresentable {
-    func bind(viewModel: EditorViewModel) {
+    func bind(viewModel: EditorViewModel, isNeedToReload: Bool) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
-        if let composedAsset = self.viewModel.currentComposedAsset {
-            self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
-            self.playBarView.bind(duration: self.viewModel.duration())
+        if !isNeedToReload {
+            if let composedAsset = self.viewModel.currentComposedAsset {
+                self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
+                self.playBarView.bind(duration: self.viewModel.duration())
+            }
         } else {
             self.loadAssets(index: 0)
         }
