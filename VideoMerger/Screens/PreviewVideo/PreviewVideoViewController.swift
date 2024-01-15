@@ -84,17 +84,25 @@ final class PreviewVideoViewController: BaseViewControler, PreviewVideoViewContr
 
     // MARK: Config
     func configVideoContentView() {
-        self.viewModel.fetchAVAsset(completion: { [weak self] avAsset in
-            guard let self = self else {
-                return
-            }
+        if self.viewModel.asset != nil {
+            self.viewModel.fetchAVAsset(completion: { [weak self] avAsset in
+                guard let self = self else {
+                    return
+                }
 
-            if let asset = avAsset {
+                if let asset = avAsset {
+                    DispatchQueue.main.async {
+                        self.videoContentView.replacePlayerItem(AVPlayerItem(asset: asset))
+                    }
+                }
+            })
+        } else {
+            if let avAsset = self.viewModel.avAsset {
                 DispatchQueue.main.async {
-                    self.videoContentView.replacePlayerItem(AVPlayerItem(asset: asset))
+                    self.videoContentView.replacePlayerItem(AVPlayerItem(asset: avAsset))
                 }
             }
-        })
+        }
 
         addPeriodicTimeObserverForVideo()
         self.videoContentView.setLayerVideoGravity(.resizeAspect)

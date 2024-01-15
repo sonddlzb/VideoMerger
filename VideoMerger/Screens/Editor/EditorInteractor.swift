@@ -23,6 +23,7 @@ protocol EditorPresentable: Presentable {
 protocol EditorListener: AnyObject {
     func editorWantToDismiss()
     func editorWantToOpenMediaPicker()
+    func editorWantToOpenPreview(avAsset: AVAsset)
 }
 
 final class EditorInteractor: PresentableInteractor<EditorPresentable> {
@@ -104,5 +105,11 @@ extension EditorInteractor: EditorInteractable {
     func bind(listAddedAssets: [PHAsset]) {
         self.viewModel.addMoreAssets(listAddedAssets)
         self.presenter.bind(viewModel: self.viewModel, isNeedToReload: true)
+    }
+
+    func didTapPreview() {
+        if let avAsset = self.viewModel.currentComposedAsset {
+            self.listener?.editorWantToOpenPreview(avAsset: avAsset)
+        }
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension MediaPickerInteractor: PreviewImageListener {
+extension HomeInteractor: PreviewImageListener {
     func previewImageWantToDismiss() {
         self.router?.dismissPreviewImage()
     }

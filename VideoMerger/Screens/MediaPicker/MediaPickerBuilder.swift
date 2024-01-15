@@ -31,11 +31,7 @@ final class MediaPickerBuilder: Builder<MediaPickerDependency>, MediaPickerBuild
         let viewController = MediaPickerViewController()
         let interactor = MediaPickerInteractor(presenter: viewController, isAddMore: isAddMore)
         interactor.listener = listener
-        let previewImageBuilder = DIContainer.resolve(PreviewImageBuildable.self, agrument: component)
-        let previewVideoBuilder = DIContainer.resolve(PreviewVideoBuildable.self, agrument: component)
         return MediaPickerRouter(interactor: interactor,
-                                 viewController: viewController,
-                                 previewImageBuilder: previewImageBuilder,
-                                 previewVideoBuilder: previewVideoBuilder)
+                                 viewController: viewController)
     }
 }

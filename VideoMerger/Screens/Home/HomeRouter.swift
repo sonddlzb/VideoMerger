@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol HomeInteractable: Interactable, MediaPickerListener, EditorListener {
+protocol HomeInteractable: Interactable, MediaPickerListener, EditorListener, PreviewImageListener, PreviewVideoListener  {
     var router: HomeRouting? { get set }
     var listener: HomeListener? { get set }
 }
@@ -23,12 +23,22 @@ final class HomeRouter: ViewableRouter<HomeInteractable, HomeViewControllable> {
     var editorBuilder: EditorBuildable
     var editorRouter: EditorRouting?
 
+    private var previewImageRouter: PreviewImageRouting?
+    private var previewImageBuilder: PreviewImageBuildable
+
+    private var previewVideoRouter: PreviewVideoRouting?
+    private var previewVideoBuilder: PreviewVideoBuildable
+
     init(interactor: HomeInteractable,
          viewController: HomeViewControllable,
          mediaPickerBuilder: MediaPickerBuildable,
-         editorBuilder: EditorBuildable) {
+         editorBuilder: EditorBuildable,
+         previewImageBuilder: PreviewImageBuildable,
+         previewVideoBuilder: PreviewVideoBuildable) {
         self.mediaPickerBuilder = mediaPickerBuilder
         self.editorBuilder = editorBuilder
+        self.previewImageBuilder = previewImageBuilder
+        self.previewVideoBuilder = previewVideoBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -81,5 +91,61 @@ extension HomeRouter: HomeRouting {
         self.detachChild(router)
         router.viewControllable.popViewControllale()
         self.editorRouter = nil
+    }
+
+    func openPreviewImage(_ asset: PHAsset) {
+        guard self.previewImageRouter == nil else {
+            return
+        }
+
+        let router = self.previewImageBuilder.build(withListener: self.interactor, asset: asset)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.attachChild(router)
+        self.previewImageRouter = router
+    }
+
+    func dismissPreviewImage() {
+        guard let router = self.previewImageRouter else {
+            return
+        }
+
+        router.viewControllable.dismiss()
+        self.detachChild(router)
+        self.previewImageRouter = nil
+    }
+
+    func openPreviewVideo(_ asset: PHAsset) {
+        guard self.previewVideoRouter == nil else {
+            return
+        }
+
+        let router = self.previewVideoBuilder.build(withListener: self.interactor, asset: asset)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.attachChild(router)
+        self.previewVideoRouter = router
+    }
+
+    func openPreviewVideo(_ asset: AVAsset) {
+        guard self.previewVideoRouter == nil else {
+            return
+        }
+
+        let router = self.previewVideoBuilder.build(withListener: self.interactor, asset: asset)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.attachChild(router)
+        self.previewVideoRouter = router
+    }
+
+    func dismissPreviewVideo() {
+        guard let router = self.previewVideoRouter else {
+            return
+        }
+
+        router.viewControllable.dismiss()
+        self.detachChild(router)
+        self.previewVideoRouter = nil
     }
 }

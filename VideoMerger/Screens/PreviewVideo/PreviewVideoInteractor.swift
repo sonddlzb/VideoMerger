@@ -27,8 +27,8 @@ final class PreviewVideoInteractor: PresentableInteractor<PreviewVideoPresentabl
     weak var listener: PreviewVideoListener?
     var viewModel: PreviewVideoViewModel
 
-    init(presenter: PreviewVideoPresentable, asset: PHAsset) {
-        self.viewModel = PreviewVideoViewModel(asset: asset)
+    init(presenter: PreviewVideoPresentable, asset: PHAsset?, avAsset: AVAsset?) {
+        self.viewModel = PreviewVideoViewModel(asset: asset, avAsset: avAsset)
         super.init(presenter: presenter)
         presenter.listener = self
     }

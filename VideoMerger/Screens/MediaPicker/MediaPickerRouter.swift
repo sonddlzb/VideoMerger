@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol MediaPickerInteractable: Interactable, PreviewImageListener, PreviewVideoListener {
+protocol MediaPickerInteractable: Interactable {
     var router: MediaPickerRouting? { get set }
     var listener: MediaPickerListener? { get set }
 }
@@ -17,18 +17,9 @@ protocol MediaPickerViewControllable: ViewControllable {
 }
 
 final class MediaPickerRouter: ViewableRouter<MediaPickerInteractable, MediaPickerViewControllable> {
-    private var previewImageRouter: PreviewImageRouting?
-    private var previewImageBuilder: PreviewImageBuildable
 
-    private var previewVideoRouter: PreviewVideoRouting?
-    private var previewVideoBuilder: PreviewVideoBuildable
-
-    init(interactor: MediaPickerInteractable,
-         viewController: MediaPickerViewControllable,
-         previewImageBuilder: PreviewImageBuildable,
-         previewVideoBuilder: PreviewVideoBuildable) {
-        self.previewImageBuilder = previewImageBuilder
-        self.previewVideoBuilder = previewVideoBuilder
+    override init(interactor: MediaPickerInteractable,
+         viewController: MediaPickerViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -36,47 +27,4 @@ final class MediaPickerRouter: ViewableRouter<MediaPickerInteractable, MediaPick
 
 // MARK: - MediaPickerRouting
 extension MediaPickerRouter: MediaPickerRouting {
-    func openPreviewImage(_ asset: PHAsset) {
-        guard self.previewImageRouter == nil else {
-            return
-        }
-
-        let router = self.previewImageBuilder.build(withListener: self.interactor, asset: asset)
-        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
-        self.viewController.present(viewControllable: router.viewControllable)
-        self.attachChild(router)
-        self.previewImageRouter = router
-    }
-
-    func dismissPreviewImage() {
-        guard let router = self.previewImageRouter else {
-            return
-        }
-
-        router.viewControllable.dismiss()
-        self.detachChild(router)
-        self.previewImageRouter = nil
-    }
-
-    func openPreviewVideo(_ asset: PHAsset) {
-        guard self.previewVideoRouter == nil else {
-            return
-        }
-
-        let router = self.previewVideoBuilder.build(withListener: self.interactor, asset: asset)
-        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
-        self.viewController.present(viewControllable: router.viewControllable)
-        self.attachChild(router)
-        self.previewVideoRouter = router
-    }
-
-    func dismissPreviewVideo() {
-        guard let router = self.previewVideoRouter else {
-            return
-        }
-
-        router.viewControllable.dismiss()
-        self.detachChild(router)
-        self.previewVideoRouter = nil
-    }
 }

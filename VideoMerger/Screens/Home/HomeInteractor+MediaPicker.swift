@@ -17,4 +17,12 @@ extension HomeInteractor: MediaPickerListener {
         self.router?.dismissMediaPicker()
         self.router?.openEditor(listAssets, isAddMore: isAddMore)
     }
+
+    func mediaPickerWantToOpenPreviewImage(asset: PHAsset) {
+        self.router?.openPreviewImage(asset)
+    }
+
+    func mediaPickerWantToOpenPreviewVideo(asset: PHAsset) {
+        self.router?.openPreviewVideo(asset)
+    }
 }

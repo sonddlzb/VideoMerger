@@ -7,5 +7,5 @@
 
 import Foundation
 
-extension MediaPickerComponent: PreviewVideoDependency {
+extension HomeComponent: PreviewVideoDependency {
 }

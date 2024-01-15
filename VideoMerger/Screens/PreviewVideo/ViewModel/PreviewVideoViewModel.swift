@@ -11,19 +11,21 @@ import RxSwift
 import UIKit
 
 struct PreviewVideoViewModel {
-    var asset: PHAsset
+    var asset: PHAsset?
+    var avAsset: AVAsset?
     var disposeBag = DisposeBag()
     var currentVideoTime: TimeInterval = 0.0
 
     private var cachedDuration: TimeInterval?
 
-    init(asset: PHAsset) {
+    init(asset: PHAsset?, avAsset: AVAsset?) {
         self.asset = asset
+        self.avAsset = avAsset
         self.currentVideoTime = 0
     }
 
     func fetchAVAsset(completion: @escaping ((_ avAsset: AVAsset?) -> Void)) {
-        asset.fetchAVAsset().subscribe(onNext: completion).disposed(by: disposeBag)
+        asset?.fetchAVAsset().subscribe(onNext: completion).disposed(by: disposeBag)
     }
 
     func formatTime(time: Double) -> String {
@@ -61,7 +63,7 @@ struct PreviewVideoViewModel {
 
     private mutating func duration() -> TimeInterval {
         if self.cachedDuration == nil {
-            self.cachedDuration = asset.duration
+            self.cachedDuration = asset?.duration ?? CMTimeGetSeconds(avAsset?.duration ?? .zero)
         }
 
         return self.cachedDuration ?? 0
