@@ -36,5 +36,9 @@ extension DIConnector {
         DIContainer.register(EditorBuildable.self) { _, args in
             return EditorBuilder(dependency: args.get())
         }
+
+        DIContainer.register(AdjustmentBuildable.self) { _, args in
+            return AdjustmentBuilder(dependency: args.get())
+        }
     }
 }

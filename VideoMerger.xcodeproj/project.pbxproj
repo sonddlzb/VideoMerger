@@ -113,7 +113,19 @@
 		C58915CFC0E2B36C07591531 /* Pods_VideoMerger.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1201A95D8F400762C16C1993 /* Pods_VideoMerger.framework */; };
 		C672337BA5E63EE886F041D1 /* Outfit-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2760FE53A86AF81E9495E30B /* Outfit-Regular.otf */; };
 		C737ACE0A58BA79A9C7AF1D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5A6B1614A0E8712285C2AC15 /* LaunchScreen.storyboard */; };
+		C802F21E2B5527BB00CCBB15 /* AdjustmentRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C802F2192B5527BB00CCBB15 /* AdjustmentRouter.swift */; };
+		C802F21F2B5527BB00CCBB15 /* AdjustmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C802F21A2B5527BB00CCBB15 /* AdjustmentViewController.swift */; };
+		C802F2202B5527BB00CCBB15 /* AdjustmentBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C802F21B2B5527BB00CCBB15 /* AdjustmentBuilder.swift */; };
+		C802F2212B5527BB00CCBB15 /* AdjustmentInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C802F21C2B5527BB00CCBB15 /* AdjustmentInteractor.swift */; };
+		C802F2222B5527BB00CCBB15 /* AdjustmentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C802F21D2B5527BB00CCBB15 /* AdjustmentViewController.xib */; };
+		C802F2242B55313600CCBB15 /* EditorComponent+Adjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C802F2232B55313600CCBB15 /* EditorComponent+Adjustment.swift */; };
 		C80877B36521476F4D9C9358 /* PreviewVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394188DC0EF04FB9F18A7AA1 /* PreviewVideoViewController.swift */; };
+		C83C6E922B5680F0008E24CD /* VolumeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C83C6E912B5680F0008E24CD /* VolumeView.xib */; };
+		C83C6E942B577131008E24CD /* SpeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83C6E932B577131008E24CD /* SpeedView.swift */; };
+		C83C6E962B57713F008E24CD /* SpeedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C83C6E952B57713F008E24CD /* SpeedView.xib */; };
+		C83C6E992B57903C008E24CD /* AdjustmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C83C6E982B57903C008E24CD /* AdjustmentViewModel.swift */; };
+		C8ABDF0B2B553653008B9A65 /* EditorInteractor+Adjustment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ABDF0A2B553653008B9A65 /* EditorInteractor+Adjustment.swift */; };
+		C8ABDF102B561963008B9A65 /* VolumeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8ABDF0F2B561963008B9A65 /* VolumeView.swift */; };
 		CBE0F7AAAC16ED9ADD383963 /* CGPointExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCC8B91A2F76950715A15B1D /* CGPointExtensions.swift */; };
 		CC3CE463B9C2BFBC10A54E15 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430E17F144BA40D3D3D72373 /* CGFloatExtensions.swift */; };
 		CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7B767617101C4CE45B54B29 /* UIImageExtensions.swift */; };
@@ -246,6 +258,18 @@
 		BFFBE9AB8F2A890BC20E3B1D /* FileManagerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtensions.swift; sourceTree = "<group>"; };
 		C0CD81933316E544BD644FAF /* Outfit-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Outfit-Bold.otf"; sourceTree = "<group>"; };
 		C5AE63E0C9F100AE6AE73022 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		C802F2192B5527BB00CCBB15 /* AdjustmentRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustmentRouter.swift; sourceTree = "<group>"; };
+		C802F21A2B5527BB00CCBB15 /* AdjustmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustmentViewController.swift; sourceTree = "<group>"; };
+		C802F21B2B5527BB00CCBB15 /* AdjustmentBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustmentBuilder.swift; sourceTree = "<group>"; };
+		C802F21C2B5527BB00CCBB15 /* AdjustmentInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustmentInteractor.swift; sourceTree = "<group>"; };
+		C802F21D2B5527BB00CCBB15 /* AdjustmentViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdjustmentViewController.xib; sourceTree = "<group>"; };
+		C802F2232B55313600CCBB15 /* EditorComponent+Adjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorComponent+Adjustment.swift"; sourceTree = "<group>"; };
+		C83C6E912B5680F0008E24CD /* VolumeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VolumeView.xib; sourceTree = "<group>"; };
+		C83C6E932B577131008E24CD /* SpeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedView.swift; sourceTree = "<group>"; };
+		C83C6E952B57713F008E24CD /* SpeedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpeedView.xib; sourceTree = "<group>"; };
+		C83C6E982B57903C008E24CD /* AdjustmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdjustmentViewModel.swift; sourceTree = "<group>"; };
+		C8ABDF0A2B553653008B9A65 /* EditorInteractor+Adjustment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditorInteractor+Adjustment.swift"; sourceTree = "<group>"; };
+		C8ABDF0F2B561963008B9A65 /* VolumeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeView.swift; sourceTree = "<group>"; };
 		C97E17364362ADA616F3F838 /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		CF90A9471C828D18DA4223D6 /* PreviewVideoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreviewVideoViewController.xib; sourceTree = "<group>"; };
 		D0182208E915994AE64C71D6 /* ConfirmDialog.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmDialog.xib; sourceTree = "<group>"; };
@@ -619,6 +643,7 @@
 		B6C73F5BDE13A5486E0EB714 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				C802F2182B55276E00CCBB15 /* Adjustment */,
 				5DF7AC11DDE729EDCBA6CDE2 /* DIRIBsConfiguration.swift */,
 				D737DCDAD0840AD8D00DE327 /* Editor */,
 				6F98E072E4B2363EB7EAE3BC /* Home */,
@@ -665,6 +690,39 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		C802F2182B55276E00CCBB15 /* Adjustment */ = {
+			isa = PBXGroup;
+			children = (
+				C83C6E972B57902D008E24CD /* ViewModel */,
+				C8ABDF0C2B561928008B9A65 /* View */,
+				C802F2192B5527BB00CCBB15 /* AdjustmentRouter.swift */,
+				C802F21A2B5527BB00CCBB15 /* AdjustmentViewController.swift */,
+				C802F21B2B5527BB00CCBB15 /* AdjustmentBuilder.swift */,
+				C802F21C2B5527BB00CCBB15 /* AdjustmentInteractor.swift */,
+				C802F21D2B5527BB00CCBB15 /* AdjustmentViewController.xib */,
+			);
+			path = Adjustment;
+			sourceTree = "<group>";
+		};
+		C83C6E972B57902D008E24CD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C83C6E982B57903C008E24CD /* AdjustmentViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C8ABDF0C2B561928008B9A65 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C8ABDF0F2B561963008B9A65 /* VolumeView.swift */,
+				C83C6E912B5680F0008E24CD /* VolumeView.xib */,
+				C83C6E932B577131008E24CD /* SpeedView.swift */,
+				C83C6E952B57713F008E24CD /* SpeedView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CDC14861A2BA9F0D3CA35CAE /* RxSwiftExtensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,6 +748,8 @@
 				A92FA4578BAC446702F37E86 /* EditorViewController.swift */,
 				E729DDAFE38264B854FC091B /* EditorViewController.xib */,
 				B33F11E3CB66271027D65BDA /* ViewModel */,
+				C802F2232B55313600CCBB15 /* EditorComponent+Adjustment.swift */,
+				C8ABDF0A2B553653008B9A65 /* EditorInteractor+Adjustment.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -767,6 +827,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C83C6E922B5680F0008E24CD /* VolumeView.xib in Resources */,
 				1D4CCF88E66B963E5CC0C205 /* Assets.xcassets in Resources */,
 				42CE30C6600E442B48CECEDC /* ConfirmDialog.xib in Resources */,
 				44C20A0CD5290FC2DCBACA9F /* EditMainTabBarView.xib in Resources */,
@@ -782,9 +843,11 @@
 				C672337BA5E63EE886F041D1 /* Outfit-Regular.otf in Resources */,
 				191B94545846A482C155B068 /* Outfit-SemiBold.otf in Resources */,
 				4397209E505356B66CCA68E3 /* PlayBarView.xib in Resources */,
+				C83C6E962B57713F008E24CD /* SpeedView.xib in Resources */,
 				F4B8B215AF5DABC8B67589F9 /* PreviewImageViewController.xib in Resources */,
 				223EF7ED2F7153D932BB595F /* PreviewVideoViewController.xib in Resources */,
 				97377213E0A3600360D667EB /* ProjectCell.xib in Resources */,
+				C802F2222B5527BB00CCBB15 /* AdjustmentViewController.xib in Resources */,
 				A6464D2D3384AC344C1A335F /* SplashAnimation.json in Resources */,
 				F7D5436E22DD35F3AC3F2243 /* SplashViewController.xib in Resources */,
 			);
@@ -869,6 +932,7 @@
 				07C8DBBC7B5E0823C197AEE2 /* BaseFont.swift in Sources */,
 				4D70EFAD46BA58BA2D1AA5BE /* BaseNavigationController.swift in Sources */,
 				49289FBD7720936F11C4F073 /* BaseViewController.swift in Sources */,
+				C8ABDF0B2B553653008B9A65 /* EditorInteractor+Adjustment.swift in Sources */,
 				6B5EEC29A7D8EC689C762206 /* BezierPathExtensions.swift in Sources */,
 				004B3745CBFF00A58C15BAE1 /* BundleExtensions.swift in Sources */,
 				CC3CE463B9C2BFBC10A54E15 /* CGFloatExtensions.swift in Sources */,
@@ -904,6 +968,7 @@
 				2B41D69B834DD02FB6FEA5C7 /* HomeInteractor+Editor.swift in Sources */,
 				5670B82788035AF4BA8B8D42 /* HomeInteractor+MediaPicker.swift in Sources */,
 				F25C5F8C2BFB7E829FFFB90C /* HomeInteractor.swift in Sources */,
+				C802F2212B5527BB00CCBB15 /* AdjustmentInteractor.swift in Sources */,
 				06A533A225E78E2087D8709F /* HomeRouter.swift in Sources */,
 				43E9CC30AE5C12DEA2781446 /* HomeViewController.swift in Sources */,
 				F081FCE11649F5028131DD00 /* IntExtensions.swift in Sources */,
@@ -913,27 +978,33 @@
 				0F4C53766BF9229254F09406 /* HomeComponent+PreviewImage.swift in Sources */,
 				0B416C83C4D3062427FF1DDB /* HomeComponent+PreviewVideo.swift in Sources */,
 				6E607CA4687708BD8CC7952C /* HomeInteractor+PreviewImage.swift in Sources */,
+				C802F2242B55313600CCBB15 /* EditorComponent+Adjustment.swift in Sources */,
 				0A29BE8AC5E52E41B6A9A7B3 /* HomeInteractor+PreviewVideo.swift in Sources */,
 				80694845CE832AF30C981A9B /* MediaPickerInteractor.swift in Sources */,
 				D046E90C304B7795805DA0A2 /* MediaPickerItemViewModel.swift in Sources */,
 				22B1F30076D17A14C5284349 /* MediaPickerRouter.swift in Sources */,
 				88C4835D2EF5EE109FFF3382 /* MediaPickerViewController.swift in Sources */,
+				C802F21F2B5527BB00CCBB15 /* AdjustmentViewController.swift in Sources */,
 				B36BB05A9F86E115FA952F96 /* MediaPickerViewModel.swift in Sources */,
 				F756DDA3E6018FE0E42E0DB7 /* MediaStorage.swift in Sources */,
+				C83C6E992B57903C008E24CD /* AdjustmentViewModel.swift in Sources */,
 				1D6DC02EE452B3789C76C701 /* Observable+Retry.swift in Sources */,
 				1E5BDD1455381764DB790D6F /* Outfit.swift in Sources */,
 				4CAD7071649B4BAA3A2984CE /* PHAssetExtension.swift in Sources */,
 				67FC0A336BD0E2360440C53B /* PermissionHelper.swift in Sources */,
 				22C3F120D4F9E839B626C7E2 /* PlayBarView.swift in Sources */,
 				45FBFF673B7100384DD90ED7 /* PlayerView.swift in Sources */,
+				C802F2202B5527BB00CCBB15 /* AdjustmentBuilder.swift in Sources */,
 				8C6E6866F5434C98DD3FB86E /* Presentable+Loading.swift in Sources */,
 				09CB7A8E8E585C8013769906 /* PresentableExtensions.swift in Sources */,
 				C555463E7DA84C48AF85195D /* PreviewImageBuilder.swift in Sources */,
 				3CDBFEE0E6E0A38DE2316699 /* PreviewImageInteractor.swift in Sources */,
+				C83C6E942B577131008E24CD /* SpeedView.swift in Sources */,
 				E5F245827D559C89B9CFEB9E /* PreviewImageRouter.swift in Sources */,
 				ED04A69E8A0121761F869C78 /* PreviewImageViewController.swift in Sources */,
 				56CBC8F6BFD8481A816F3862 /* PreviewImageViewModel.swift in Sources */,
 				8B24C8B582C4AECC25967FA9 /* PreviewVideoBuilder.swift in Sources */,
+				C8ABDF102B561963008B9A65 /* VolumeView.swift in Sources */,
 				4269B13AB45FEB9EAAEBAAC0 /* PreviewVideoInteractor.swift in Sources */,
 				1E68B25F0074BE580D5C42EC /* PreviewVideoRouter.swift in Sources */,
 				C80877B36521476F4D9C9358 /* PreviewVideoViewController.swift in Sources */,
@@ -960,6 +1031,7 @@
 				CC733FC12461E1250D6FBC14 /* UIImageExtensions.swift in Sources */,
 				66A8F119F9BA62A322625470 /* UIImageViewExtensions.swift in Sources */,
 				8940E4655B45E2EE68B7BCD8 /* UIViewControllerExtensions.swift in Sources */,
+				C802F21E2B5527BB00CCBB15 /* AdjustmentRouter.swift in Sources */,
 				83C97BB354CCB7C339917CAB /* UIViewExtensions.swift in Sources */,
 				18AE3CA9D6D7FAAB53CE5C9E /* URLExtensions.swift in Sources */,
 				82048BB36411AEA3E1882961 /* URLRequestExtensions.swift in Sources */,
