@@ -135,6 +135,9 @@
 		D390A121AA6E62C0223C4516 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97E17364362ADA616F3F838 /* StringExtensions.swift */; };
 		DD135D217282A947796CFCC8 /* ConfirmDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F3350A0890B137CAFB8CBB /* ConfirmDialog.swift */; };
 		DD23529211DAF293ED74D1F3 /* String+Mime.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEBED4B350A34F3BF1DE2BFC /* String+Mime.swift */; };
+		DFD7C45A2B57A865003AAB1E /* ExpandableFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD7C4592B57A865003AAB1E /* ExpandableFrameView.swift */; };
+		DFD7C45D2B57B83E003AAB1E /* ExpandableContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD7C45C2B57B83D003AAB1E /* ExpandableContentView.swift */; };
+		DFD7C45F2B57B862003AAB1E /* ExpandableContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFD7C45E2B57B862003AAB1E /* ExpandableContentView.xib */; };
 		E5F245827D559C89B9CFEB9E /* PreviewImageRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAFD4E48B14D37FBDC2E47C /* PreviewImageRouter.swift */; };
 		EB9AE6F6CE9F19E1D2C04DE0 /* TimeIntervalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084ABB32F8908AF0A0F9810C /* TimeIntervalExtensions.swift */; };
 		ED04A69E8A0121761F869C78 /* PreviewImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABFC5D1EB25EB0467DB5AEC /* PreviewImageViewController.swift */; };
@@ -278,6 +281,9 @@
 		D88C12959EB8E73F5E78E87A /* HomeInteractor+PreviewVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeInteractor+PreviewVideo.swift"; sourceTree = "<group>"; };
 		DBE6976454FB36E2BC4D4728 /* AVMutableCompositionExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVMutableCompositionExtensions.swift; sourceTree = "<group>"; };
 		DC225CC807A1C9A4C1EE5537 /* PHAssetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHAssetExtension.swift; sourceTree = "<group>"; };
+		DFD7C4592B57A865003AAB1E /* ExpandableFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableFrameView.swift; sourceTree = "<group>"; };
+		DFD7C45C2B57B83D003AAB1E /* ExpandableContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpandableContentView.swift; sourceTree = "<group>"; };
+		DFD7C45E2B57B862003AAB1E /* ExpandableContentView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExpandableContentView.xib; sourceTree = "<group>"; };
 		E34B5BF1C5E4703B3CC813E3 /* EditorBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorBuilder.swift; sourceTree = "<group>"; };
 		E37AB77E121539770E0107CC /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		E729DDAFE38264B854FC091B /* EditorViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EditorViewController.xib; sourceTree = "<group>"; };
@@ -331,6 +337,7 @@
 		293689516384CCF56DD4B239 /* CommonView */ = {
 			isa = PBXGroup;
 			children = (
+				DFD7C45B2B57B80D003AAB1E /* ExpandableView */,
 				59F3350A0890B137CAFB8CBB /* ConfirmDialog.swift */,
 				394BDE46E97597C816D5732F /* EditMainTabBarView.swift */,
 				64736E967633FEEB02F8225D /* PlayBarView.swift */,
@@ -754,6 +761,16 @@
 			path = Editor;
 			sourceTree = "<group>";
 		};
+		DFD7C45B2B57B80D003AAB1E /* ExpandableView */ = {
+			isa = PBXGroup;
+			children = (
+				DFD7C4592B57A865003AAB1E /* ExpandableFrameView.swift */,
+				DFD7C45C2B57B83D003AAB1E /* ExpandableContentView.swift */,
+				DFD7C45E2B57B862003AAB1E /* ExpandableContentView.xib */,
+			);
+			path = ExpandableView;
+			sourceTree = "<group>";
+		};
 		E15E7A7D2FD0BF6B8C0B3420 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -831,6 +848,7 @@
 				1D4CCF88E66B963E5CC0C205 /* Assets.xcassets in Resources */,
 				42CE30C6600E442B48CECEDC /* ConfirmDialog.xib in Resources */,
 				44C20A0CD5290FC2DCBACA9F /* EditMainTabBarView.xib in Resources */,
+				DFD7C45F2B57B862003AAB1E /* ExpandableContentView.xib in Resources */,
 				BB794EDE5E58F0AED998939A /* EditorViewController.xib in Resources */,
 				C0EEE9A69B907E4EA0FC4B68 /* HomeViewController.xib in Resources */,
 				678217AC19F9E3F6A03CC455 /* Inter-SemiBold.ttf in Resources */,
@@ -974,6 +992,7 @@
 				F081FCE11649F5028131DD00 /* IntExtensions.swift in Sources */,
 				303E84EF6FDFA16E164C0515 /* Inter.swift in Sources */,
 				95CD29ADF1AE149906C1A717 /* MediaCell.swift in Sources */,
+				DFD7C45A2B57A865003AAB1E /* ExpandableFrameView.swift in Sources */,
 				611BE4ED74AE203124A242A6 /* MediaPickerBuilder.swift in Sources */,
 				0F4C53766BF9229254F09406 /* HomeComponent+PreviewImage.swift in Sources */,
 				0B416C83C4D3062427FF1DDB /* HomeComponent+PreviewVideo.swift in Sources */,
@@ -1003,6 +1022,7 @@
 				E5F245827D559C89B9CFEB9E /* PreviewImageRouter.swift in Sources */,
 				ED04A69E8A0121761F869C78 /* PreviewImageViewController.swift in Sources */,
 				56CBC8F6BFD8481A816F3862 /* PreviewImageViewModel.swift in Sources */,
+				DFD7C45D2B57B83E003AAB1E /* ExpandableContentView.swift in Sources */,
 				8B24C8B582C4AECC25967FA9 /* PreviewVideoBuilder.swift in Sources */,
 				C8ABDF102B561963008B9A65 /* VolumeView.swift in Sources */,
 				4269B13AB45FEB9EAAEBAAC0 /* PreviewVideoInteractor.swift in Sources */,
@@ -1062,7 +1082,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PV2U5MLT4Y;
+				DEVELOPMENT_TEAM = P634K2UB3K;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1146,7 +1166,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = PV2U5MLT4Y;
+				DEVELOPMENT_TEAM = P634K2UB3K;
 				INFOPLIST_FILE = VideoMerger/App/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
