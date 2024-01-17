@@ -32,6 +32,9 @@ final class EditorBuilder: Builder<EditorDependency>, EditorBuildable {
         let viewController = EditorViewController()
         let interactor = EditorInteractor(presenter: viewController, listAssets: listAssets)
         interactor.listener = listener
-        return EditorRouter(interactor: interactor, viewController: viewController)
+        let adjustmentBuilder = DIContainer.resolve(AdjustmentBuildable.self, agrument: component)
+        return EditorRouter(interactor: interactor,
+                            viewController: viewController,
+                            adjustmentBuilder: adjustmentBuilder)
     }
 }

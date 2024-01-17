@@ -39,6 +39,18 @@ class SeekBarView: UIView {
 
     private var timeFillViewTrailingConstraint: NSLayoutConstraint!
     weak var delegate: SeekBarViewDelegate?
+    public var filledColor = UIColor.white {
+        didSet {
+            self.configTimeFillView()
+            self.configDraggableCircularView()
+        }
+    }
+
+    public var notFilledColor = UIColor(rgb: 0xAFAFAF, alpha: 0.79) {
+        didSet {
+            self.configTimeNotFillView()
+        }
+    }
 
     // MARK: Lifecycle
     override init(frame: CGRect) {
@@ -90,17 +102,17 @@ class SeekBarView: UIView {
     }
 
     func configTimeNotFillView() {
-        self.timeNotFillView.backgroundColor = UIColor(rgb: 0xAFAFAF, alpha: 0.79)
+        self.timeNotFillView.backgroundColor = self.notFilledColor
         self.timeNotFillView.cornerRadius = 2
     }
 
     func configTimeFillView() {
-        self.timeFillView.backgroundColor = .white
+        self.timeFillView.backgroundColor = self.filledColor
         self.timeFillView.cornerRadius = 2
     }
 
     func configDraggableCircularView() {
-        self.circleView.backgroundColor = .white
+        self.circleView.backgroundColor = self.filledColor
         circleView.layer.cornerRadius = Const.circleViewRadius
     }
 

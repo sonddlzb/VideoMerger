@@ -11,6 +11,8 @@ import Photos
 
 protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
+    func showAdjustment(type: AdjustmentType)
+    func dismissAdjustment()
 }
 
 protocol EditorPresentable: Presentable {
@@ -111,5 +113,9 @@ extension EditorInteractor: EditorInteractable {
         if let avAsset = self.viewModel.currentComposedAsset {
             self.listener?.editorWantToOpenPreview(avAsset: avAsset)
         }
+    }
+
+    func didTapEdit() {
+        self.router?.showAdjustment(type: .speed)
     }
 }

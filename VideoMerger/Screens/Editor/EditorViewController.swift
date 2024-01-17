@@ -16,6 +16,7 @@ protocol EditorPresentableListener: AnyObject {
     func composeAsset()
     func didTapAddMore()
     func didTapPreview()
+    func didTapEdit()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -347,6 +348,7 @@ extension EditorViewController: UIScrollViewDelegate {
 extension EditorViewController: EditMainTabBarDelegate {
     func onTapEdit() {
         print("---onTapEdit")
+        self.listener?.didTapEdit()
     }
 
     func onTapMusic() {
