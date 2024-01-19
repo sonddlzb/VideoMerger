@@ -13,6 +13,7 @@ class ExpandableFrameViewConstant {
 
 protocol ExpandableFrameDelegate: AnyObject {
     func scroll(translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint)
+    func toggleSize(positionX: Double)
 }
 
 class ExpandableFrameView: UIView {
@@ -88,8 +89,6 @@ class ExpandableFrameView: UIView {
         let isRightEdge = location.x > -edgeWidth && location.x <= edgeWidth
         let isLeftEdge = location.x > contentViewWidth - edgeWidth && location.x < contentViewWidth + edgeWidth
         let velocity = gesture.velocity(in: self)
-        
-        print("---- \(leading) trailing \(trailing)")
 
         switch gesture.state {
         case .began, .changed:
@@ -97,11 +96,13 @@ class ExpandableFrameView: UIView {
                 let leading = leadingConstraint.constant - translation.x
                 if leading <= self.leading {
                     leadingConstraint.constant = leading
+                    delegate?.toggleSize(positionX: -leading + self.leading)
                 }
             } else if isLeftEdge {
                 let trailing = trailingConstraint.constant - translation.x
                 if trailing >= self.trailing {
                     trailingConstraint.constant = trailing
+                    delegate?.toggleSize(positionX: self.frame.width - self.trailing - trailing - 31.0)
                 }
             } else if self.contentView.frame.width <= self.frame.width - trailing + leading + 10 {
                 delegate?.scroll(translation: translation, isContinueScroll: false, velocity: velocity)
@@ -109,11 +110,13 @@ class ExpandableFrameView: UIView {
 
             gesture.setTranslation(.zero, in: self)
             self.layoutIfNeeded()
-        case .ended:
+        case .ended, .cancelled:
             if self.contentView.frame.width <= self.frame.width - trailing + leading + 10 {
                 delegate?.scroll(translation: translation, isContinueScroll: true, velocity: velocity)
+            } else {
+                delegate?.scroll(translation: translation, isContinueScroll: false, velocity: velocity)
             }
-        
+
         default:
             break
         }

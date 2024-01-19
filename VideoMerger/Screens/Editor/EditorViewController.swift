@@ -196,7 +196,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.frameStackView.addArrangedSubview(rightPaddingView)
         rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-        self.expandableFrameView.setTrailingConstrant(trailing: self.frameScrollView.frame.width * 0.5 - 30)
+        self.expandableFrameView.setTrailingConstrant(trailing: self.frameScrollView.frame.width * 0.5 - 33.0)
         let rightTimePaddingView = UIView()
         rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.timeStackView.addArrangedSubview(rightTimePaddingView)
@@ -319,7 +319,6 @@ extension EditorViewController: PlayerViewDelegate {
 extension EditorViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
-            print(scrollView.contentOffset)
             let offset = scrollView.contentOffset.x
             let contentWidth = Double(scrollView.contentSize.width - scrollView.frame.width)
             let progress = offset/contentWidth
@@ -373,12 +372,29 @@ extension EditorViewController: EditMainTabBarDelegate {
 
 // MARK: ExpandableFrameDelegate
 extension EditorViewController: ExpandableFrameDelegate {
+    func toggleSize(positionX: Double) {
+        if let duration = self.playView.duration(), !self.playView.isPlaying() {
+            let offset = positionX
+            let contentWidth = Double(self.frameScrollView.contentSize.width - self.frameScrollView.frame.width)
+            let progress = offset/contentWidth
+            let currentTime = CMTimeGetSeconds(duration) * progress
+            self.playView.seekTo(currentTime)
+            self.isPlayingAtTheEnd = offset >= contentWidth
+        }
+    }
+
     func scroll(translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
         if isContinueScroll {
-            let contentOffset = CGPoint(x: frameScrollView.contentOffset.x - 0.15*velocity.x, y: frameScrollView.contentOffset.y)
-            frameScrollView.setContentOffset(contentOffset, animated: true)
+            let scrollX = frameScrollView.contentOffset.x - 0.3*velocity.x
+            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
+                let contentOffset = CGPoint(x: scrollX, y: frameScrollView.contentOffset.y)
+                frameScrollView.setContentOffset(contentOffset, animated: true)
+            }
         } else {
-            frameScrollView.contentOffset.x -= translation.x
+            let scrollX = frameScrollView.contentOffset.x - translation.x
+            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
+                frameScrollView.contentOffset.x = scrollX
+            }
         }
     }
 }
