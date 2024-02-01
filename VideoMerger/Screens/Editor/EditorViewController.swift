@@ -32,6 +32,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var imgMute: UIImageView!
     @IBOutlet weak var editMainTabBarView: EditMainTabBarView!
+    @IBOutlet weak var expandableFrameView: ExpandableView!
 
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
@@ -66,9 +67,17 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         self.headerView.layer.masksToBounds = false
 
         self.addGradientLayer()
+        setConstraintExpandableView()
+    }
+
+    private func setConstraintExpandableView() {
+        let expandableEdgeWidth = self.expandableFrameView.contentView.leftEdgeView.frame.width
+        self.expandableFrameView.setTrailingConstrant(trailing: Double((self.frameStackView.arrangedSubviews.last?.frame.width) ?? 0.0) - expandableEdgeWidth)
+        self.expandableFrameView.setLeadingConstrant(leading: -Double((self.frameStackView.arrangedSubviews.first?.frame.width) ?? 0.0) + expandableEdgeWidth)
     }
 
     private func config() {
+        expandableFrameView.delegate = self
         playBarView.delegate = self
         frameScrollView.delegate = self
         frameScrollView.showsHorizontalScrollIndicator = false
@@ -170,7 +179,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.frameStackView.addArrangedSubview(leftPaddingView)
             leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-
             let leftTimePaddingView = UIView()
             leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.timeStackView.addArrangedSubview(leftTimePaddingView)
@@ -180,7 +188,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.frameStackView.addArrangedSubview(leftPaddingView)
             leftPaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
-
             let leftTimePaddingView = UIView()
             leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.timeStackView.addArrangedSubview(leftTimePaddingView)
@@ -193,7 +200,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.frameStackView.addArrangedSubview(rightPaddingView)
         rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-
         let rightTimePaddingView = UIView()
         rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.timeStackView.addArrangedSubview(rightTimePaddingView)
@@ -316,7 +322,6 @@ extension EditorViewController: PlayerViewDelegate {
 extension EditorViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
-            print(scrollView.contentOffset)
             let offset = scrollView.contentOffset.x
             let contentWidth = Double(scrollView.contentSize.width - scrollView.frame.width)
             let progress = offset/contentWidth
@@ -365,5 +370,34 @@ extension EditorViewController: EditMainTabBarDelegate {
 
     func onTapExport() {
         print("---onTapExport")
+    }
+}
+
+// MARK: ExpandableFrameDelegate
+extension EditorViewController: ExpandableFrameDelegate {
+    func expandableViewDidChangeWidth(_ expandableFramView: ExpandableView, positionX: Double) {
+        if let duration = self.playView.duration(), !self.playView.isPlaying() {
+            let offset = positionX
+            let contentWidth = Double(self.frameScrollView.contentSize.width - self.frameScrollView.frame.width)
+            let progress = offset/contentWidth
+            let currentTime = CMTimeGetSeconds(duration) * progress
+            self.playView.seekTo(currentTime)
+            self.isPlayingAtTheEnd = offset >= contentWidth
+        }
+    }
+
+    func expandableDidScroll(_ expandableFramView: ExpandableView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
+        if isContinueScroll {
+            let scrollX = frameScrollView.contentOffset.x - 0.3*velocity.x
+            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
+                let contentOffset = CGPoint(x: scrollX, y: frameScrollView.contentOffset.y)
+                frameScrollView.setContentOffset(contentOffset, animated: true)
+            }
+        } else {
+            let scrollX = frameScrollView.contentOffset.x - translation.x
+            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
+                frameScrollView.contentOffset.x = scrollX
+            }
+        }
     }
 }
