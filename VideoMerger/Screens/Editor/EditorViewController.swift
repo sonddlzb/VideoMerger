@@ -375,7 +375,7 @@ extension EditorViewController: EditMainTabBarDelegate {
 
 // MARK: ExpandableFrameDelegate
 extension EditorViewController: ExpandableFrameDelegate {
-    func toggleSize(expandableFramView: ExpandableFrameView, positionX: Double) {
+    func toggleSize(_ expandableFramView: ExpandableFrameView, positionX: Double) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
             let offset = positionX
             let contentWidth = Double(self.frameScrollView.contentSize.width - self.frameScrollView.frame.width)
@@ -386,7 +386,7 @@ extension EditorViewController: ExpandableFrameDelegate {
         }
     }
 
-    func scroll(expandableFramView: ExpandableFrameView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
+    func scroll(_ expandableFramView: ExpandableFrameView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
         if isContinueScroll {
             let scrollX = frameScrollView.contentOffset.x - 0.3*velocity.x
             if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {

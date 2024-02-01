@@ -12,8 +12,8 @@ class ExpandableFrameViewConstant {
 }
 
 protocol ExpandableFrameDelegate: AnyObject {
-    func scroll(expandableFramView: ExpandableFrameView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint)
-    func toggleSize(expandableFramView: ExpandableFrameView, positionX: Double)
+    func scroll(_ expandableFramView: ExpandableFrameView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint)
+    func toggleSize(_ expandableFramView: ExpandableFrameView, positionX: Double)
 }
 
 class ExpandableFrameView: UIView {
@@ -96,25 +96,25 @@ class ExpandableFrameView: UIView {
                 let leading = leadingConstraint.constant - translation.x
                 if leading <= self.leading {
                     leadingConstraint.constant = leading
-                    delegate?.toggleSize(expandableFramView: self, positionX: -leading + self.leading)
+                    delegate?.toggleSize(self, positionX: -leading + self.leading)
                 }
             } else if isLeftEdge {
                 let trailing = trailingConstraint.constant - translation.x
                 if trailing >= self.trailing {
                     trailingConstraint.constant = trailing
-                    delegate?.toggleSize(expandableFramView: self, positionX: self.frame.width - self.trailing - trailing)
+                    delegate?.toggleSize(self, positionX: self.frame.width - self.trailing - trailing)
                 }
             } else if self.contentView.frame.width <= self.frame.width - trailing + leading {
-                delegate?.scroll(expandableFramView: self, translation: translation, isContinueScroll: false, velocity: velocity)
+                delegate?.scroll(self, translation: translation, isContinueScroll: false, velocity: velocity)
             }
 
             gesture.setTranslation(.zero, in: self)
             self.layoutIfNeeded()
         case .ended, .cancelled:
             if self.contentView.frame.width <= self.frame.width - trailing + leading {
-                delegate?.scroll(expandableFramView: self, translation: translation, isContinueScroll: true, velocity: velocity)
+                delegate?.scroll(self, translation: translation, isContinueScroll: true, velocity: velocity)
             } else {
-                delegate?.scroll(expandableFramView: self, translation: translation, isContinueScroll: false, velocity: velocity)
+                delegate?.scroll(self, translation: translation, isContinueScroll: false, velocity: velocity)
             }
 
         default:
