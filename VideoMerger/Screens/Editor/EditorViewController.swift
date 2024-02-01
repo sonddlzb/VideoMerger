@@ -67,6 +67,13 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         self.headerView.layer.masksToBounds = false
 
         self.addGradientLayer()
+        setConstraintExpandableView()
+    }
+
+    private func setConstraintExpandableView() {
+        let expandableEdgeWidth = self.expandableFrameView.contentView.leftEdgeView.frame.width
+        self.expandableFrameView.setTrailingConstrant(trailing: Double((self.frameStackView.arrangedSubviews.last?.frame.width) ?? 0.0) - expandableEdgeWidth)
+        self.expandableFrameView.setLeadingConstrant(leading: -Double((self.frameStackView.arrangedSubviews.first?.frame.width) ?? 0.0) + expandableEdgeWidth)
     }
 
     private func config() {
@@ -172,8 +179,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.frameStackView.addArrangedSubview(leftPaddingView)
             leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-            self.expandableFrameView.setLeadingConstrant(leading: -self.frameScrollView.frame.width * 0.5 + 30)
-
             let leftTimePaddingView = UIView()
             leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.timeStackView.addArrangedSubview(leftTimePaddingView)
@@ -183,7 +188,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.frameStackView.addArrangedSubview(leftPaddingView)
             leftPaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
-            self.expandableFrameView.setLeadingConstrant(leading: -self.frameScrollView.frame.width * 0.5 + 30)
             let leftTimePaddingView = UIView()
             leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.timeStackView.addArrangedSubview(leftTimePaddingView)
@@ -196,7 +200,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.frameStackView.addArrangedSubview(rightPaddingView)
         rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-        self.expandableFrameView.setTrailingConstrant(trailing: self.frameScrollView.frame.width * 0.5 - 33.0)
         let rightTimePaddingView = UIView()
         rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
         self.timeStackView.addArrangedSubview(rightTimePaddingView)
@@ -372,7 +375,7 @@ extension EditorViewController: EditMainTabBarDelegate {
 
 // MARK: ExpandableFrameDelegate
 extension EditorViewController: ExpandableFrameDelegate {
-    func toggleSize(positionX: Double) {
+    func toggleSize(expandableFramView: ExpandableFrameView, positionX: Double) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
             let offset = positionX
             let contentWidth = Double(self.frameScrollView.contentSize.width - self.frameScrollView.frame.width)
@@ -383,7 +386,7 @@ extension EditorViewController: ExpandableFrameDelegate {
         }
     }
 
-    func scroll(translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
+    func scroll(expandableFramView: ExpandableFrameView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
         if isContinueScroll {
             let scrollX = frameScrollView.contentOffset.x - 0.3*velocity.x
             if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
