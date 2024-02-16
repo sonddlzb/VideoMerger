@@ -13,6 +13,8 @@ protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
     func showAdjustment(type: AdjustmentType)
     func dismissAdjustment()
+    func showExport()
+    func dismissExport()
 }
 
 protocol EditorPresentable: Presentable {
@@ -52,6 +54,10 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
 // MARK: - EditorPresentableListener
 extension EditorInteractor: EditorPresentableListener {
+    func didTapExport() {
+        self.router?.showExport()
+    }
+
     func didTapBack() {
         self.listener?.editorWantToDismiss()
     }

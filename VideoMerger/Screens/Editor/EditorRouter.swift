@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol EditorInteractable: Interactable, AdjustmentListener {
+protocol EditorInteractable: Interactable, AdjustmentListener, ExportListener {
     var router: EditorRouting? { get set }
     var listener: EditorListener? { get set }
 
@@ -23,8 +23,15 @@ final class EditorRouter: ViewableRouter<EditorInteractable, EditorViewControlla
     private var adjustmentBuilder: AdjustmentBuildable
     private var adjustmentRouter: AdjustmentRouting?
 
-    init(interactor: EditorInteractable, viewController: EditorViewControllable, adjustmentBuilder: AdjustmentBuildable) {
+    private var exportBuilder: ExportBuildable
+    private var exportRouter: ExportRouting?
+
+    init(interactor: EditorInteractable,
+         viewController: EditorViewControllable,
+         adjustmentBuilder: AdjustmentBuildable,
+         exportBuilder: ExportBuildable) {
         self.adjustmentBuilder = adjustmentBuilder
+        self.exportBuilder = exportBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -56,5 +63,27 @@ extension EditorRouter: EditorRouting {
         router.viewControllable.dismiss()
         self.detachChild(router)
         self.adjustmentRouter = nil
+    }
+
+    func showExport() {
+        guard self.adjustmentRouter == nil else {
+            return
+        }
+
+        let router = self.exportBuilder.build(withListener: self.interactor)
+        self.attachChild(router)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.exportRouter = router
+    }
+
+    func dismissExport() {
+        guard let router = self.exportRouter else {
+            return
+        }
+
+        router.viewControllable.dismiss()
+        self.detachChild(router)
+        self.exportRouter = nil
     }
 }

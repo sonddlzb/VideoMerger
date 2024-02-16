@@ -40,5 +40,9 @@ extension DIConnector {
         DIContainer.register(AdjustmentBuildable.self) { _, args in
             return AdjustmentBuilder(dependency: args.get())
         }
+
+        DIContainer.register(ExportBuildable.self) { _, args in
+            return ExportBuilder(dependency: args.get())
+        }
     }
 }
