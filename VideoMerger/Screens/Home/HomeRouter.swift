@@ -100,7 +100,7 @@ extension HomeRouter: HomeRouting {
 
         let router = self.previewImageBuilder.build(withListener: self.interactor, asset: asset)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
-        self.viewController.present(viewControllable: router.viewControllable)
+        self.viewController.uiviewController.presentedViewController?.present(router.viewControllable.uiviewController, animated: true)
         self.attachChild(router)
         self.previewImageRouter = router
     }
@@ -122,7 +122,7 @@ extension HomeRouter: HomeRouting {
 
         let router = self.previewVideoBuilder.build(withListener: self.interactor, asset: asset)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
-        self.viewController.present(viewControllable: router.viewControllable)
+        self.viewController.uiviewController.presentedViewController?.present(router.viewControllable.uiviewController, animated: true)
         self.attachChild(router)
         self.previewVideoRouter = router
     }
