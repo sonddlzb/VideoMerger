@@ -17,6 +17,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapAddMore()
     func didTapPreview()
     func didTapEdit()
+    func didTapExport()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -370,6 +371,7 @@ extension EditorViewController: EditMainTabBarDelegate {
 
     func onTapExport() {
         print("---onTapExport")
+        self.listener?.didTapExport()
     }
 }
 
