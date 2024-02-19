@@ -32,6 +32,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet weak var frameStackView: UIStackView!
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var imgMute: UIImageView!
+    @IBOutlet weak var imgSoundMute: UIImageView!
+    @IBOutlet weak var imgTextHide: UIImageView!
+    @IBOutlet weak var imgFilterHide: UIImageView!
     @IBOutlet weak var editMainTabBarView: EditMainTabBarView!
     @IBOutlet weak var expandableFrameView: ExpandableView!
 
@@ -41,10 +44,28 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     private var timeObserverToken: Any?
     var isPlayingBefore = false
     var isPlayingAtTheEnd = false
+    var isRootSoundMuted = false {
+        didSet {
+            self.playView.isMuted = isRootSoundMuted
+            self.imgMute.image = UIImage(named: isRootSoundMuted ? "ic_mute_disable" : "ic_mute_enable")
+        }
+    }
+
     var isSoundMuted = false {
         didSet {
-            self.playView.isMuted = isSoundMuted
-            self.imgMute.image = UIImage(named: isSoundMuted ? "ic_mute_disable" : "ic_mute_enable")
+            self.imgSoundMute.image = UIImage(named: isSoundMuted ? "ic_mute_disable" : "ic_mute_enable")
+        }
+    }
+
+    var isTextHidden = false {
+        didSet {
+            self.imgTextHide.image = UIImage(named: isTextHidden ? "ic_eye_invisible" : "ic_eye_visible")
+        }
+    }
+
+    var isFilterHidden = false {
+        didSet {
+            self.imgFilterHide.image = UIImage(named: isFilterHidden ? "ic_eye_invisible" : "ic_eye_visible")
         }
     }
 
@@ -241,11 +262,25 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBAction func didTapBackButton(_ sender: Any) {
         self.listener?.didTapBack()
     }
+
     @IBAction func didTapMuteButton(_ sender: Any) {
-        self.isSoundMuted = !self.isSoundMuted
+        self.isRootSoundMuted = !self.isRootSoundMuted
     }
+
     @IBAction func didTapAddMoreButton(_ sender: Any) {
         self.listener?.didTapAddMore()
+    }
+
+    @IBAction func didTapMuteAudioButton(_ sender: Any) {
+        self.isSoundMuted = !self.isSoundMuted
+    }
+
+    @IBAction func didTapHideTextButton(_ sender: Any) {
+        self.isTextHidden = !self.isTextHidden
+    }
+
+    @IBAction func didTapHideFilterButton(_ sender: Any) {
+        self.isFilterHidden = !self.isFilterHidden
     }
 }
 
@@ -269,7 +304,7 @@ extension EditorViewController: PlayBarViewDelegate {
     }
 
     func playBarViewDidTapUndo(_ playBarView: PlayBarView) {
-
+        
     }
 
     func playBarViewDidTapRedo(_ playBarView: PlayBarView) {
