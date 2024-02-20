@@ -14,9 +14,9 @@ class EditCompotionItem: TapableView {
     var title: String!
     var onTap: (() -> Void)?
 
-    func initView(imageName: String, title: String) {
-        self.imageName = imageName
-        self.title = title
+    func initView(type: AdjustmentType) {
+        self.imageName = type.imageAsset()
+        self.title = type.name()
         setUpSubViews()
     }
 
@@ -46,10 +46,9 @@ class EditCompotionItem: TapableView {
     }
 
     private func config() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        self.addGestureRecognizer(tapGesture)
+        self.addTarget(self, action: #selector(handleTap(_ :)), for: .touchUpInside)
     }
-    
+
     // MARK: Action
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
         if let onTap = self.onTap {

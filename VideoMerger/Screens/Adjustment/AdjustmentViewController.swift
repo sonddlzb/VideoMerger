@@ -10,8 +10,40 @@ import RxSwift
 import UIKit
 
 enum AdjustmentType {
+    case filter
+    case trim
     case volume
     case speed
+    case remove
+    func imageAsset() -> String {
+        switch self {
+        case .filter:
+            return "ic_filter"
+        case .trim:
+            return "ic_trim"
+        case .volume:
+            return "ic_volume"
+        case .speed:
+            return "ic_speed"
+        case .remove:
+            return "ic_remove"
+        }
+    }
+
+    func name() -> String {
+        switch self {
+        case .filter:
+            return "Filter"
+        case .trim:
+            return "Trim"
+        case .volume:
+            return "Volume"
+        case .speed:
+            return "Speed"
+        case .remove:
+            return "Remove"
+        }
+    }
 }
 
 protocol AdjustmentPresentableListener: AnyObject {
@@ -59,6 +91,12 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
             volumeView!.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(volumeView!)
             volumeView!.fitSuperviewConstraint()
+        case .filter:
+            break
+        case .trim:
+            break
+        case .remove:
+            break
         }
     }
 

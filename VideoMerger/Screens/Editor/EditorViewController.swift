@@ -41,6 +41,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
     var editCompositionBar: EditCompositionBarView?
+    var editBarTopMainBarBottomConstraint: NSLayoutConstraint?
     var viewModel = EditorViewModel.makeEmpty()
     private var timeObserverToken: Any?
     var isPlayingBefore = false
@@ -107,41 +108,42 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         editMainTabBarView.delegate = self
         editCompositionBar = EditCompositionBarView()
         let filterItem = EditCompotionItem()
-        filterItem.initView(imageName: "ic_filter", title: "Filter")
+        filterItem.initView(type: .filter)
         filterItem.onTap = {
             print("--- onTapFileter")
         }
 
         let trimItem = EditCompotionItem()
-        trimItem.initView(imageName: "ic_trim", title: "Trim")
+        trimItem.initView(type: .trim)
         trimItem.onTap = {
             print("--- onTapTrim")
         }
 
         let volumeItem = EditCompotionItem()
-        volumeItem.initView(imageName: "ic_volume", title: "Volume")
+        volumeItem.initView(type: .volume)
         volumeItem.onTap = {
             self.listener?.didTapEdit(type: .volume)
         }
 
         let speedItem = EditCompotionItem()
-        speedItem.initView(imageName: "ic_speed", title: "Speed")
+        speedItem.initView(type: .speed)
         speedItem.onTap = {
             self.listener?.didTapEdit(type: .speed)
         }
 
         let removeItem = EditCompotionItem()
-        removeItem.initView(imageName: "ic_remove", title: "Remove")
+        removeItem.initView(type: .remove)
         let listView: [TapableView] = [filterItem, trimItem, volumeItem, speedItem, removeItem]
         if let editCompositionBar = editCompositionBar {
             editCompositionBar.listView = listView
             self.view.addSubview(editCompositionBar)
             NSLayoutConstraint.activate([
                 editCompositionBar.heightAnchor.constraint(equalTo: editMainTabBarView.heightAnchor),
-                self.view.bottomAnchor.constraint(equalTo: editCompositionBar.topAnchor),
                 self.view.leftAnchor.constraint(equalTo: editCompositionBar.leftAnchor),
                 self.view.rightAnchor.constraint(equalTo: editCompositionBar.rightAnchor)
             ])
+            editBarTopMainBarBottomConstraint = self.editMainTabBarView.bottomAnchor.constraint(equalTo: editCompositionBar.topAnchor)
+            editBarTopMainBarBottomConstraint?.isActive = true
             let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
             swipeDownGesture.direction = .down
             self.view.addGestureRecognizer(swipeDownGesture)
@@ -302,32 +304,16 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     }
 
     private func showEditCompositionBar() {
-        if let editCompositionBar = self.editCompositionBar {
-            for constrant in self.view.constraints {
-                if constrant.secondItem as? EditCompositionBarView == editCompositionBar
-                    && constrant.firstItem as? UIView == self.view
-                    && constrant.secondAttribute == .top {
-                    constrant.constant = self.editMainTabBarView.frame.height
-                    UIView.animate(withDuration: 0.5) {
-                        self.view.layoutIfNeeded()
-                    }
-                }
-            }
+        UIView.animate(withDuration: 0.5) {
+            self.editBarTopMainBarBottomConstraint?.constant = self.editMainTabBarView.frame.height
+            self.view.layoutIfNeeded()
         }
     }
 
     private func hiddenEditCompositionBar() {
-        if let editCompositionBar = self.editCompositionBar {
-            for constrant in self.view.constraints {
-                if constrant.secondItem as? EditCompositionBarView == editCompositionBar
-                    && constrant.firstItem as? UIView == self.view
-                    && constrant.secondAttribute == .top {
-                    constrant.constant = -self.editMainTabBarView.frame.height
-                    UIView.animate(withDuration: 0.5) {
-                        self.view.layoutIfNeeded()
-                    }
-                }
-            }
+        UIView.animate(withDuration: 0.5) {
+            self.editBarTopMainBarBottomConstraint?.constant = -self.editMainTabBarView.frame.height
+            self.view.layoutIfNeeded()
         }
     }
     // MARK: - Actions
