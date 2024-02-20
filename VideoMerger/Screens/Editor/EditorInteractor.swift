@@ -121,7 +121,7 @@ extension EditorInteractor: EditorInteractable {
         }
     }
 
-    func didTapEdit() {
-        self.router?.showAdjustment(type: .speed)
+    func didTapEdit(type: AdjustmentType) {
+        self.router?.showAdjustment(type: type)
     }
 }
