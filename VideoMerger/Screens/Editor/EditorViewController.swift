@@ -18,6 +18,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapPreview()
     func didTapExport()
     func didTapEdit(type: AdjustmentType)
+    func didTapAddMusic()
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -457,6 +458,7 @@ extension EditorViewController: EditMainTabBarDelegate {
 
     func onTapMusic() {
         print("---onTapMusic")
+        self.listener?.didTapAddMusic()
     }
 
     func onTapText() {

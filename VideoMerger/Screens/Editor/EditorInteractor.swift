@@ -15,6 +15,8 @@ protocol EditorRouting: ViewableRouting {
     func dismissAdjustment()
     func showExport()
     func dismissExport()
+    func showAddAudio()
+    func dismissAddAudio()
 }
 
 protocol EditorPresentable: Presentable {
@@ -123,5 +125,9 @@ extension EditorInteractor: EditorInteractable {
 
     func didTapEdit(type: AdjustmentType) {
         self.router?.showAdjustment(type: type)
+    }
+
+    func didTapAddMusic() {
+        self.router?.showAddAudio()
     }
 }

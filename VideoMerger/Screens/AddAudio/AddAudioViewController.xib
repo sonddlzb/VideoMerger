@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddAudioViewController">
+            <connections>
+                <outlet property="containerView" destination="YvZ-el-FYw" id="zeJ-rz-Tyr"/>
+                <outlet property="view" destination="iN0-l3-epB" id="jYO-eb-xeE"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YvZ-el-FYw">
+                    <rect key="frame" x="0.0" y="684" width="414" height="212"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Be5-du-eUe">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="49.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audio Adding" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aj1-4H-auz">
+                                    <rect key="frame" x="156.5" y="15" width="101.5" height="19.5"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZFO-ad-iWN" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="22" y="16" width="45.5" height="17"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eTT-y9-1QH">
+                                            <rect key="frame" x="0.0" y="0.0" width="45.5" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                            <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="eTT-y9-1QH" secondAttribute="bottom" id="8zq-14-juK"/>
+                                        <constraint firstAttribute="trailing" secondItem="eTT-y9-1QH" secondAttribute="trailing" id="Cfr-CI-y5L"/>
+                                        <constraint firstItem="eTT-y9-1QH" firstAttribute="top" secondItem="ZFO-ad-iWN" secondAttribute="top" id="DQw-Zf-neX"/>
+                                        <constraint firstItem="eTT-y9-1QH" firstAttribute="leading" secondItem="ZFO-ad-iWN" secondAttribute="leading" id="Oru-hk-lgt"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="didTapCancel:" destination="-1" eventType="touchUpInside" id="Zii-Ik-dNP"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstItem="ZFO-ad-iWN" firstAttribute="centerY" secondItem="Be5-du-eUe" secondAttribute="centerY" id="7Yc-3l-ODH"/>
+                                <constraint firstItem="aj1-4H-auz" firstAttribute="top" secondItem="Be5-du-eUe" secondAttribute="top" constant="15" id="NS5-Uj-YQZ"/>
+                                <constraint firstItem="ZFO-ad-iWN" firstAttribute="leading" secondItem="Be5-du-eUe" secondAttribute="leading" constant="22" id="R5g-IX-IMS"/>
+                                <constraint firstAttribute="bottom" secondItem="aj1-4H-auz" secondAttribute="bottom" constant="15" id="V9z-3T-ZAg"/>
+                                <constraint firstItem="aj1-4H-auz" firstAttribute="centerX" secondItem="Be5-du-eUe" secondAttribute="centerX" id="tLg-Yk-ztW"/>
+                            </constraints>
+                        </view>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="kpK-XW-eVY">
+                            <rect key="frame" x="37.5" y="54.5" width="339" height="113.5"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7YQ-mh-uN1" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="339" height="47.5"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_btn_add_audio" translatesAutoresizingMaskIntoConstraints="NO" id="MSN-Aw-0Jm">
+                                            <rect key="frame" x="0.0" y="0.0" width="339" height="47.5"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mUG-xh-ono">
+                                            <rect key="frame" x="85.5" y="15.5" width="168" height="16.5"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_video_white" translatesAutoresizingMaskIntoConstraints="NO" id="0dJ-eZ-gvj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="19.5" height="16.5"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="0dJ-eZ-gvj" secondAttribute="height" multiplier="20:17" id="p7p-pQ-KX7"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get audio from video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qh7-WN-Ebz">
+                                                    <rect key="frame" x="29.5" y="0.0" width="138.5" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="qh7-WN-Ebz" firstAttribute="leading" secondItem="0dJ-eZ-gvj" secondAttribute="trailing" constant="10" id="5cB-CK-Iqk"/>
+                                                <constraint firstAttribute="bottom" secondItem="0dJ-eZ-gvj" secondAttribute="bottom" id="8V2-ZX-ORD"/>
+                                                <constraint firstItem="qh7-WN-Ebz" firstAttribute="centerY" secondItem="mUG-xh-ono" secondAttribute="centerY" id="97d-dx-EgJ"/>
+                                                <constraint firstItem="0dJ-eZ-gvj" firstAttribute="top" secondItem="mUG-xh-ono" secondAttribute="top" id="Zcp-Wh-hvW"/>
+                                                <constraint firstItem="0dJ-eZ-gvj" firstAttribute="leading" secondItem="mUG-xh-ono" secondAttribute="leading" id="k5b-LT-4Lx"/>
+                                                <constraint firstAttribute="trailing" secondItem="qh7-WN-Ebz" secondAttribute="trailing" id="pWw-XP-tB3"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="MSN-Aw-0Jm" secondAttribute="bottom" id="7Qc-aM-xFz"/>
+                                        <constraint firstItem="mUG-xh-ono" firstAttribute="centerY" secondItem="7YQ-mh-uN1" secondAttribute="centerY" id="BeY-Gj-xG1"/>
+                                        <constraint firstItem="MSN-Aw-0Jm" firstAttribute="top" secondItem="7YQ-mh-uN1" secondAttribute="top" id="N65-kO-Dlb"/>
+                                        <constraint firstItem="MSN-Aw-0Jm" firstAttribute="leading" secondItem="7YQ-mh-uN1" secondAttribute="leading" id="Umz-u8-jsc"/>
+                                        <constraint firstAttribute="trailing" secondItem="MSN-Aw-0Jm" secondAttribute="trailing" id="g7O-5h-HP3"/>
+                                        <constraint firstItem="mUG-xh-ono" firstAttribute="centerX" secondItem="7YQ-mh-uN1" secondAttribute="centerX" id="rku-hm-t37"/>
+                                        <constraint firstItem="mUG-xh-ono" firstAttribute="height" secondItem="7YQ-mh-uN1" secondAttribute="height" multiplier="17:50" id="zyI-7V-Kj9"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="didTapGetAudioFromVideos:" destination="-1" eventType="touchUpInside" id="Ogg-bU-yHz"/>
+                                    </connections>
+                                </view>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eno-42-0H7" customClass="TapableView" customModule="VideoMerger" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="65.5" width="339" height="48"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_btn_add_audio" translatesAutoresizingMaskIntoConstraints="NO" id="wkT-bC-9Nm">
+                                            <rect key="frame" x="0.0" y="0.0" width="339" height="48"/>
+                                        </imageView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YeD-9t-bbp">
+                                            <rect key="frame" x="55.5" y="16.5" width="228" height="15"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_folder_white" translatesAutoresizingMaskIntoConstraints="NO" id="nSv-bK-auN">
+                                                    <rect key="frame" x="0.0" y="0.0" width="19" height="15"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="nSv-bK-auN" secondAttribute="height" multiplier="20:16" id="5d6-XR-NVa"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Import audio from your device" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7I6-hl-57U">
+                                                    <rect key="frame" x="29" y="-1" width="199" height="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="7I6-hl-57U" firstAttribute="leading" secondItem="nSv-bK-auN" secondAttribute="trailing" constant="10" id="C9v-KD-lni"/>
+                                                <constraint firstItem="nSv-bK-auN" firstAttribute="leading" secondItem="YeD-9t-bbp" secondAttribute="leading" id="HhJ-68-Vg5"/>
+                                                <constraint firstItem="7I6-hl-57U" firstAttribute="centerY" secondItem="YeD-9t-bbp" secondAttribute="centerY" id="MFN-Ti-WQZ"/>
+                                                <constraint firstAttribute="trailing" secondItem="7I6-hl-57U" secondAttribute="trailing" id="MOv-HN-NwD"/>
+                                                <constraint firstItem="nSv-bK-auN" firstAttribute="top" secondItem="YeD-9t-bbp" secondAttribute="top" id="SRn-4g-zL9"/>
+                                                <constraint firstAttribute="bottom" secondItem="nSv-bK-auN" secondAttribute="bottom" id="v7e-RK-hrT"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstItem="wkT-bC-9Nm" firstAttribute="leading" secondItem="Eno-42-0H7" secondAttribute="leading" id="1j2-Yi-HJl"/>
+                                        <constraint firstItem="YeD-9t-bbp" firstAttribute="centerY" secondItem="Eno-42-0H7" secondAttribute="centerY" id="BWn-u8-3PS"/>
+                                        <constraint firstItem="YeD-9t-bbp" firstAttribute="height" secondItem="Eno-42-0H7" secondAttribute="height" multiplier="16:50" id="Hik-sQ-cc5"/>
+                                        <constraint firstAttribute="trailing" secondItem="wkT-bC-9Nm" secondAttribute="trailing" id="JrD-fv-CVy"/>
+                                        <constraint firstItem="YeD-9t-bbp" firstAttribute="centerX" secondItem="Eno-42-0H7" secondAttribute="centerX" id="KrD-ND-EOr"/>
+                                        <constraint firstItem="wkT-bC-9Nm" firstAttribute="top" secondItem="Eno-42-0H7" secondAttribute="top" id="S2E-9W-97f"/>
+                                        <constraint firstAttribute="bottom" secondItem="wkT-bC-9Nm" secondAttribute="bottom" id="mdb-M0-I0I"/>
+                                    </constraints>
+                                    <connections>
+                                        <action selector="didTapGetAudioFromDevices:" destination="-1" eventType="touchUpInside" id="svj-tE-OWs"/>
+                                    </connections>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="kpK-XW-eVY" secondAttribute="height" multiplier="352:118" id="u8f-OC-2xQ"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="kpK-XW-eVY" firstAttribute="top" secondItem="Be5-du-eUe" secondAttribute="bottom" constant="5" id="37R-Zv-oeA"/>
+                        <constraint firstItem="kpK-XW-eVY" firstAttribute="centerX" secondItem="YvZ-el-FYw" secondAttribute="centerX" id="3bq-x2-qvV"/>
+                        <constraint firstItem="Be5-du-eUe" firstAttribute="leading" secondItem="YvZ-el-FYw" secondAttribute="leading" id="Ofe-y0-Vlv"/>
+                        <constraint firstItem="kpK-XW-eVY" firstAttribute="width" secondItem="YvZ-el-FYw" secondAttribute="width" multiplier="352:430" id="RF0-TJ-7fP"/>
+                        <constraint firstAttribute="trailing" secondItem="Be5-du-eUe" secondAttribute="trailing" id="ph4-bG-gp6"/>
+                        <constraint firstAttribute="bottom" secondItem="kpK-XW-eVY" secondAttribute="bottom" constant="44" id="qM4-RP-k44"/>
+                        <constraint firstItem="Be5-du-eUe" firstAttribute="top" secondItem="YvZ-el-FYw" secondAttribute="top" id="sr2-gf-2sS"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="YvZ-el-FYw" secondAttribute="bottom" id="PLi-PV-ooA"/>
+                <constraint firstItem="YvZ-el-FYw" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="Qro-OT-7kN"/>
+                <constraint firstItem="YvZ-el-FYw" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="U3s-a9-LgZ"/>
+            </constraints>
+            <point key="canvasLocation" x="-394" y="74"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bg_btn_add_audio" width="352" height="50"/>
+        <image name="ic_folder_white" width="20" height="16"/>
+        <image name="ic_video_white" width="25" height="17"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

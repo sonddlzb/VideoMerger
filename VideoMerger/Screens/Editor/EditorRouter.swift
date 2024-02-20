@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol EditorInteractable: Interactable, AdjustmentListener, ExportListener {
+protocol EditorInteractable: Interactable, AdjustmentListener, ExportListener, AddAudioListener {
     var router: EditorRouting? { get set }
     var listener: EditorListener? { get set }
 
@@ -26,12 +26,17 @@ final class EditorRouter: ViewableRouter<EditorInteractable, EditorViewControlla
     private var exportBuilder: ExportBuildable
     private var exportRouter: ExportRouting?
 
+    private var addAudioBuilder: AddAudioBuildable
+    private var addAudioRouter: AddAudioRouting?
+
     init(interactor: EditorInteractable,
          viewController: EditorViewControllable,
          adjustmentBuilder: AdjustmentBuildable,
-         exportBuilder: ExportBuildable) {
+         exportBuilder: ExportBuildable,
+         addAudioBuilder: AddAudioBuildable) {
         self.adjustmentBuilder = adjustmentBuilder
         self.exportBuilder = exportBuilder
+        self.addAudioBuilder = addAudioBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -85,5 +90,27 @@ extension EditorRouter: EditorRouting {
         router.viewControllable.dismiss()
         self.detachChild(router)
         self.exportRouter = nil
+    }
+
+    func showAddAudio() {
+        guard self.addAudioRouter == nil else {
+            return
+        }
+
+        let router = self.addAudioBuilder.build(withListener: self.interactor)
+        self.attachChild(router)
+        router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
+        self.viewController.present(viewControllable: router.viewControllable)
+        self.addAudioRouter = router
+    }
+
+    func dismissAddAudio() {
+        guard let router = self.addAudioRouter else {
+            return
+        }
+
+        router.viewControllable.dismiss()
+        self.detachChild(router)
+        self.addAudioRouter = nil
     }
 }
