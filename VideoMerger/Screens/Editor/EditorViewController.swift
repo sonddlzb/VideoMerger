@@ -16,8 +16,8 @@ protocol EditorPresentableListener: AnyObject {
     func composeAsset()
     func didTapAddMore()
     func didTapPreview()
-    func didTapEdit()
     func didTapExport()
+    func didTapEdit(type: AdjustmentType)
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -40,6 +40,8 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
+    var editCompositionBar: EditCompositionBarView?
+    var editBarTopMainBarBottomConstraint: NSLayoutConstraint?
     var viewModel = EditorViewModel.makeEmpty()
     private var timeObserverToken: Any?
     var isPlayingBefore = false
@@ -104,6 +106,48 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         frameScrollView.delegate = self
         frameScrollView.showsHorizontalScrollIndicator = false
         editMainTabBarView.delegate = self
+        editCompositionBar = EditCompositionBarView()
+        let filterItem = EditCompotionItem()
+        filterItem.initView(type: .filter)
+        filterItem.onTap = {
+            print("--- onTapFileter")
+        }
+
+        let trimItem = EditCompotionItem()
+        trimItem.initView(type: .trim)
+        trimItem.onTap = {
+            print("--- onTapTrim")
+        }
+
+        let volumeItem = EditCompotionItem()
+        volumeItem.initView(type: .volume)
+        volumeItem.onTap = {
+            self.listener?.didTapEdit(type: .volume)
+        }
+
+        let speedItem = EditCompotionItem()
+        speedItem.initView(type: .speed)
+        speedItem.onTap = {
+            self.listener?.didTapEdit(type: .speed)
+        }
+
+        let removeItem = EditCompotionItem()
+        removeItem.initView(type: .remove)
+        let listView: [TapableView] = [filterItem, trimItem, volumeItem, speedItem, removeItem]
+        if let editCompositionBar = editCompositionBar {
+            editCompositionBar.listView = listView
+            self.view.addSubview(editCompositionBar)
+            NSLayoutConstraint.activate([
+                editCompositionBar.heightAnchor.constraint(equalTo: editMainTabBarView.heightAnchor),
+                self.view.leftAnchor.constraint(equalTo: editCompositionBar.leftAnchor),
+                self.view.rightAnchor.constraint(equalTo: editCompositionBar.rightAnchor)
+            ])
+            editBarTopMainBarBottomConstraint = self.editMainTabBarView.bottomAnchor.constraint(equalTo: editCompositionBar.topAnchor)
+            editBarTopMainBarBottomConstraint?.isActive = true
+            let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
+            swipeDownGesture.direction = .down
+            self.view.addGestureRecognizer(swipeDownGesture)
+        }
     }
 
     func loadAssets(index: Int) {
@@ -258,6 +302,20 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 0)
         self.gradientView.layer.addSublayer(gradientLayer)
     }
+
+    private func showEditCompositionBar() {
+        UIView.animate(withDuration: 0.5) {
+            self.editBarTopMainBarBottomConstraint?.constant = self.editMainTabBarView.frame.height
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func hiddenEditCompositionBar() {
+        UIView.animate(withDuration: 0.5) {
+            self.editBarTopMainBarBottomConstraint?.constant = -self.editMainTabBarView.frame.height
+            self.view.layoutIfNeeded()
+        }
+    }
     // MARK: - Actions
     @IBAction func didTapBackButton(_ sender: Any) {
         self.listener?.didTapBack()
@@ -281,6 +339,11 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
     @IBAction func didTapHideFilterButton(_ sender: Any) {
         self.isFilterHidden = !self.isFilterHidden
+    }
+    @objc private func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            self.hiddenEditCompositionBar()
+        }
     }
 }
 
@@ -339,7 +402,7 @@ extension EditorViewController: EditorPresentable {
 // MARK: PlayerViewDelegate
 extension EditorViewController: PlayerViewDelegate {
     func playerViewBeganInterruptAudioSession(_ view: PlayerView) {
-        
+
     }
 
     func playerViewUpdatePlayingState(_ view: PlayerView, isPlaying: Bool) {
@@ -389,7 +452,7 @@ extension EditorViewController: UIScrollViewDelegate {
 extension EditorViewController: EditMainTabBarDelegate {
     func onTapEdit() {
         print("---onTapEdit")
-        self.listener?.didTapEdit()
+        self.showEditCompositionBar()
     }
 
     func onTapMusic() {
