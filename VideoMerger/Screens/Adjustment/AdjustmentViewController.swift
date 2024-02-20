@@ -9,7 +9,7 @@ import RIBs
 import RxSwift
 import UIKit
 
-enum AdjustmentType {
+enum AdjustmentType: CaseIterable {
     case filter
     case trim
     case volume
@@ -56,6 +56,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
     @IBOutlet weak var imgAll: UIImageView!
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var contentLabel: UILabel!
     private var speedView: SpeedView?
     private var volumeView: VolumeView?
 
@@ -86,11 +87,13 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
             speedView!.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(speedView!)
             speedView!.fitSuperviewConstraint()
+            self.contentLabel.text = AdjustmentType.speed.name()
         case .volume:
             volumeView = VolumeView()
             volumeView!.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(volumeView!)
             volumeView!.fitSuperviewConstraint()
+            self.contentLabel.text = AdjustmentType.volume.name()
         case .filter:
             break
         case .trim:

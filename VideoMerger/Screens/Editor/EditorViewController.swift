@@ -19,6 +19,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapExport()
     func didTapEdit(type: AdjustmentType)
     func didTapAddMusic()
+    func trimVideo(startTime: TimeInterval, endTime: TimeInterval)
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -47,6 +48,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     private var timeObserverToken: Any?
     var isPlayingBefore = false
     var isPlayingAtTheEnd = false
+    var isSetConstraintExpandableView = false
+    var startTimeTrim: TimeInterval = 0.0
+    var endTimeTrim: TimeInterval = 0.0
     var isRootSoundMuted = false {
         didSet {
             self.playView.isMuted = isRootSoundMuted
@@ -96,9 +100,17 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     }
 
     private func setConstraintExpandableView() {
-        let expandableEdgeWidth = self.expandableFrameView.contentView.leftEdgeView.frame.width
-        self.expandableFrameView.setTrailingConstrant(trailing: Double((self.frameStackView.arrangedSubviews.last?.frame.width) ?? 0.0) - expandableEdgeWidth)
-        self.expandableFrameView.setLeadingConstrant(leading: -Double((self.frameStackView.arrangedSubviews.first?.frame.width) ?? 0.0) + expandableEdgeWidth)
+        if !isSetConstraintExpandableView {
+            let expandableEdgeWidth = self.expandableFrameView.contentView.leftEdgeView.frame.width
+            self.expandableFrameView.setLimitLeadingConstrant(leading: -Double((self.frameStackView.arrangedSubviews.first?.frame.width) ?? 0.0) + expandableEdgeWidth)
+            self.expandableFrameView.setLimitTrailingConstrant(trailing: frameScrollView.frame.size.width/2 - expandableEdgeWidth)
+            isSetConstraintExpandableView = true
+        }
+
+        if let duration = self.playView.duration()?.toDouble() {
+            startTimeTrim = 0.0
+            endTimeTrim = duration
+        }
     }
 
     private func config() {
@@ -107,34 +119,49 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         frameScrollView.delegate = self
         frameScrollView.showsHorizontalScrollIndicator = false
         editMainTabBarView.delegate = self
+        let longPressFrameStackGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTapFrameStack(_:)))
+        longPressFrameStackGesture.minimumPressDuration = 1.0
+        frameStackView.addGestureRecognizer(longPressFrameStackGesture)
         editCompositionBar = EditCompositionBarView()
-        let filterItem = EditCompotionItem()
-        filterItem.initView(type: .filter)
-        filterItem.onTap = {
-            print("--- onTapFileter")
+        var listView: [TapableView] = []
+
+        AdjustmentType.allCases.forEach { type in
+            let item = EditCompotionItem()
+            item.initView(type: type)
+            switch type {
+            case .filter:
+                item.onTap = { [weak self] () -> Void in
+                    print("--- onTapFileter")
+                }
+
+            case .trim:
+                item.onTap = { [weak self] () -> Void in
+                    if let self = self, let viewModelDuration = self.playView.duration()?.toDouble() {
+                        if startTimeTrim > 0.1 || endTimeTrim < viewModelDuration {
+                            self.listener?.trimVideo(startTime: self.startTimeTrim, endTime: self.endTimeTrim)
+                        }
+                    }
+                }
+
+            case .volume:
+                item.onTap = { [weak self] () -> Void in
+                    self?.listener?.didTapEdit(type: .volume)
+                }
+
+            case .speed:
+                item.onTap = { [weak self] () -> Void in
+                    self?.listener?.didTapEdit(type: .speed)
+                }
+
+            case .remove:
+                item.onTap = { [weak self] () -> Void in
+                    self?.listener?.didTapEdit(type: .remove)
+                }
+            }
+
+            listView.append(item)
         }
 
-        let trimItem = EditCompotionItem()
-        trimItem.initView(type: .trim)
-        trimItem.onTap = {
-            print("--- onTapTrim")
-        }
-
-        let volumeItem = EditCompotionItem()
-        volumeItem.initView(type: .volume)
-        volumeItem.onTap = {
-            self.listener?.didTapEdit(type: .volume)
-        }
-
-        let speedItem = EditCompotionItem()
-        speedItem.initView(type: .speed)
-        speedItem.onTap = {
-            self.listener?.didTapEdit(type: .speed)
-        }
-
-        let removeItem = EditCompotionItem()
-        removeItem.initView(type: .remove)
-        let listView: [TapableView] = [filterItem, trimItem, volumeItem, speedItem, removeItem]
         if let editCompositionBar = editCompositionBar {
             editCompositionBar.listView = listView
             self.view.addSubview(editCompositionBar)
@@ -250,15 +277,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
             self.timeStackView.addArrangedSubview(leftTimePaddingView)
             leftTimePaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-        } else {
-            let leftPaddingView = UIView()
-            leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
-            self.frameStackView.addArrangedSubview(leftPaddingView)
-            leftPaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
-            let leftTimePaddingView = UIView()
-            leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
-            self.timeStackView.addArrangedSubview(leftTimePaddingView)
-            leftTimePaddingView.widthAnchor.constraint(equalToConstant: 2.17).isActive = true
         }
     }
 
@@ -344,6 +362,13 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @objc private func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
             self.hiddenEditCompositionBar()
+            self.expandableFrameView.isHidden = true
+        }
+    }
+    @objc private func handleTapFrameStack(_ gesture: UILongPressGestureRecognizer) {
+        if gesture.state == .ended {
+            self.showEditCompositionBar()
+            self.expandableFrameView.isHidden = false
         }
     }
 }
@@ -368,7 +393,7 @@ extension EditorViewController: PlayBarViewDelegate {
     }
 
     func playBarViewDidTapUndo(_ playBarView: PlayBarView) {
-        
+
     }
 
     func playBarViewDidTapRedo(_ playBarView: PlayBarView) {
@@ -378,6 +403,63 @@ extension EditorViewController: PlayBarViewDelegate {
 
 // MARK: - EditorPresentable
 extension EditorViewController: EditorPresentable {
+    func bind(viewModel: EditorViewModel, isCutFromStart: Bool, isCutFromEnd: Bool) {
+        if isCutFromEnd {
+            self.expandableFrameView.trailingConstraint.constant = self.frameScrollView.frame.width / 2 - 15.0
+            let subViewsOfFrame = self.frameStackView.arrangedSubviews
+            let removeTo = subViewsOfFrame.count - 1
+            let removeFrom = Int(self.endTimeTrim) + 3
+            if removeFrom <= removeTo {
+                for index in (removeFrom...removeTo).reversed() {
+                    let frameView = subViewsOfFrame[index - 1]
+                    self.frameStackView.removeArrangedSubview(frameView)
+                    frameView.removeFromSuperview()
+                    let timeView = self.timeStackView.arrangedSubviews[index - 1]
+                    self.timeStackView.removeArrangedSubview(timeView)
+                    timeView.removeFromSuperview()
+                }
+            }
+        }
+
+        if isCutFromStart {
+            self.expandableFrameView.leadingConstraint.constant = -self.frameScrollView.frame.width / 2 + 15.0
+            let removeTo = Int(self.startTimeTrim)
+            let removeFrom = 1
+            if removeFrom <= removeTo {
+                for _ in removeFrom...removeTo {
+                    let frameView = self.frameStackView.arrangedSubviews[1]
+                    self.frameStackView.removeArrangedSubview(frameView)
+                    frameView.removeFromSuperview()
+                    let timeView = self.timeStackView.arrangedSubviews[1]
+                    self.timeStackView.removeArrangedSubview(timeView)
+                    timeView.removeFromSuperview()
+                }
+            }
+        }
+
+        var time = 1
+        for index in 1..<(self.timeStackView.arrangedSubviews.count - 1) {
+            if let timeView = self.timeStackView.arrangedSubviews[index] as? UILabel {
+                timeView.text = (time - 1).timeString()
+                time += 1
+            }
+        }
+
+        self.viewModel = viewModel
+        guard let composedAsset = self.viewModel.currentComposedAsset else {
+            return
+        }
+
+        self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
+        self.viewModel.currentTime = 0.0
+        self.playBarView.bind(duration: self.viewModel.duration())
+        if let duration = self.playView.duration() {
+            self.startTimeTrim = 0.0
+            self.endTimeTrim = CMTimeGetSeconds(duration)
+            self.view.layoutIfNeeded()
+        }
+    }
+
     func bind(viewModel: EditorViewModel, isNeedToReload: Bool) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
@@ -454,6 +536,7 @@ extension EditorViewController: EditMainTabBarDelegate {
     func onTapEdit() {
         print("---onTapEdit")
         self.showEditCompositionBar()
+        self.expandableFrameView.isHidden = false
     }
 
     func onTapMusic() {
@@ -477,14 +560,19 @@ extension EditorViewController: EditMainTabBarDelegate {
 
 // MARK: ExpandableFrameDelegate
 extension EditorViewController: ExpandableFrameDelegate {
-    func expandableViewDidChangeWidth(_ expandableFramView: ExpandableView, positionX: Double) {
+    func expandableViewDidChangeWidth(_ expandableFramView: ExpandableView, positionX: Double, edge: ExpandableEdges) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
             let offset = positionX
-            let contentWidth = Double(self.frameScrollView.contentSize.width - self.frameScrollView.frame.width)
+            let contentWidth = Double(self.frameStackView.frame.width - self.frameScrollView.frame.width)
             let progress = offset/contentWidth
             let currentTime = CMTimeGetSeconds(duration) * progress
             self.playView.seekTo(currentTime)
             self.isPlayingAtTheEnd = offset >= contentWidth
+            if edge == .left {
+                self.startTimeTrim = currentTime.rounded(.up)
+            } else if currentTime < (self.playView.duration()?.toDouble() ?? 0.0) {
+                self.endTimeTrim = currentTime.rounded(.down)
+            }
         }
     }
 

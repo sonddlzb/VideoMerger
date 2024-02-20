@@ -16,7 +16,7 @@ protocol AdjustmentViewControllable: ViewControllable {
 }
 
 final class AdjustmentRouter: ViewableRouter<AdjustmentInteractable, AdjustmentViewControllable>, AdjustmentRouting {
-    
+
     override init(interactor: AdjustmentInteractable, viewController: AdjustmentViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
