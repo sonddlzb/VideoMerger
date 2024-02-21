@@ -44,5 +44,9 @@ extension DIConnector {
         DIContainer.register(ExportBuildable.self) { _, args in
             return ExportBuilder(dependency: args.get())
         }
+
+        DIContainer.register(AddAudioBuildable.self) { _, args in
+            return AddAudioBuilder(dependency: args.get())
+        }
     }
 }
