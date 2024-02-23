@@ -17,6 +17,7 @@ protocol AddAudioPresentable: Presentable {
 
 protocol AddAudioListener: AnyObject {
     func addAudioWantToDismiss()
+    func addAudioDidSelectAudio(_ url: URL)
 }
 
 final class AddAudioInteractor: PresentableInteractor<AddAudioPresentable>, AddAudioInteractable {
@@ -42,5 +43,9 @@ final class AddAudioInteractor: PresentableInteractor<AddAudioPresentable>, AddA
 extension AddAudioInteractor: AddAudioPresentableListener {
     func didTapCancel() {
         self.listener?.addAudioWantToDismiss()
+    }
+
+    func didSelectAudio(_ url: URL) {
+        self.listener?.addAudioDidSelectAudio(url)
     }
 }
