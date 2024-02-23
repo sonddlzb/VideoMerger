@@ -11,6 +11,7 @@ import UIKit
 
 protocol AddAudioPresentableListener: AnyObject {
     func didTapCancel()
+    func didSelectAudio(_ url: URL)
 }
 
 final class AddAudioViewController: UIViewController, AddAudioPresentable, AddAudioViewControllable {
@@ -19,6 +20,12 @@ final class AddAudioViewController: UIViewController, AddAudioPresentable, AddAu
 
     // MARK: - Variables
     weak var listener: AddAudioPresentableListener?
+    private lazy var documentPickerVC: UIDocumentPickerViewController = {
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.audio"], in: .import)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        return documentPicker
+    }()
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -33,9 +40,20 @@ final class AddAudioViewController: UIViewController, AddAudioPresentable, AddAu
     }
 
     @IBAction func didTapGetAudioFromDevices(_ sender: Any) {
+        self.present(self.documentPickerVC, animated: true, completion: nil)
     }
 
     @IBAction func didTapCancel(_ sender: Any) {
         self.listener?.didTapCancel()
+    }
+}
+
+// MARK: - UIDocumentPickerDelegate
+extension AddAudioViewController: UIDocumentPickerDelegate {
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        if let selectedAudioURL = urls.first {
+            print("Selected audio file: \(selectedAudioURL)")
+            self.listener?.didSelectAudio(selectedAudioURL)
+        }
     }
 }
