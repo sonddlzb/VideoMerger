@@ -11,19 +11,44 @@ class ExpandableFrameViewConstant {
     static let edgeWidth = 40.0
 }
 
+enum ExpandableEdges {
+    case left
+    case right
+}
+
 protocol ExpandableFrameDelegate: AnyObject {
     func expandableDidScroll(_ expandableView: ExpandableView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint)
-    func expandableViewDidChangeWidth(_ expandableView: ExpandableView, positionX: Double)
+    func expandableViewDidChangeWidth(_ expandableView: ExpandableView, positionX: Double, edge: ExpandableEdges)
 }
 
 class ExpandableView: UIView {
     // MARK: variable
     var contentView: ExpandableContentView!
-    private var leadingConstraint: NSLayoutConstraint!
-    private var trailingConstraint: NSLayoutConstraint!
+    var leadingConstraint: NSLayoutConstraint! {
+        didSet {
+            self.layoutIfNeeded()
+        }
+    }
+
+    var trailingConstraint: NSLayoutConstraint! {
+        didSet {
+            self.layoutIfNeeded()
+        }
+    }
+
     private var isScroll = true
-    private var leading = 0.0
-    private var trailing = 0.0
+    private var limitLeading = 0.0 {
+        didSet {
+            leadingConstraint.constant = limitLeading
+        }
+    }
+
+    private var limitTrailing = 0.0 {
+        didSet {
+            trailingConstraint.constant = limitTrailing
+        }
+    }
+
     weak var delegate: ExpandableFrameDelegate?
 
     // MARK: function
@@ -56,16 +81,12 @@ class ExpandableView: UIView {
         )
     }
 
-    func setLeadingConstrant(leading: Double) {
-        leadingConstraint.constant = leading
-        self.leading = leading
-        self.layoutIfNeeded()
+    func setLimitLeadingConstrant(leading: Double) {
+        self.limitLeading = leading
     }
 
-    func setTrailingConstrant(trailing: Double) {
-        trailingConstraint.constant = trailing
-        self.trailing = trailing
-        self.layoutIfNeeded()
+    func setLimitTrailingConstrant(trailing: Double) {
+        self.limitTrailing = trailing
     }
 
     // MARK: lifecycle
@@ -94,24 +115,24 @@ class ExpandableView: UIView {
         case .began, .changed:
             if isRightEdge {
                 let leading = leadingConstraint.constant - translation.x
-                if leading <= self.leading {
+                if leading <= self.limitLeading {
                     leadingConstraint.constant = leading
-                    delegate?.expandableViewDidChangeWidth(self, positionX: -leading + self.leading)
+                    delegate?.expandableViewDidChangeWidth(self, positionX: -leading + self.limitLeading, edge: .left)
                 }
             } else if isLeftEdge {
                 let trailing = trailingConstraint.constant - translation.x
-                if trailing >= self.trailing {
+                if trailing >= self.limitTrailing {
                     trailingConstraint.constant = trailing
-                    delegate?.expandableViewDidChangeWidth(self, positionX: self.frame.width - self.trailing - trailing)
+                    delegate?.expandableViewDidChangeWidth(self, positionX: self.frame.width - self.limitTrailing - trailing, edge: .right)
                 }
-            } else if self.contentView.frame.width <= self.frame.width - trailing + leading {
+            } else if self.contentView.frame.width <= self.frame.width - limitTrailing + limitLeading {
                 delegate?.expandableDidScroll(self, translation: translation, isContinueScroll: false, velocity: velocity)
             }
 
             gesture.setTranslation(.zero, in: self)
             self.layoutIfNeeded()
         case .ended, .cancelled:
-            if self.contentView.frame.width <= self.frame.width - trailing + leading {
+            if self.contentView.frame.width <= self.frame.width - limitTrailing + limitLeading {
                 delegate?.expandableDidScroll(self, translation: translation, isContinueScroll: true, velocity: velocity)
             } else {
                 delegate?.expandableDidScroll(self, translation: translation, isContinueScroll: false, velocity: velocity)
