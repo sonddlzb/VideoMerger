@@ -16,4 +16,8 @@ extension EditorInteractor: AddAudioListener {
         self.router?.dismissAddAudio()
         // MARK: - handle selected audio here
     }
+
+    func addAudioWantToOpenMediaPicker() {
+        self.listener?.editorWantToOpenMediaPicker(isSelectAudio: true)
+    }
 }

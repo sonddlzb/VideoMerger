@@ -160,4 +160,42 @@ public extension PHAsset {
 
         return res
     }
+
+    func exportAudio(using disposeBag: DisposeBag, completion: @escaping (_ audioURL: URL?) -> Void) {
+        self.fetchAVAsset()
+            .subscribe(onNext: { avAsset in
+                guard let avAsset = avAsset else {
+                    completion(nil)
+                    return
+                }
+
+                guard let exportSession = AVAssetExportSession(asset: avAsset, presetName: AVAssetExportPresetAppleM4A) else {
+                    completion(nil)
+                    return
+                }
+
+                let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                let outputURL = documentsDirectory.appendingPathComponent(self.originalFileName() ?? "video_audio")
+                try? FileManager.default.removeItem(at: outputURL)
+
+                exportSession.outputURL = outputURL
+                exportSession.outputFileType = .m4a
+                exportSession.exportAsynchronously {
+                    switch exportSession.status {
+                    case .completed:
+                        print("Export completed. Audio file saved at \(outputURL)")
+                        completion(outputURL)
+                    case .failed:
+                        print("Export failed: \(exportSession.error?.localizedDescription ?? "Unknown error")")
+                        completion(nil)
+                    case .cancelled:
+                        print("Export cancelled")
+                        completion(nil)
+                    default:
+                        break
+                    }
+                }
+            })
+            .disposed(by: disposeBag)
+    }
 }

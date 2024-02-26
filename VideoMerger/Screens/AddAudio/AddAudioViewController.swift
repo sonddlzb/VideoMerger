@@ -12,6 +12,7 @@ import UIKit
 protocol AddAudioPresentableListener: AnyObject {
     func didTapCancel()
     func didSelectAudio(_ url: URL)
+    func didTapGetAudioFromVideo()
 }
 
 final class AddAudioViewController: UIViewController, AddAudioPresentable, AddAudioViewControllable {
@@ -37,6 +38,7 @@ final class AddAudioViewController: UIViewController, AddAudioPresentable, AddAu
 
     // MARK: - Actions
     @IBAction func didTapGetAudioFromVideos(_ sender: Any) {
+        self.listener?.didTapGetAudioFromVideo()
     }
 
     @IBAction func didTapGetAudioFromDevices(_ sender: Any) {

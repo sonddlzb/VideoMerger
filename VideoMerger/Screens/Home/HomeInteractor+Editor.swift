@@ -13,8 +13,8 @@ extension HomeInteractor: EditorListener {
         self.router?.dismissEditor()
     }
 
-    func editorWantToOpenMediaPicker() {
-        self.router?.showMediaPicker(isAddMore: true)
+    func editorWantToOpenMediaPicker(isSelectAudio: Bool) {
+        self.router?.showMediaPicker(isAddMore: true, isSelectAudio: isSelectAudio)
     }
 
     func editorWantToOpenPreview(avAsset: AVAsset) {

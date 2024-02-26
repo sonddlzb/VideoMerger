@@ -29,7 +29,7 @@ protocol EditorPresentable: Presentable {
 
 protocol EditorListener: AnyObject {
     func editorWantToDismiss()
-    func editorWantToOpenMediaPicker()
+    func editorWantToOpenMediaPicker(isSelectAudio: Bool)
     func editorWantToOpenPreview(avAsset: AVAsset)
 }
 
@@ -172,7 +172,7 @@ extension EditorInteractor: EditorPresentableListener {
     }
 
     func didTapAddMore() {
-        self.listener?.editorWantToOpenMediaPicker()
+        self.listener?.editorWantToOpenMediaPicker(isSelectAudio: false)
     }
 }
 
