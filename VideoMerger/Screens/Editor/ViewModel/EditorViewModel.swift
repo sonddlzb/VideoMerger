@@ -11,13 +11,20 @@ import RxSwift
 
 struct EditorViewModel {
     var listAssets: [PHAsset]
-    var listCurrenAssetDuration: [TimeInterval] = []
     var disposeBag = DisposeBag()
     var currentTime = 0.0
     var currentComposedAsset: AVAsset?
+    var speedType: SpeedType = .speedC {
+        didSet {
+            self.oldSpeedType = oldValue
+        }
+    }
+
+    var oldSpeedType: SpeedType = .speedC
+    var startTimeEdit: TimeInterval = 0.0
+    var endTimeEdit: TimeInterval = 0.0
     init(listAssets: [PHAsset]) {
         self.listAssets = listAssets
-        self.listCurrenAssetDuration = self.listAssets.map { $0.duration }
     }
 
     static func makeEmpty() -> EditorViewModel {
@@ -55,6 +62,5 @@ struct EditorViewModel {
 
     mutating func addMoreAssets(_ listAssets: [PHAsset]) {
         self.listAssets.append(contentsOf: listAssets)
-        self.listCurrenAssetDuration = self.listAssets.map { $0.duration }
     }
 }

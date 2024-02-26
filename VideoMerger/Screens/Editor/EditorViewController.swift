@@ -11,6 +11,7 @@ import UIKit
 import Photos
 
 protocol EditorPresentableListener: AnyObject {
+    func bind(viewModel: EditorViewModel)
     func didTapBack()
     func updateCurrentVideoTime(currentTime: Double)
     func composeAsset()
@@ -20,6 +21,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapEdit(type: AdjustmentType)
     func didTapAddMusic()
     func trimVideo(startTime: TimeInterval, endTime: TimeInterval)
+    func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double)
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -49,8 +51,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     var isPlayingBefore = false
     var isPlayingAtTheEnd = false
     var isSetConstraintExpandableView = false
-    var startTimeTrim: TimeInterval = 0.0
-    var endTimeTrim: TimeInterval = 0.0
     var isRootSoundMuted = false {
         didSet {
             self.playView.isMuted = isRootSoundMuted
@@ -106,11 +106,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             self.expandableFrameView.setLimitTrailingConstrant(trailing: frameScrollView.frame.size.width/2 - expandableEdgeWidth)
             isSetConstraintExpandableView = true
         }
-
-        if let duration = self.playView.duration()?.toDouble() {
-            startTimeTrim = 0.0
-            endTimeTrim = duration
-        }
     }
 
     private func config() {
@@ -137,8 +132,10 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             case .trim:
                 item.onTap = { [weak self] () -> Void in
                     if let self = self, let viewModelDuration = self.playView.duration()?.toDouble() {
-                        if startTimeTrim > 0.1 || endTimeTrim < viewModelDuration {
-                            self.listener?.trimVideo(startTime: self.startTimeTrim, endTime: self.endTimeTrim)
+                        let startTimeEdit = self.viewModel.startTimeEdit
+                        let endTimeEdit = self.viewModel.endTimeEdit
+                        if startTimeEdit > 0.1 || endTimeEdit < viewModelDuration {
+                            self.listener?.trimVideo(startTime: startTimeEdit, endTime: endTimeEdit)
                         }
                     }
                 }
@@ -403,60 +400,72 @@ extension EditorViewController: PlayBarViewDelegate {
 
 // MARK: - EditorPresentable
 extension EditorViewController: EditorPresentable {
-    func bind(viewModel: EditorViewModel, isCutFromStart: Bool, isCutFromEnd: Bool) {
-        if isCutFromEnd {
-            self.expandableFrameView.trailingConstraint.constant = self.frameScrollView.frame.width / 2 - 15.0
-            let subViewsOfFrame = self.frameStackView.arrangedSubviews
-            let removeTo = subViewsOfFrame.count - 1
-            let removeFrom = Int(self.endTimeTrim) + 3
-            if removeFrom <= removeTo {
-                for index in (removeFrom...removeTo).reversed() {
-                    let frameView = subViewsOfFrame[index - 1]
-                    self.frameStackView.removeArrangedSubview(frameView)
-                    frameView.removeFromSuperview()
-                    let timeView = self.timeStackView.arrangedSubviews[index - 1]
-                    self.timeStackView.removeArrangedSubview(timeView)
-                    timeView.removeFromSuperview()
-                }
-            }
-        }
-
-        if isCutFromStart {
-            self.expandableFrameView.leadingConstraint.constant = -self.frameScrollView.frame.width / 2 + 15.0
-            let removeTo = Int(self.startTimeTrim)
-            let removeFrom = 1
-            if removeFrom <= removeTo {
-                for _ in removeFrom...removeTo {
-                    let frameView = self.frameStackView.arrangedSubviews[1]
-                    self.frameStackView.removeArrangedSubview(frameView)
-                    frameView.removeFromSuperview()
-                    let timeView = self.timeStackView.arrangedSubviews[1]
-                    self.timeStackView.removeArrangedSubview(timeView)
-                    timeView.removeFromSuperview()
-                }
-            }
-        }
-
-        var time = 1
-        for index in 1..<(self.timeStackView.arrangedSubviews.count - 1) {
-            if let timeView = self.timeStackView.arrangedSubviews[index] as? UILabel {
-                timeView.text = (time - 1).timeString()
-                time += 1
-            }
-        }
-
+    func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType) {
         self.viewModel = viewModel
-        guard let composedAsset = self.viewModel.currentComposedAsset else {
-            return
-        }
+        if let composedAsset = self.viewModel.currentComposedAsset {
+            self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
+            self.viewModel.currentTime = 0.0
+            self.playBarView.bind(duration: self.viewModel.duration())
 
-        self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
-        self.viewModel.currentTime = 0.0
-        self.playBarView.bind(duration: self.viewModel.duration())
-        if let duration = self.playView.duration() {
-            self.startTimeTrim = 0.0
-            self.endTimeTrim = CMTimeGetSeconds(duration)
-            self.view.layoutIfNeeded()
+            if adjustmentType == .trim {
+                let duration = composedAsset.duration
+                self.viewModel.startTimeEdit = 0.0
+                self.viewModel.endTimeEdit = CMTimeGetSeconds(duration)
+                self.view.layoutIfNeeded()
+                self.expandableFrameView.trailingConstraint.constant = self.frameScrollView.frame.width / 2 - 15.0
+                self.expandableFrameView.leadingConstraint.constant = -self.frameScrollView.frame.width / 2 + 15.0
+            } else if adjustmentType == .speed {
+                let oldSpeed = viewModel.oldSpeedType.rawValue
+                let speed = viewModel.speedType.rawValue
+                self.viewModel.startTimeEdit = self.viewModel.startTimeEdit * oldSpeed / speed
+                self.viewModel.endTimeEdit = self.viewModel.endTimeEdit * oldSpeed / speed
+            }
+
+            for _ in 1...frameStackView.arrangedSubviews.count - 1 {
+                let frameView = frameStackView.arrangedSubviews[1]
+                frameStackView.removeArrangedSubview(frameView)
+                frameView.removeFromSuperview()
+                let timeView = timeStackView.arrangedSubviews[1]
+                timeStackView.removeArrangedSubview(timeView)
+                timeView.removeFromSuperview()
+            }
+
+            dispatchGroup.enter()
+            composedAsset.extractFrames(fps: 1) { [weak self] (image, error, second, isFinish, scale) in
+                guard error == nil else {
+                    print("Error when extracting frames: \(error!.localizedDescription)")
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    if let self = self {
+                        if self.scale < 0 {
+                            self.scale = scale
+                        }
+
+                        let imageView = UIImageView()
+                        imageView.translatesAutoresizingMaskIntoConstraints = false
+                        imageView.image = image
+                        self.frameStackView.addArrangedSubview(imageView)
+                        imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*self.scale).isActive = true
+
+                        let timeLabel = UILabel()
+                        timeLabel.textAlignment = .left
+                        timeLabel.textColor = UIColor(rgb: 0x9E9E9E)
+                        timeLabel.font = .systemFont(ofSize: 10, weight: .regular)
+                        timeLabel.text = String(second).formatVideoDuration()
+                        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+                        self.timeStackView.addArrangedSubview(timeLabel)
+                        timeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
+                        if isFinish {
+                            self.dispatchGroup.leave()
+                            self.dispatchGroup.notify(queue: .main) {
+                                self.addRightFramesPadding()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -466,7 +475,11 @@ extension EditorViewController: EditorPresentable {
         if !isNeedToReload {
             if let composedAsset = self.viewModel.currentComposedAsset {
                 self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
+                self.viewModel.currentTime = 0.0
                 self.playBarView.bind(duration: self.viewModel.duration())
+                self.viewModel.startTimeEdit = 0.0
+                self.viewModel.endTimeEdit = composedAsset.duration.seconds
+                self.listener?.bind(viewModel: self.viewModel)
             }
         } else {
             self.loadAssets(index: 0)
@@ -569,10 +582,12 @@ extension EditorViewController: ExpandableFrameDelegate {
             self.playView.seekTo(currentTime)
             self.isPlayingAtTheEnd = offset >= contentWidth
             if edge == .left {
-                self.startTimeTrim = currentTime.rounded(.up)
+                self.viewModel.startTimeEdit = currentTime.rounded(.up)
             } else if currentTime < (self.playView.duration()?.toDouble() ?? 0.0) {
-                self.endTimeTrim = currentTime.rounded(.down)
+                self.viewModel.endTimeEdit = currentTime.rounded(.down)
             }
+
+            self.listener?.bind(viewModel: self.viewModel)
         }
     }
 

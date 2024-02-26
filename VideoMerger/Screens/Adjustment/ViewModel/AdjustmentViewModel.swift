@@ -9,4 +9,5 @@ import Foundation
 
 struct AdjustmentViewModel {
     var adjustmentType: AdjustmentType
+    var speedType: SpeedType
 }

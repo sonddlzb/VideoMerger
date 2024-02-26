@@ -17,7 +17,7 @@ final class AdjustmentComponent: Component<AdjustmentDependency> {
 // MARK: - Builder
 
 protocol AdjustmentBuildable: Buildable {
-    func build(withListener listener: AdjustmentListener, type: AdjustmentType) -> AdjustmentRouting
+    func build(withListener listener: AdjustmentListener, type: AdjustmentType, speedType: SpeedType) -> AdjustmentRouting
 }
 
 final class AdjustmentBuilder: Builder<AdjustmentDependency>, AdjustmentBuildable {
@@ -26,10 +26,10 @@ final class AdjustmentBuilder: Builder<AdjustmentDependency>, AdjustmentBuildabl
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: AdjustmentListener, type: AdjustmentType) -> AdjustmentRouting {
+    func build(withListener listener: AdjustmentListener, type: AdjustmentType, speedType: SpeedType) -> AdjustmentRouting {
         let component = AdjustmentComponent(dependency: dependency)
         let viewController = AdjustmentViewController()
-        let interactor = AdjustmentInteractor(presenter: viewController, type: type)
+        let interactor = AdjustmentInteractor(presenter: viewController, type: type, speedType: speedType)
         interactor.listener = listener
         return AdjustmentRouter(interactor: interactor, viewController: viewController)
     }
