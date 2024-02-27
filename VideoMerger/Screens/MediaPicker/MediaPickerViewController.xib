@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,9 +11,11 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MediaPickerViewController">
             <connections>
                 <outlet property="addMediaView" destination="54u-cx-j5L" id="pYs-A5-t0u"/>
+                <outlet property="photoHeaderView" destination="Rdm-Cr-dDE" id="prE-6j-WYe"/>
                 <outlet property="photosCollectionView" destination="nKd-oL-me0" id="fGA-Ra-AuV"/>
                 <outlet property="photosSelectedBorder" destination="i3I-eW-NG8" id="bhI-N6-quX"/>
                 <outlet property="scrollView" destination="Dfj-1h-Pr9" id="7VE-4H-zNO"/>
+                <outlet property="videoHeaderView" destination="06k-XM-lnz" id="Ua8-V1-hGp"/>
                 <outlet property="videosCollectionView" destination="QW8-Zl-RvH" id="WGe-ee-d4f"/>
                 <outlet property="videosSelectedBorder" destination="C24-jY-EgA" id="9DA-x5-aqD"/>
                 <outlet property="view" destination="iN0-l3-epB" id="jYO-eb-xeE"/>

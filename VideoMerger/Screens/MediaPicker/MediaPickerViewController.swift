@@ -31,7 +31,9 @@ final class MediaPickerViewController: UIViewController, MediaPickerViewControll
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var videosCollectionView: UICollectionView!
     @IBOutlet weak var photosCollectionView: UICollectionView!
-
+    @IBOutlet weak var videoHeaderView: UIView!
+    @IBOutlet weak var photoHeaderView: UIView!
+    
     // MARK: - Variables
     weak var listener: MediaPickerPresentableListener?
     var photosRefresher: UIRefreshControl!
@@ -174,12 +176,18 @@ extension MediaPickerViewController: MediaPickerPresentable {
     func bind(viewModel: MediaPickerViewModel) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
-        self.videosCollectionView.reloadData()
-        self.photosCollectionView.reloadData()
-        if self.photosRefresher != nil {
-            self.photosRefresher.endRefreshing()
+        if self.viewModel.isSelectAudio {
+            self.photoHeaderView.isHidden = true
+            self.videosSelectedBorder.isHidden = true
+        } else {
+            self.photoHeaderView.isHidden = false
+            self.photosCollectionView.reloadData()
+            if self.photosRefresher != nil {
+                self.photosRefresher.endRefreshing()
+            }
         }
 
+        self.videosCollectionView.reloadData()
         if self.videosRefresher != nil {
             self.videosRefresher.endRefreshing()
         }

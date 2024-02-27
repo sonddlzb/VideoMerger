@@ -13,6 +13,7 @@ struct MediaPickerViewModel {
     var listAsset: [PHAsset]
     var listSelectedAssets: [PHAsset]
     var isGrantedAccess = true
+    var isSelectAudio = false
 
     static func makeEmptyListAsset() -> MediaPickerViewModel {
         return MediaPickerViewModel(listAsset: [], listSelectedAssets: [])

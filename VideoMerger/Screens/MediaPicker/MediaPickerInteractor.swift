@@ -32,9 +32,11 @@ final class MediaPickerInteractor: PresentableInteractor<MediaPickerPresentable>
     weak var listener: MediaPickerListener?
     var viewModel = MediaPickerViewModel.makeEmptyListAsset()
     var isAddMore: Bool
+    var disposeBag = DisposeBag()
 
-    init(presenter: MediaPickerPresentable, isAddMore: Bool) {
+    init(presenter: MediaPickerPresentable, isAddMore: Bool, isSelectAudio: Bool = false) {
         self.isAddMore = isAddMore
+        self.viewModel.isSelectAudio = isSelectAudio
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -95,6 +97,18 @@ extension MediaPickerInteractor: MediaPickerPresentableListener {
     }
 
     func didSelect(_ listSelectedAsset: [PHAsset]) {
-        self.listener?.mediaPickerWantToOpenEditor(for: listSelectedAsset, isAddMore: isAddMore)
+        if self.viewModel.isSelectAudio {
+            if let asset = listSelectedAsset.first {
+                asset.exportAudio(using: disposeBag) {[weak self] audioURL in
+                    DispatchQueue.main.async {
+                        self?.listener?.mediaPickerWantToDismiss()
+                    }
+
+                    // MARK: - handle using audioURL later
+                }
+            }
+        } else {
+            self.listener?.mediaPickerWantToOpenEditor(for: listSelectedAsset, isAddMore: isAddMore)
+        }
     }
 }
