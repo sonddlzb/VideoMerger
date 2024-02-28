@@ -18,6 +18,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditorViewController">
             <connections>
                 <outlet property="borderView" destination="6vV-Tj-Z5f" id="VNL-y8-uPI"/>
+                <outlet property="containerAddSound" destination="7nr-ld-5DO" id="Ep8-BP-4Ip"/>
+                <outlet property="containerAudioView" destination="7eb-GU-d5h" id="9jy-Wd-iFw"/>
+                <outlet property="containerSound" destination="89a-yw-q11" id="g8r-x5-p3f"/>
                 <outlet property="editMainTabBarView" destination="Hy1-Mb-vnG" id="Vu2-rP-wV8"/>
                 <outlet property="expandableFrameView" destination="mJ0-Cl-TqI" id="YIa-HJ-aQe"/>
                 <outlet property="frameScrollView" destination="nSI-fm-Pr9" id="4hj-oY-Esl"/>
@@ -295,6 +298,10 @@
                                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="89a-yw-q11">
                                                                                     <rect key="frame" x="56.333333333333343" y="0.0" width="373.66666666666663" height="35.333333333333336"/>
                                                                                     <subviews>
+                                                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7eb-GU-d5h">
+                                                                                            <rect key="frame" x="0.0" y="0.0" width="373.66666666666669" height="35.333333333333336"/>
+                                                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                                        </view>
                                                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7nr-ld-5DO">
                                                                                             <rect key="frame" x="0.0" y="0.0" width="373.66666666666669" height="35.333333333333336"/>
                                                                                             <subviews>
@@ -310,23 +317,38 @@
                                                                                                     <color key="textColor" red="0.54509803921568623" green="0.54509803921568623" blue="0.54509803921568623" alpha="1" colorSpace="calibratedRGB"/>
                                                                                                     <nil key="highlightedColor"/>
                                                                                                 </label>
+                                                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MLE-yv-2Zq">
+                                                                                                    <rect key="frame" x="0.0" y="0.0" width="373.66666666666669" height="35.333333333333336"/>
+                                                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                                                    <connections>
+                                                                                                        <action selector="didTapAddMusic:" destination="-1" eventType="touchUpInside" id="v3J-Qo-koG"/>
+                                                                                                    </connections>
+                                                                                                </button>
                                                                                             </subviews>
                                                                                             <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                                                                             <constraints>
                                                                                                 <constraint firstItem="XEx-kQ-AaJ" firstAttribute="centerY" secondItem="7nr-ld-5DO" secondAttribute="centerY" id="ANi-Om-om5"/>
                                                                                                 <constraint firstItem="XEx-kQ-AaJ" firstAttribute="height" secondItem="7nr-ld-5DO" secondAttribute="height" multiplier="9:35" id="Gqe-4K-XCD"/>
+                                                                                                <constraint firstItem="MLE-yv-2Zq" firstAttribute="leading" secondItem="7nr-ld-5DO" secondAttribute="leading" id="I1B-m1-Ufi"/>
+                                                                                                <constraint firstItem="MLE-yv-2Zq" firstAttribute="top" secondItem="7nr-ld-5DO" secondAttribute="top" id="UeH-6e-hfT"/>
                                                                                                 <constraint firstItem="XEx-kQ-AaJ" firstAttribute="leading" secondItem="7nr-ld-5DO" secondAttribute="leading" constant="11" id="YnU-xY-fJq"/>
                                                                                                 <constraint firstItem="1Yj-Mz-jwv" firstAttribute="leading" secondItem="XEx-kQ-AaJ" secondAttribute="trailing" constant="10" id="ZQT-0B-tfw"/>
                                                                                                 <constraint firstItem="1Yj-Mz-jwv" firstAttribute="centerY" secondItem="XEx-kQ-AaJ" secondAttribute="centerY" id="eRy-b7-Abt"/>
+                                                                                                <constraint firstAttribute="bottom" secondItem="MLE-yv-2Zq" secondAttribute="bottom" id="jMt-55-37e"/>
+                                                                                                <constraint firstAttribute="trailing" secondItem="MLE-yv-2Zq" secondAttribute="trailing" id="xdh-6x-3bA"/>
                                                                                             </constraints>
                                                                                         </view>
                                                                                     </subviews>
                                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                                     <constraints>
-                                                                                        <constraint firstAttribute="bottom" secondItem="7nr-ld-5DO" secondAttribute="bottom" id="0Pi-pJ-yMp"/>
-                                                                                        <constraint firstItem="7nr-ld-5DO" firstAttribute="leading" secondItem="89a-yw-q11" secondAttribute="leading" id="L6C-dC-ZFa"/>
-                                                                                        <constraint firstItem="7nr-ld-5DO" firstAttribute="top" secondItem="89a-yw-q11" secondAttribute="top" id="cTX-Th-NUK"/>
-                                                                                        <constraint firstAttribute="trailing" secondItem="7nr-ld-5DO" secondAttribute="trailing" id="kvM-3W-qnh"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="7nr-ld-5DO" secondAttribute="trailing" id="6xt-EY-v9Q"/>
+                                                                                        <constraint firstItem="7nr-ld-5DO" firstAttribute="leading" secondItem="89a-yw-q11" secondAttribute="leading" id="CZI-iU-A3T"/>
+                                                                                        <constraint firstAttribute="bottom" secondItem="7nr-ld-5DO" secondAttribute="bottom" id="E68-5c-8mK"/>
+                                                                                        <constraint firstItem="7nr-ld-5DO" firstAttribute="top" secondItem="89a-yw-q11" secondAttribute="top" id="O9f-m1-hBZ"/>
+                                                                                        <constraint firstAttribute="trailing" secondItem="7eb-GU-d5h" secondAttribute="trailing" id="OrR-gj-hJM"/>
+                                                                                        <constraint firstItem="7eb-GU-d5h" firstAttribute="top" secondItem="89a-yw-q11" secondAttribute="top" id="XeI-eD-y8S"/>
+                                                                                        <constraint firstItem="7eb-GU-d5h" firstAttribute="leading" secondItem="89a-yw-q11" secondAttribute="leading" id="ogD-Xe-JFs"/>
+                                                                                        <constraint firstAttribute="bottom" secondItem="7eb-GU-d5h" secondAttribute="bottom" id="pk3-LL-Zae"/>
                                                                                     </constraints>
                                                                                     <userDefinedRuntimeAttributes>
                                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">

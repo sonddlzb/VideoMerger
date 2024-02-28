@@ -23,6 +23,7 @@ target 'VideoMerger' do
   pod 'SVProgressHUD'
   pod 'SDWebImage'
   pod 'lottie-ios'
+  pod 'DSWaveformImage'
   RxSwiftPod()
   RIBsPod()
 

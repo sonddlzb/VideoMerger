@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (5.7.1)
+  - DSWaveformImage (6.1.1)
   - lottie-ios (4.2.0)
   - Resolver (1.5.0)
   - RIBs (0.9.3):
@@ -20,6 +21,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - DSWaveformImage
   - lottie-ios
   - Resolver
   - RIBs (from `https://github.com/uber/RIBs/`, tag `v0.10.0`)
@@ -33,6 +35,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
+    - DSWaveformImage
     - lottie-ios
     - Resolver
     - RxCocoa
@@ -55,6 +58,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  DSWaveformImage: 3c718a0cf99291887ee70d1d0c18d80101d3d9ce
   lottie-ios: 809ecf2d460ed650a6aed7aa88b2ec45fab4779c
   Resolver: 68984624572763018fd8ec7b8e3e8df0e3b6bba5
   RIBs: d4c4c7e7e4580f0bbe88bdc88b6c11704a738b7f
@@ -66,6 +70,6 @@ SPEC CHECKSUMS:
   SwiftLint: 1ac76dac888ca05cb0cf24d0c85887ec1209961d
   TLLogging: 636a4873bf1aaa9d60c4b938433b17e3ce33cb51
 
-PODFILE CHECKSUM: 5f2cd7048241c881b9bb5b251a735fa24878f16a
+PODFILE CHECKSUM: 7515d1408269a8eeb7230c388ce4ca7b88cc392a
 
 COCOAPODS: 1.14.3

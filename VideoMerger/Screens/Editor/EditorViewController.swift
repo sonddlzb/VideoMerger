@@ -32,11 +32,15 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet weak var timeStackView: UIStackView!
     @IBOutlet weak var timeScrollView: UIScrollView!
     @IBOutlet weak var frameStackView: UIStackView!
+    @IBOutlet weak var containerAddSound: UIView!
+    @IBOutlet weak var containerSound: UIView!
+    @IBOutlet weak var containerAudioView: UIView!
     @IBOutlet weak var borderView: UIView!
     @IBOutlet weak var imgMute: UIImageView!
     @IBOutlet weak var imgSoundMute: UIImageView!
     @IBOutlet weak var imgTextHide: UIImageView!
     @IBOutlet weak var imgFilterHide: UIImageView!
+    @IBOutlet weak var addSoundScrollView: UIScrollView!
     @IBOutlet weak var editMainTabBarView: EditMainTabBarView!
     @IBOutlet weak var expandableFrameView: ExpandableView!
 
@@ -359,6 +363,11 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBAction func didTapHideFilterButton(_ sender: Any) {
         self.isFilterHidden = !self.isFilterHidden
     }
+
+    @IBAction func didTapAddMusic(_ sender: Any) {
+        self.listener?.didTapAddMusic()
+    }
+
     @objc private func handleSwipeDown(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
             self.hiddenEditCompositionBar()
@@ -462,6 +471,7 @@ extension EditorViewController: EditorPresentable {
 
     func bind(viewModel: EditorViewModel, isNeedToReload: Bool) {
         self.loadViewIfNeeded()
+        self.view.layoutIfNeeded()
         self.viewModel = viewModel
         if !isNeedToReload {
             if let composedAsset = self.viewModel.currentComposedAsset {
@@ -470,6 +480,29 @@ extension EditorViewController: EditorPresentable {
             }
         } else {
             self.loadAssets(index: 0)
+        }
+
+        if viewModel.listAudio.isEmpty {
+            self.containerAddSound.isHidden = false
+        } else {
+            self.containerAddSound.isHidden = true
+            self.addSoundScrollView.subviews.forEach {
+                if $0 != containerAddSound {
+                    $0.removeFromSuperview()
+                }
+            }
+
+            let audioView = AudioView()
+            audioView.translatesAutoresizingMaskIntoConstraints = false
+            self.containerAudioView.addSubview(audioView)
+            let audioURL = viewModel.listAudio.first!
+            let audioAsset = AVURLAsset(url: audioURL)
+            let width = self.frameScrollView.contentSize.width * (audioAsset.duration.toDouble()/(viewModel.currentComposedAsset?.duration.toDouble())!)
+            audioView.fitSuperviewConstraint()
+            audioView.widthAnchor.constraint(equalToConstant: width).isActive = true
+
+            audioView.audioURL = audioURL
+            audioView.audioWidth = width
         }
     }
 

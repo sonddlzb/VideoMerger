@@ -15,6 +15,8 @@ struct EditorViewModel {
     var disposeBag = DisposeBag()
     var currentTime = 0.0
     var currentComposedAsset: AVAsset?
+    var listAudio: [URL] = []
+
     init(listAssets: [PHAsset]) {
         self.listAssets = listAssets
         self.listCurrenAssetDuration = self.listAssets.map { $0.duration }
