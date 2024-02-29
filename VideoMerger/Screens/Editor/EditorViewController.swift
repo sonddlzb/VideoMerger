@@ -421,6 +421,7 @@ extension EditorViewController: EditorPresentable {
                 self.viewModel.endTimeEdit = self.viewModel.endTimeEdit * oldSpeed / speed
             }
 
+            self.listener?.bind(viewModel: viewModel)
             for _ in 1...frameStackView.arrangedSubviews.count - 1 {
                 let frameView = frameStackView.arrangedSubviews[1]
                 frameStackView.removeArrangedSubview(frameView)
