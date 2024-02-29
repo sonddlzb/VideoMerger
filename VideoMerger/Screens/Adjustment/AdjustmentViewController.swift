@@ -48,7 +48,7 @@ enum AdjustmentType: CaseIterable {
 
 protocol AdjustmentPresentableListener: AnyObject {
     func didTapCancel()
-    func didTapDone()
+    func didTapDone(speedType: SpeedType)
 }
 
 final class AdjustmentViewController: UIViewController, AdjustmentViewControllable {
@@ -57,8 +57,12 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentLabel: UILabel!
-    private var speedView: SpeedView?
-    private var volumeView: VolumeView?
+    private lazy var speedView: SpeedView = {
+        return SpeedView()
+    }()
+    private var volumeView: VolumeView = {
+        return VolumeView()
+    }()
 
     // MARK: - Variables
     weak var listener: AdjustmentPresentableListener?
@@ -68,7 +72,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
         }
     }
 
-    var viewModel = AdjustmentViewModel(adjustmentType: .volume)
+    var viewModel = AdjustmentViewModel(adjustmentType: .volume, speedType: .speedC)
 
     // MARK: - Lifecycle
     override func viewDidLayoutSubviews() {
@@ -83,16 +87,16 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
         self.contentView.subviews.forEach {$0.removeFromSuperview()}
         switch self.viewModel.adjustmentType {
         case .speed:
-            speedView = SpeedView()
-            speedView!.translatesAutoresizingMaskIntoConstraints = false
-            self.contentView.addSubview(speedView!)
-            speedView!.fitSuperviewConstraint()
+            speedView.translatesAutoresizingMaskIntoConstraints = false
+            self.contentView.addSubview(speedView)
+            speedView.fitSuperviewConstraint()
+            speedView.currentSpeed = self.viewModel.speedType
             self.contentLabel.text = AdjustmentType.speed.name()
         case .volume:
             volumeView = VolumeView()
-            volumeView!.translatesAutoresizingMaskIntoConstraints = false
-            self.contentView.addSubview(volumeView!)
-            volumeView!.fitSuperviewConstraint()
+            volumeView.translatesAutoresizingMaskIntoConstraints = false
+            self.contentView.addSubview(volumeView)
+            volumeView.fitSuperviewConstraint()
             self.contentLabel.text = AdjustmentType.volume.name()
         case .filter:
             break
@@ -109,6 +113,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
     }
 
     @IBAction func didTapDone(_ sender: Any) {
+        self.listener?.didTapDone(speedType: speedView.currentSpeed)
     }
 
     @IBAction func didTapSelectForAll(_ sender: Any) {

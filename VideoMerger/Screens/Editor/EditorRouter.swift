@@ -53,7 +53,11 @@ extension EditorRouter: EditorRouting {
             return
         }
 
-        let router = self.adjustmentBuilder.build(withListener: self.interactor, type: type)
+        guard let editorViewController = self.viewController as? EditorViewController else {
+            return
+        }
+
+        let router = self.adjustmentBuilder.build(withListener: self.interactor, type: type, speedType: editorViewController.viewModel.speedType)
         self.attachChild(router)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
         self.viewController.present(viewControllable: router.viewControllable)

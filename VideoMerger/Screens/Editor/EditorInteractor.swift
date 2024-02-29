@@ -23,7 +23,7 @@ protocol EditorPresentable: Presentable {
     var listener: EditorPresentableListener? { get set }
 
     func bind(viewModel: EditorViewModel, isNeedToReload: Bool)
-    func bind(viewModel: EditorViewModel, isCutFromStart: Bool, isCutFromEnd: Bool)
+    func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType)
     func bind(currentTime: Double)
 }
 
@@ -57,6 +57,49 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
 // MARK: - EditorPresentableListener
 extension EditorInteractor: EditorPresentableListener {
+    func bind(viewModel: EditorViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double) {
+        let composition = AVMutableComposition()
+        guard let videoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
+              let audioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+            print("Error: Failed to create video or audio track.")
+            return
+        }
+
+        let totalDuration: CMTime = .zero
+        guard let viewModelAvAsset = self.viewModel.currentComposedAsset else {
+            return
+        }
+
+        self.viewModel.speedType = speedType
+        let oldSpeed = viewModel.oldSpeedType.rawValue
+        let speed = viewModel.speedType.rawValue
+
+        let start = CMTime(seconds: startTime, preferredTimescale: 1000)
+        let end = CMTime(seconds: endTime, preferredTimescale: 1000)
+        let duration = CMTimeSubtract(end, start)
+        do {
+            try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
+            try audioTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            if duration.seconds > 0 {
+                let scaledTimeRange = CMTimeRange(start: start, duration: duration)
+                let scaledDuration = CMTimeMultiplyByFloat64(duration, multiplier: 1.0 * oldSpeed / speed)
+                videoTrack.scaleTimeRange(scaledTimeRange, toDuration: scaledDuration)
+                audioTrack.scaleTimeRange(scaledTimeRange, toDuration: scaledDuration)
+            }
+        } catch {
+            print("Error when trimming video: \(error.localizedDescription)")
+        }
+
+        DispatchQueue.main.async {
+            self.viewModel.currentComposedAsset = composition
+            self.presenter.bind(viewModel: self.viewModel, adjustmentType: .speed)
+        }
+    }
+
     func didTapExport() {
         self.router?.showExport()
     }
@@ -79,7 +122,8 @@ extension EditorInteractor: EditorPresentableListener {
         let audioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)
 
         var currentTime = CMTime.zero
-        for asset in self.viewModel.listAssets {
+        for index in 0..<self.viewModel.numberOfAsset() {
+            let asset = self.viewModel.listAssets[index]
             let options = PHVideoRequestOptions()
             options.isNetworkAccessAllowed = true
 
@@ -114,60 +158,25 @@ extension EditorInteractor: EditorPresentableListener {
             return
         }
 
-        var totalDuration: CMTime = .zero
-        var totalSeconds = 0.0
-        var isCutEndTime = false
+        let totalDuration: CMTime = .zero
+        guard let viewModelAvAsset = self.viewModel.currentComposedAsset else {
+            return
+        }
 
-        for index in 0..<self.viewModel.numberOfAsset() {
-            let asset = self.viewModel.listAssets[index]
-            let assetDuration = self.viewModel.listCurrenAssetDuration[index]
-            let options = PHVideoRequestOptions()
-            options.isNetworkAccessAllowed = true
+        let start = CMTime(seconds: startTime, preferredTimescale: 1000)
+        let end = CMTime(seconds: endTime, preferredTimescale: 1000)
+        let duration = CMTimeSubtract(end, start)
+        let timeRange = CMTimeRange(start: start, duration: duration)
+        do {
+            try videoTrack.insertTimeRange(timeRange, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+        } catch {
+            print("Error when trimming video: \(error.localizedDescription)")
+        }
 
-            var start = CMTime(seconds: 0, preferredTimescale: 1000)
-            if startTime > totalSeconds {
-                start = CMTime(seconds: startTime - totalSeconds, preferredTimescale: 1000)
-            }
-
-            var end = CMTime(seconds: startTime, preferredTimescale: 1000)
-            totalSeconds += assetDuration
-            if endTime > totalSeconds {
-                if !isCutEndTime {
-                    end = CMTime(seconds: assetDuration, preferredTimescale: 1000)
-                }
-            } else {
-                totalSeconds -= assetDuration
-                if !isCutEndTime {
-                    end = CMTime(seconds: endTime - totalSeconds, preferredTimescale: 1000)
-                    isCutEndTime = true
-                }
-            }
-
-            let duration = CMTimeSubtract(end, start)
-            self.viewModel.listCurrenAssetDuration[index] = duration.seconds
-            let timeRange = CMTimeRange(start: start, duration: duration)
-            PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { avAsset, _, _ in
-                guard let avAsset = avAsset as? AVURLAsset else { return }
-                if duration.seconds > 0 {
-                    do {
-                        try videoTrack.insertTimeRange(timeRange, of: avAsset.tracks(withMediaType: .video)[0], at: totalDuration)
-                        try audioTrack.insertTimeRange(timeRange, of: avAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
-                    } catch {
-                        print("Error when trimming video: \(error.localizedDescription)")
-                    }
-
-                    totalDuration = CMTimeAdd(totalDuration, duration)
-                }
-
-                if asset == self.viewModel.listAssets.last {
-                    DispatchQueue.main.async {
-                        let isCutFromStart = startTime > 0.1
-                        let isCutFromEnd = endTime < (self.viewModel.currentComposedAsset?.duration.toDouble() ?? 0.0)
-                        self.viewModel.currentComposedAsset = composition
-                        self.presenter.bind(viewModel: self.viewModel, isCutFromStart: isCutFromStart, isCutFromEnd: isCutFromEnd)
-                    }
-                }
-            }
+        DispatchQueue.main.async {
+            self.viewModel.currentComposedAsset = composition
+            self.presenter.bind(viewModel: self.viewModel, adjustmentType: .trim)
         }
     }
 

@@ -19,6 +19,7 @@ protocol AdjustmentPresentable: Presentable {
 
 protocol AdjustmentListener: AnyObject {
     func adjusmentWantToDismiss()
+    func adjustmentWantToDone(speedType: SpeedType)
 }
 
 final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, AdjustmentInteractable {
@@ -26,10 +27,10 @@ final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, 
     weak var router: AdjustmentRouting?
     weak var listener: AdjustmentListener?
 
-    var viewModel = AdjustmentViewModel(adjustmentType: .volume)
+    var viewModel = AdjustmentViewModel(adjustmentType: .volume, speedType: .speedC)
 
-    init(presenter: AdjustmentPresentable, type: AdjustmentType) {
-        self.viewModel = AdjustmentViewModel(adjustmentType: type)
+    init(presenter: AdjustmentPresentable, type: AdjustmentType, speedType: SpeedType) {
+        self.viewModel = AdjustmentViewModel(adjustmentType: type, speedType: speedType)
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -49,7 +50,7 @@ extension AdjustmentInteractor: AdjustmentPresentableListener {
         self.listener?.adjusmentWantToDismiss()
     }
 
-    func didTapDone() {
-        // MARK: - handle here
+    func didTapDone(speedType: SpeedType) {
+        self.listener?.adjustmentWantToDone(speedType: speedType)
     }
 }
