@@ -76,7 +76,7 @@ public extension AVAsset {
         return value * 180 / CGFloat.pi
     }
 
-    func extractFrames(fps: Int64, completion: @escaping (UIImage?, Error?, Int, Bool, Double) -> Void) {
+    func extractFrames(fps: Int64, completion: @escaping (Data?, Error?, Int, Bool, Double) -> Void) {
         let imageGenerator = AVAssetImageGenerator(asset: self)
         imageGenerator.apertureMode = .cleanAperture
         imageGenerator.appliesPreferredTrackTransform = true
@@ -95,8 +95,8 @@ public extension AVAsset {
             }
 
             if let cgImage = cgImage {
-                let uiImage = UIImage(cgImage: cgImage)
-                completion(uiImage, nil, count, count == times.count - 1, scale)
+                let imageData = UIImage(cgImage: cgImage).jpegData(compressionQuality: 0.0)
+                completion(imageData, nil, count, count == times.count - 1, scale)
                 count += 1
             }
         }

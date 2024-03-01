@@ -26,21 +26,27 @@ protocol EditorPresentableListener: AnyObject {
 
 final class EditorViewController: UIViewController, EditorViewControllable {
     // MARK: - Outlets
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var gradientView: UIView!
-    @IBOutlet weak var playView: PlayerView!
-    @IBOutlet weak var playBarView: PlayBarView!
-    @IBOutlet weak var frameScrollView: UIScrollView!
-    @IBOutlet weak var timeStackView: UIStackView!
-    @IBOutlet weak var timeScrollView: UIScrollView!
-    @IBOutlet weak var frameStackView: UIStackView!
-    @IBOutlet weak var borderView: UIView!
-    @IBOutlet weak var imgMute: UIImageView!
-    @IBOutlet weak var imgSoundMute: UIImageView!
-    @IBOutlet weak var imgTextHide: UIImageView!
-    @IBOutlet weak var imgFilterHide: UIImageView!
-    @IBOutlet weak var editMainTabBarView: EditMainTabBarView!
-    @IBOutlet weak var expandableFrameView: ExpandableView!
+    @IBOutlet private weak var headerView: UIView!
+    @IBOutlet private weak var gradientView: UIView!
+    @IBOutlet private weak var playView: PlayerView!
+    @IBOutlet private weak var playBarView: PlayBarView!
+    @IBOutlet private weak var timeStackView: UIStackView!
+    @IBOutlet private weak var timeScrollView: UIScrollView!
+    @IBOutlet private weak var borderView: UIView!
+    @IBOutlet private weak var imgMute: UIImageView!
+    @IBOutlet private weak var imgSoundMute: UIImageView!
+    @IBOutlet private weak var imgTextHide: UIImageView!
+    @IBOutlet private weak var imgFilterHide: UIImageView!
+    @IBOutlet private weak var editMainTabBarView: EditMainTabBarView!
+    @IBOutlet private weak var frameCollectionView: UICollectionView!
+    var expandableWidthConstraint: NSLayoutConstraint!
+    var expandableHeightConstraint: NSLayoutConstraint!
+    lazy private var expandableFrameView: ExpandableView = {
+        let expandableView = ExpandableView()
+        expandableView.translatesAutoresizingMaskIntoConstraints = false
+        expandableView.isHidden = true
+        return expandableView
+    }()
 
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
@@ -51,6 +57,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     var isPlayingBefore = false
     var isPlayingAtTheEnd = false
     var isSetConstraintExpandableView = false
+    var listFrame: [ItemFrameViewModel] = []
     var isRootSoundMuted = false {
         didSet {
             self.playView.isMuted = isRootSoundMuted
@@ -100,10 +107,24 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     }
 
     private func setConstraintExpandableView() {
+        self.frameCollectionView.rx.observe(CGSize.self, "contentSize")
+            .subscribe(onNext: { [weak self] size in
+                DispatchQueue.main.async {
+                    if let size = size, let self = self {
+                        self.expandableWidthConstraint.constant = size.width
+                        self.expandableWidthConstraint.isActive = true
+                        self.expandableHeightConstraint.constant = size.height - 12
+                        self.expandableHeightConstraint.isActive = true
+                        self.view.layoutIfNeeded()
+                    }
+                }
+            })
+            .disposed(by: self.viewModel.disposeBag)
+
         if !isSetConstraintExpandableView {
             let expandableEdgeWidth = self.expandableFrameView.contentView.leftEdgeView.frame.width
-            self.expandableFrameView.setLimitLeadingConstrant(leading: -Double((self.frameStackView.arrangedSubviews.first?.frame.width) ?? 0.0) + expandableEdgeWidth)
-            self.expandableFrameView.setLimitTrailingConstrant(trailing: frameScrollView.frame.size.width/2 - expandableEdgeWidth)
+            self.expandableFrameView.setLimitLeadingConstrant(leading: -frameCollectionView.frame.size.width/2 + expandableEdgeWidth)
+            self.expandableFrameView.setLimitTrailingConstrant(trailing: frameCollectionView.frame.size.width/2 - expandableEdgeWidth)
             isSetConstraintExpandableView = true
         }
     }
@@ -111,14 +132,23 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     private func config() {
         expandableFrameView.delegate = self
         playBarView.delegate = self
-        frameScrollView.delegate = self
-        frameScrollView.showsHorizontalScrollIndicator = false
         editMainTabBarView.delegate = self
-        let longPressFrameStackGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleTapFrameStack(_:)))
+        frameCollectionView.register(UINib(nibName: "FrameCell", bundle: .main), forCellWithReuseIdentifier: "FrameCell")
+        let longPressFrameStackGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongPressEditFrame(_:)))
         longPressFrameStackGesture.minimumPressDuration = 1.0
-        frameStackView.addGestureRecognizer(longPressFrameStackGesture)
+        frameCollectionView.addGestureRecognizer(longPressFrameStackGesture)
         editCompositionBar = EditCompositionBarView()
         var listView: [TapableView] = []
+        self.frameCollectionView.addSubview(expandableFrameView)
+        frameCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        frameCollectionView.addSubview(expandableFrameView)
+        expandableWidthConstraint = expandableFrameView.widthAnchor.constraint(equalToConstant: frameCollectionView.contentSize.width)
+        expandableHeightConstraint = expandableFrameView.heightAnchor.constraint(equalToConstant: frameCollectionView.contentSize.height - 12)
+
+        NSLayoutConstraint.activate([
+            frameCollectionView.leftAnchor.constraint(equalTo: expandableFrameView.leftAnchor),
+            frameCollectionView.topAnchor.constraint(equalTo: expandableFrameView.topAnchor, constant: -12.0)
+        ])
 
         AdjustmentType.allCases.forEach { type in
             let item = EditCompotionItem()
@@ -186,15 +216,14 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
                 if let asset = avAsset {
                     DispatchQueue.main.async {
-                        self.addLeftFramesPadding(isFirstFrame: index == 0)
-                        asset.extractFrames(fps: 1) { image, error, second, isFinish, scale in
+                        asset.extractFrames(fps: 1) { [weak self] imageData, error, second, isFinish, scale in
                             guard error == nil else {
                                 print("Error when extracting frames: \(error!.localizedDescription)")
                                 return
                             }
 
                             DispatchQueue.main.async {
-                                self.insertFrames(image: image, second: second, isFinish: isFinish, scale: scale, index: index)
+                                self?.insertFrames(imageData: imageData, second: second, isFinish: isFinish, scale: scale, index: index)
                             }
                         }
                     }
@@ -202,7 +231,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             })
         } else if phAsset.mediaType == .image {
             DispatchQueue.main.async {
-                self.addLeftFramesPadding(isFirstFrame: index == 0)
                 self.insertFrame(phAsset.getImage(), index: index)
             }
         }
@@ -219,26 +247,18 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         }
     }
 
-    func insertFrames(image: UIImage?, second: Int, isFinish: Bool, scale: Double, index: Int) {
-        if let image = image {
+    func insertFrames(imageData: Data?, second: Int, isFinish: Bool, scale: Double, index: Int) {
+        if let imageData = imageData {
             if self.scale < 0 {
                 self.scale = scale
             }
 
-            let imageView = UIImageView()
-            imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.image = image
-            self.frameStackView.addArrangedSubview(imageView)
-            imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*self.scale).isActive = true
+            let fileName = "\(imageData.description)\(second)"
+            guard let imageURL = self.viewModel.saveImageToCaches( fileName, data: imageData) else {
+                return
+            }
 
-            let timeLabel = UILabel()
-            timeLabel.textAlignment = .left
-            timeLabel.textColor = UIColor(rgb: 0x9E9E9E)
-            timeLabel.font = .systemFont(ofSize: 10, weight: .regular)
-            timeLabel.text = String(self.viewModel.secondAt(second, index: index)).formatVideoDuration()
-            timeLabel.translatesAutoresizingMaskIntoConstraints = false
-            self.timeStackView.addArrangedSubview(timeLabel)
-            timeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
+            self.listFrame.append(ItemFrameViewModel(url: imageURL, time: String(self.viewModel.secondAt(second, index: index)).formatVideoDuration(), scale: scale, isFrame: true))
 
             if isFinish {
                 dispatchGroup.leave()
@@ -249,9 +269,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
                         self.listener?.composeAsset()
                     }
 
-                    if index == self.viewModel.numberOfAsset()-1 {
-                        self.addRightFramesPadding()
-                    }
+                    self.frameCollectionView.reloadData()
                 }
             }
         }
@@ -259,33 +277,6 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
     func insertFrame(_ image: UIImage?, index: Int) {
         // MARK: - handle for image later
-    }
-
-    func addLeftFramesPadding(isFirstFrame: Bool) {
-        if isFirstFrame {
-            self.frameStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
-            self.timeStackView.arrangedSubviews.forEach {$0.removeFromSuperview()}
-
-            let leftPaddingView = UIView()
-            leftPaddingView.translatesAutoresizingMaskIntoConstraints = false
-            self.frameStackView.addArrangedSubview(leftPaddingView)
-            leftPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-            let leftTimePaddingView = UIView()
-            leftTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
-            self.timeStackView.addArrangedSubview(leftTimePaddingView)
-            leftTimePaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-        }
-    }
-
-    func addRightFramesPadding() {
-        let rightPaddingView = UIView()
-        rightPaddingView.translatesAutoresizingMaskIntoConstraints = false
-        self.frameStackView.addArrangedSubview(rightPaddingView)
-        rightPaddingView.widthAnchor.constraint(equalTo: self.frameScrollView.widthAnchor, multiplier: 0.5).isActive = true
-        let rightTimePaddingView = UIView()
-        rightTimePaddingView.translatesAutoresizingMaskIntoConstraints = false
-        self.timeStackView.addArrangedSubview(rightTimePaddingView)
-        rightTimePaddingView.widthAnchor.constraint(equalTo: self.timeStackView.widthAnchor, multiplier: 0.5).isActive = true
     }
 
     func addPeriodicTimeObserverForVideo() {
@@ -362,7 +353,7 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             self.expandableFrameView.isHidden = true
         }
     }
-    @objc private func handleTapFrameStack(_ gesture: UILongPressGestureRecognizer) {
+    @objc private func onLongPressEditFrame(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .ended {
             self.showEditCompositionBar()
             self.expandableFrameView.isHidden = false
@@ -402,6 +393,7 @@ extension EditorViewController: PlayBarViewDelegate {
 extension EditorViewController: EditorPresentable {
     func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType) {
         self.viewModel = viewModel
+        listFrame.removeAll()
         if let composedAsset = self.viewModel.currentComposedAsset {
             self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
             self.viewModel.currentTime = 0.0
@@ -411,9 +403,8 @@ extension EditorViewController: EditorPresentable {
                 let duration = composedAsset.duration
                 self.viewModel.startTimeEdit = 0.0
                 self.viewModel.endTimeEdit = CMTimeGetSeconds(duration)
-                self.view.layoutIfNeeded()
-                self.expandableFrameView.trailingConstraint.constant = self.frameScrollView.frame.width / 2 - 15.0
-                self.expandableFrameView.leadingConstraint.constant = -self.frameScrollView.frame.width / 2 + 15.0
+                self.expandableFrameView.trailingConstraint.constant = self.frameCollectionView.frame.width / 2 - 15.0
+                self.expandableFrameView.leadingConstraint.constant = -self.frameCollectionView.frame.width / 2 + 15.0
             } else if adjustmentType == .speed {
                 let oldSpeed = viewModel.oldSpeedType.rawValue
                 let speed = viewModel.speedType.rawValue
@@ -422,46 +413,30 @@ extension EditorViewController: EditorPresentable {
             }
 
             self.listener?.bind(viewModel: viewModel)
-            for _ in 1...frameStackView.arrangedSubviews.count - 1 {
-                let frameView = frameStackView.arrangedSubviews[1]
-                frameStackView.removeArrangedSubview(frameView)
-                frameView.removeFromSuperview()
-                let timeView = timeStackView.arrangedSubviews[1]
-                timeStackView.removeArrangedSubview(timeView)
-                timeView.removeFromSuperview()
-            }
 
             dispatchGroup.enter()
-            composedAsset.extractFrames(fps: 1) { [weak self] (image, error, second, isFinish, scale) in
+            composedAsset.extractFrames(fps: 1) { [weak self] (imageData, error, second, isFinish, scale) in
                 guard error == nil else {
                     print("Error when extracting frames: \(error!.localizedDescription)")
                     return
                 }
 
                 DispatchQueue.main.async {
-                    if let self = self {
+                    if let self = self, let imageData = imageData {
                         if self.scale < 0 {
                             self.scale = scale
                         }
 
-                        let imageView = UIImageView()
-                        imageView.translatesAutoresizingMaskIntoConstraints = false
-                        imageView.image = image
-                        self.frameStackView.addArrangedSubview(imageView)
-                        imageView.widthAnchor.constraint(equalToConstant: self.frameScrollView.frame.height*self.scale).isActive = true
+                        let fileName = "\(imageData.description)\(second)"
+                        guard let imageURL = self.viewModel.saveImageToCaches(fileName, data: imageData) else {
+                            return
+                        }
 
-                        let timeLabel = UILabel()
-                        timeLabel.textAlignment = .left
-                        timeLabel.textColor = UIColor(rgb: 0x9E9E9E)
-                        timeLabel.font = .systemFont(ofSize: 10, weight: .regular)
-                        timeLabel.text = String(second).formatVideoDuration()
-                        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-                        self.timeStackView.addArrangedSubview(timeLabel)
-                        timeLabel.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1).isActive = true
+                        self.listFrame.append(ItemFrameViewModel(url: imageURL, time: String(second).formatVideoDuration(), scale: scale, isFrame: true))
                         if isFinish {
                             self.dispatchGroup.leave()
                             self.dispatchGroup.notify(queue: .main) {
-                                self.addRightFramesPadding()
+                                self.frameCollectionView.reloadData()
                             }
                         }
                     }
@@ -483,6 +458,7 @@ extension EditorViewController: EditorPresentable {
                 self.listener?.bind(viewModel: self.viewModel)
             }
         } else {
+            self.listFrame.removeAll()
             self.loadAssets(index: 0)
         }
     }
@@ -490,8 +466,7 @@ extension EditorViewController: EditorPresentable {
     func bind(currentTime: Double) {
         self.playBarView.bind(currentTime: String(Int(viewModel.currentTime)).formatVideoDuration())
         if self.playView.isPlaying(), let duration = self.playView.duration() {
-            self.frameScrollView.contentOffset.x = currentTime/CMTimeGetSeconds(duration)*Double(frameScrollView.contentSize.width - frameScrollView.frame.width)
-            self.timeScrollView.contentOffset.x = self.frameScrollView.contentOffset.x
+            self.frameCollectionView.contentOffset.x = currentTime/CMTimeGetSeconds(duration)*Double(frameCollectionView.contentSize.width - frameCollectionView.frame.width)
         }
     }
 }
@@ -577,7 +552,7 @@ extension EditorViewController: ExpandableFrameDelegate {
     func expandableViewDidChangeWidth(_ expandableFramView: ExpandableView, positionX: Double, edge: ExpandableEdges) {
         if let duration = self.playView.duration(), !self.playView.isPlaying() {
             let offset = positionX
-            let contentWidth = Double(self.frameStackView.frame.width - self.frameScrollView.frame.width)
+            let contentWidth = Double(self.frameCollectionView.contentSize.width - self.frameCollectionView.frame.width)
             let progress = offset/contentWidth
             let currentTime = CMTimeGetSeconds(duration) * progress
             self.playView.seekTo(currentTime)
@@ -594,16 +569,45 @@ extension EditorViewController: ExpandableFrameDelegate {
 
     func expandableDidScroll(_ expandableFramView: ExpandableView, translation: CGPoint, isContinueScroll: Bool, velocity: CGPoint) {
         if isContinueScroll {
-            let scrollX = frameScrollView.contentOffset.x - 0.3*velocity.x
-            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
-                let contentOffset = CGPoint(x: scrollX, y: frameScrollView.contentOffset.y)
-                frameScrollView.setContentOffset(contentOffset, animated: true)
+            let scrollX = frameCollectionView.contentOffset.x - 0.3*velocity.x
+            if scrollX >= 0.0 && scrollX <= frameCollectionView.contentSize.width - self.frameCollectionView.frame.width {
+                let contentOffset = CGPoint(x: scrollX, y: frameCollectionView.contentOffset.y)
+                frameCollectionView.setContentOffset(contentOffset, animated: true)
             }
         } else {
-            let scrollX = frameScrollView.contentOffset.x - translation.x
-            if scrollX >= 0.0 && scrollX <= frameScrollView.contentSize.width - self.frameScrollView.frame.width {
-                frameScrollView.contentOffset.x = scrollX
+            let scrollX = frameCollectionView.contentOffset.x - translation.x
+            if scrollX >= 0.0 && scrollX <= frameCollectionView.contentSize.width - self.frameCollectionView.frame.width {
+                frameCollectionView.contentOffset.x = scrollX
             }
         }
+    }
+}
+
+// MARK: CollectionViewDelegate
+extension EditorViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.listFrame.count + 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FrameCell", for: indexPath) as? FrameCell {
+            if indexPath.row == 0 || indexPath.row == self.listFrame.count {
+                cell.bind(itemFrame: ItemFrameViewModel(url: nil, time: nil, scale: nil, isFrame: false))
+            } else if indexPath.row < self.listFrame.count {
+                cell.bind(itemFrame: self.listFrame[indexPath.row])
+            }
+
+            return cell
+        }
+
+        return UICollectionViewCell()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.row == 0 || indexPath.row == self.listFrame.count {
+            return CGSize(width: self.frameCollectionView.frame.width / 2, height: self.frameCollectionView.frame.height)
+        }
+
+        return CGSize(width: self.frameCollectionView.frame.height*self.scale, height: self.frameCollectionView.frame.height)
     }
 }

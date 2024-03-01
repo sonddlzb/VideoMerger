@@ -23,8 +23,12 @@ struct EditorViewModel {
     var oldSpeedType: SpeedType = .speedC
     var startTimeEdit: TimeInterval = 0.0
     var endTimeEdit: TimeInterval = 0.0
+    private lazy var editorDirectory: URL = {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("editorData")
+    }()
     init(listAssets: [PHAsset]) {
         self.listAssets = listAssets
+        createDirectoryIfNotExists(editorDirectory)
     }
 
     static func makeEmpty() -> EditorViewModel {
@@ -63,4 +67,42 @@ struct EditorViewModel {
     mutating func addMoreAssets(_ listAssets: [PHAsset]) {
         self.listAssets.append(contentsOf: listAssets)
     }
+
+    mutating func saveImageToCaches(_ fileName: String, data: Data) -> URL? {
+        let fileURL = self.editorDirectory.appendingPathComponent(fileName)
+
+        do {
+            try data.write(to: fileURL)
+            print("File saved successfully: \(fileURL.path)")
+            return fileURL
+        } catch {
+            print("Error saving file: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    mutating func resetEditorFolder() {
+        if FileManager.default.fileExists(atPath: self.editorDirectory.path) {
+            do {
+                try FileManager.default.removeItem(at: self.editorDirectory)
+                print("Folder deleted successfully.")
+            } catch {
+                print("Error deleting folder: \(error.localizedDescription)")
+            }
+
+            createDirectoryIfNotExists(self.editorDirectory)
+        }
+    }
+
+    private mutating func createDirectoryIfNotExists(_ directory: URL) {
+          do {
+              if !FileManager.default.fileExists(atPath: directory.path) {
+                  try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+                  print("Directory created: \(directory.path)")
+              }
+          } catch {
+              print("Error creating directory: \(error.localizedDescription)")
+          }
+      }
 }
