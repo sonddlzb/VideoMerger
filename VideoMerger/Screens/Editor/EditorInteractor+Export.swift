@@ -11,4 +11,11 @@ extension EditorInteractor: ExportListener {
     func exportWantToDismiss() {
         self.router?.dismissExport()
     }
+
+    func exportWantToShowExportResult(config: ExportConfiguration) {
+        self.router?.dismissExport()
+        if let avAsset = self.viewModel.currentComposedAsset {
+            self.router?.showExportResult(avAsset: avAsset, config: config)
+        }
+    }
 }

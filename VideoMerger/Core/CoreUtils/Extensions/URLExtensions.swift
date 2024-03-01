@@ -54,4 +54,15 @@ public extension URL {
         let fullPath = "\(userPath)\(resourceUri)"
         self.init(fileURLWithPath: fullPath)
     }
+
+    func createDirectoryIfNeeded() throws {
+        let fileManager = FileManager.default
+
+        if !fileManager.fileExists(atPath: self.absoluteString) {
+            try fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
+            print("Directory created at path: \(path)")
+        } else {
+            print("Directory already exists at path: \(path)")
+        }
+    }
 }

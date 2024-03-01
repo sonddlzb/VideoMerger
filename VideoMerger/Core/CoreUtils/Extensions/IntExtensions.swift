@@ -38,3 +38,11 @@ public extension Int {
         return String(format: "%fB", Double(self * 10 / IntConst.pow9) / 10)
     }
 }
+
+public extension Int64 {
+    func formatStorage() -> String {
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useMB, .useKB]
+        return formatter.string(fromByteCount: self)
+    }
+}

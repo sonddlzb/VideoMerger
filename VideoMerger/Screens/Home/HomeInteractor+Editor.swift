@@ -20,4 +20,8 @@ extension HomeInteractor: EditorListener {
     func editorWantToOpenPreview(avAsset: AVAsset) {
         self.router?.openPreviewVideo(avAsset)
     }
+
+    func editorWantToBackToHome() {
+        self.router?.dismissAll()
+    }
 }

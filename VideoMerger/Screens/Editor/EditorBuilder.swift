@@ -35,10 +35,12 @@ final class EditorBuilder: Builder<EditorDependency>, EditorBuildable {
         let adjustmentBuilder = DIContainer.resolve(AdjustmentBuildable.self, agrument: component)
         let exportBuilder = DIContainer.resolve(ExportBuildable.self, agrument: component)
         let addAudioBuilder = DIContainer.resolve(AddAudioBuildable.self, agrument: component)
+        let exportResultBuilder = DIContainer.resolve(ExportResultBuildable.self, agrument: component)
         return EditorRouter(interactor: interactor,
                             viewController: viewController,
                             adjustmentBuilder: adjustmentBuilder,
                             exportBuilder: exportBuilder,
-                            addAudioBuilder: addAudioBuilder)
+                            addAudioBuilder: addAudioBuilder,
+                            exportResultBuilder: exportResultBuilder)
     }
 }

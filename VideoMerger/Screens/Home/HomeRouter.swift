@@ -155,4 +155,16 @@ extension HomeRouter: HomeRouting {
         self.detachChild(router)
         self.previewVideoRouter = nil
     }
+
+    func dismissAll() {
+        self.children.forEach {
+            self.detachChild($0)
+        }
+
+        self.viewControllable.popToRoot()
+        self.editorRouter = nil
+        self.previewVideoRouter = nil
+        self.previewImageRouter = nil
+        self.mediaPickerRouter = nil
+    }
 }

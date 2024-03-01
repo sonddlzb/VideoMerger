@@ -13,10 +13,12 @@ protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
     func showAdjustment(type: AdjustmentType)
     func dismissAdjustment()
-    func showExport()
+    func showExport(avAsset: AVAsset)
     func dismissExport()
     func showAddAudio()
     func dismissAddAudio()
+    func showExportResult(avAsset: AVAsset, config: ExportConfiguration)
+    func dismissExportResult()
 }
 
 protocol EditorPresentable: Presentable {
@@ -31,6 +33,7 @@ protocol EditorListener: AnyObject {
     func editorWantToDismiss()
     func editorWantToOpenMediaPicker(isSelectAudio: Bool)
     func editorWantToOpenPreview(avAsset: AVAsset)
+    func editorWantToBackToHome()
 }
 
 final class EditorInteractor: PresentableInteractor<EditorPresentable> {
@@ -102,7 +105,9 @@ extension EditorInteractor: EditorPresentableListener {
     }
 
     func didTapExport() {
-        self.router?.showExport()
+        if let avAsset = self.viewModel.currentComposedAsset {
+            self.router?.showExport(avAsset: avAsset)
+        }
     }
 
     func didTapBack() {
