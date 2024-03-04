@@ -52,6 +52,7 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
     override func willResignActive() {
         super.willResignActive()
+        self.viewModel.resetEditorFolder()
     }
 }
 
@@ -60,7 +61,7 @@ extension EditorInteractor: EditorPresentableListener {
     func bind(viewModel: EditorViewModel) {
         self.viewModel = viewModel
     }
-    
+
     func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double) {
         let composition = AVMutableComposition()
         guard let videoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
