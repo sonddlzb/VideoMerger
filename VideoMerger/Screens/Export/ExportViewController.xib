@@ -205,6 +205,9 @@
                                         <constraint firstItem="1mO-sB-0nm" firstAttribute="centerY" secondItem="dir-Tp-tIj" secondAttribute="centerY" id="l6X-gs-2bT"/>
                                         <constraint firstItem="Yqd-O4-00m" firstAttribute="top" secondItem="dir-Tp-tIj" secondAttribute="top" id="qnR-Fv-ndW"/>
                                     </constraints>
+                                    <connections>
+                                        <action selector="didTapExport:" destination="-1" eventType="touchUpInside" id="6yl-KU-rPh"/>
+                                    </connections>
                                 </view>
                             </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>

@@ -11,9 +11,10 @@ import UIKit
 
 protocol ExportPresentableListener: AnyObject {
     func didTapCancel()
+    func didTapExport()
 }
 
-final class ExportViewController: UIViewController, ExportPresentable, ExportViewControllable {
+final class ExportViewController: UIViewController, ExportViewControllable {
     // MARK: - Outlets
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var resolutionBar: PointSelectionBar!
@@ -36,11 +37,10 @@ final class ExportViewController: UIViewController, ExportPresentable, ExportVie
         self.containerView.layer.shadowOffset = CGSize(width: 0, height: -4)
         self.containerView.layer.shadowRadius = 4
 
-        // MARK: - fake data
-        self.resolutionBar.pointsData = ["540p", "720p", "1080p", "2k", "4k"]
+        self.resolutionBar.pointsData = VideoResolution.allCases.map {$0.symbol()}
         self.resolutionBar.selectedIndex = 2
 
-        self.fpsBar.pointsData = ["24", "25", "30", "50", "60"]
+        self.fpsBar.pointsData = VideoFps.allCases.map {$0.rawValue}
         self.fpsBar.selectedIndex = 2
     }
 
@@ -55,6 +55,24 @@ final class ExportViewController: UIViewController, ExportPresentable, ExportVie
         } else {
             self.videoOptionStackView.isUserInteractionEnabled = true
             self.videoOptionStackView.alpha = 1.0
+        }
+    }
+
+    @IBAction func didTapExport(_ sender: Any) {
+        self.listener?.didTapExport()
+    }
+}
+
+// MARK: - ExportPresentable
+extension ExportViewController: ExportPresentable {
+    func bind(viewModel: ExportViewModel) {
+        self.loadViewIfNeeded()
+        if let resolutionIndex = VideoResolution.allCases.firstIndex(of: viewModel.config.resolution) {
+            self.resolutionBar.selectedIndex = resolutionIndex
+        }
+
+        if let fpsIndex = VideoFps.allCases.firstIndex(of: viewModel.config.fps) {
+            self.fpsBar.selectedIndex = fpsIndex
         }
     }
 }

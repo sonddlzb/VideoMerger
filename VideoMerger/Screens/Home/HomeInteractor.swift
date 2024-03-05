@@ -19,6 +19,7 @@ protocol HomeRouting: ViewableRouting {
     func openPreviewVideo(_ asset: PHAsset)
     func dismissPreviewVideo()
     func openPreviewVideo(_ asset: AVAsset)
+    func dismissAll()
 }
 
 protocol HomePresentable: Presentable {

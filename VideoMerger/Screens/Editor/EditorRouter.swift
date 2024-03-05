@@ -8,7 +8,7 @@
 import RIBs
 import Photos
 
-protocol EditorInteractable: Interactable, AdjustmentListener, ExportListener, AddAudioListener {
+protocol EditorInteractable: Interactable, AdjustmentListener, ExportListener, AddAudioListener, ExportResultListener {
     var router: EditorRouting? { get set }
     var listener: EditorListener? { get set }
 
@@ -29,14 +29,19 @@ final class EditorRouter: ViewableRouter<EditorInteractable, EditorViewControlla
     private var addAudioBuilder: AddAudioBuildable
     private var addAudioRouter: AddAudioRouting?
 
+    private var exportResultBuilder: ExportResultBuildable
+    private var exportResultRouter: ExportResultRouting?
+
     init(interactor: EditorInteractable,
          viewController: EditorViewControllable,
          adjustmentBuilder: AdjustmentBuildable,
          exportBuilder: ExportBuildable,
-         addAudioBuilder: AddAudioBuildable) {
+         addAudioBuilder: AddAudioBuildable,
+         exportResultBuilder: ExportResultBuildable) {
         self.adjustmentBuilder = adjustmentBuilder
         self.exportBuilder = exportBuilder
         self.addAudioBuilder = addAudioBuilder
+        self.exportResultBuilder = exportResultBuilder
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -74,12 +79,12 @@ extension EditorRouter: EditorRouting {
         self.adjustmentRouter = nil
     }
 
-    func showExport() {
+    func showExport(avAsset: AVAsset) {
         guard self.adjustmentRouter == nil else {
             return
         }
 
-        let router = self.exportBuilder.build(withListener: self.interactor)
+        let router = self.exportBuilder.build(withListener: self.interactor, avAsset: avAsset)
         self.attachChild(router)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
         self.viewController.present(viewControllable: router.viewControllable)
@@ -116,5 +121,26 @@ extension EditorRouter: EditorRouting {
         router.viewControllable.dismiss()
         self.detachChild(router)
         self.addAudioRouter = nil
+    }
+
+    func showExportResult(avAsset: AVAsset, config: ExportConfiguration) {
+        guard self.exportResultRouter == nil else {
+            return
+        }
+
+        let router = self.exportResultBuilder.build(withListener: self.interactor, avAsset: avAsset, config: config)
+        self.attachChild(router)
+        self.viewControllable.push(viewControllable: router.viewControllable)
+        self.exportResultRouter = router
+    }
+
+    func dismissExportResult() {
+        guard let router = self.exportResultRouter else {
+            return
+        }
+
+        self.detachChild(router)
+        self.viewControllable.popToBefore(viewControllable: router.viewControllable)
+        self.exportResultRouter = nil
     }
 }

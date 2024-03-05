@@ -7,16 +7,20 @@
 
 import RIBs
 import RxSwift
+import AVFoundation
 
 protocol ExportRouting: ViewableRouting {
 }
 
 protocol ExportPresentable: Presentable {
     var listener: ExportPresentableListener? { get set }
+
+    func bind(viewModel: ExportViewModel)
 }
 
 protocol ExportListener: AnyObject {
     func exportWantToDismiss()
+    func exportWantToShowExportResult(config: ExportConfiguration)
 }
 
 final class ExportInteractor: PresentableInteractor<ExportPresentable>, ExportInteractable {
@@ -24,13 +28,17 @@ final class ExportInteractor: PresentableInteractor<ExportPresentable>, ExportIn
     weak var router: ExportRouting?
     weak var listener: ExportListener?
 
-    override init(presenter: ExportPresentable) {
+    private var viewModel: ExportViewModel
+
+    init(presenter: ExportPresentable, avAsset: AVAsset) {
+        self.viewModel = ExportViewModel(config: ExportConfiguration(resolution: .p1080, fps: .fps30))
         super.init(presenter: presenter)
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
+        self.presenter.bind(viewModel: self.viewModel)
     }
 
     override func willResignActive() {
@@ -42,5 +50,9 @@ final class ExportInteractor: PresentableInteractor<ExportPresentable>, ExportIn
 extension ExportInteractor: ExportPresentableListener {
     func didTapCancel() {
         self.listener?.exportWantToDismiss()
+    }
+
+    func didTapExport() {
+        self.listener?.exportWantToShowExportResult(config: self.viewModel.config)
     }
 }

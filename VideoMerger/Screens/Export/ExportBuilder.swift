@@ -6,6 +6,7 @@
 //
 
 import RIBs
+import AVFoundation
 
 protocol ExportDependency: Dependency {
 
@@ -17,7 +18,7 @@ final class ExportComponent: Component<ExportDependency> {
 // MARK: - Builder
 
 protocol ExportBuildable: Buildable {
-    func build(withListener listener: ExportListener) -> ExportRouting
+    func build(withListener listener: ExportListener, avAsset: AVAsset) -> ExportRouting
 }
 
 final class ExportBuilder: Builder<ExportDependency>, ExportBuildable {
@@ -26,10 +27,10 @@ final class ExportBuilder: Builder<ExportDependency>, ExportBuildable {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: ExportListener) -> ExportRouting {
+    func build(withListener listener: ExportListener, avAsset: AVAsset) -> ExportRouting {
         let component = ExportComponent(dependency: dependency)
         let viewController = ExportViewController()
-        let interactor = ExportInteractor(presenter: viewController)
+        let interactor = ExportInteractor(presenter: viewController, avAsset: avAsset)
         interactor.listener = listener
         return ExportRouter(interactor: interactor, viewController: viewController)
     }
