@@ -183,7 +183,6 @@ public extension PHAsset {
                 exportSession.exportAsynchronously {
                     switch exportSession.status {
                     case .completed:
-                        print("Export completed. Audio file saved at \(outputURL)")
                         completion(outputURL)
                     case .failed:
                         print("Export failed: \(exportSession.error?.localizedDescription ?? "Unknown error")")

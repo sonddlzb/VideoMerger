@@ -11,7 +11,7 @@ import Photos
 
 protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
-    func showAdjustment(type: AdjustmentType)
+    func showAdjustment(adjustmentType: AdjustmentType, value: Any)
     func dismissAdjustment()
     func showExport()
     func dismissExport()
@@ -25,6 +25,7 @@ protocol EditorPresentable: Presentable {
     func bind(viewModel: EditorViewModel, isNeedToReload: Bool)
     func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType)
     func bind(currentTime: Double)
+    func showExpandableView(isShow: Bool)
 }
 
 protocol EditorListener: AnyObject {
@@ -58,6 +59,13 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
 // MARK: - EditorPresentableListener
 extension EditorInteractor: EditorPresentableListener {
+    func changeVideoVolume(volume: Float) {
+        DispatchQueue.main.async {
+            self.viewModel.volume = volume
+            self.presenter.bind(viewModel: self.viewModel, adjustmentType: .volume)
+        }
+    }
+
     func bind(viewModel: EditorViewModel) {
         self.viewModel = viewModel
     }
@@ -199,8 +207,8 @@ extension EditorInteractor: EditorInteractable {
         }
     }
 
-    func didTapEdit(type: AdjustmentType) {
-        self.router?.showAdjustment(type: type)
+    func didTapEdit(adjustmentType: AdjustmentType, value: Any) {
+        self.router?.showAdjustment(adjustmentType: adjustmentType, value: value)
     }
 
     func didTapAddMusic() {

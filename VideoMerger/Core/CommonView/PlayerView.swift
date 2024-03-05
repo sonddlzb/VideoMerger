@@ -192,6 +192,10 @@ open class PlayerView: UIView {
         self.delegate?.playerViewUpdatePlayingState(self, isPlaying: false)
     }
 
+    public func setVolume(volume: Float) {
+        self.player.volume = volume
+    }
+
     @discardableResult
     public func replacePlayerItem(_ item: AVPlayerItem?) -> Bool {
         if let oldItem = self.player.currentItem {

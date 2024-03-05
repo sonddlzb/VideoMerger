@@ -48,7 +48,7 @@ extension EditorRouter: EditorRouting {
         self.interactor.bind(listAddedAssets: listAddedAssets)
     }
 
-    func showAdjustment(type: AdjustmentType) {
+    func showAdjustment(adjustmentType: AdjustmentType, value: Any) {
         guard self.adjustmentRouter == nil else {
             return
         }
@@ -57,7 +57,7 @@ extension EditorRouter: EditorRouting {
             return
         }
 
-        let router = self.adjustmentBuilder.build(withListener: self.interactor, type: type, speedType: editorViewController.viewModel.speedType)
+        let router = self.adjustmentBuilder.build(withListener: self.interactor, adjustmentType: adjustmentType, value: value)
         self.attachChild(router)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
         self.viewController.present(viewControllable: router.viewControllable)

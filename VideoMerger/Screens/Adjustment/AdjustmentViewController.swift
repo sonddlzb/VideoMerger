@@ -48,7 +48,7 @@ enum AdjustmentType: CaseIterable {
 
 protocol AdjustmentPresentableListener: AnyObject {
     func didTapCancel()
-    func didTapDone(speedType: SpeedType)
+    func didTapDone(adjustmentViewModel: AdjustmentViewModelType)
 }
 
 final class AdjustmentViewController: UIViewController, AdjustmentViewControllable {
@@ -72,7 +72,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
         }
     }
 
-    var viewModel = AdjustmentViewModel(adjustmentType: .volume, speedType: .speedC)
+    var viewModel: AdjustmentViewModelType?
 
     // MARK: - Lifecycle
     override func viewDidLayoutSubviews() {
@@ -85,25 +85,21 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
 
     func loadContentView() {
         self.contentView.subviews.forEach {$0.removeFromSuperview()}
-        switch self.viewModel.adjustmentType {
-        case .speed:
+        if viewModel is SpeedViewModel {
             speedView.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(speedView)
             speedView.fitSuperviewConstraint()
-            speedView.currentSpeed = self.viewModel.speedType
+            speedView.currentSpeed = self.viewModel?.getValue() as? SpeedType ?? .speedC
+            self.speedView.delegate = self
             self.contentLabel.text = AdjustmentType.speed.name()
-        case .volume:
+        } else if viewModel is VolumeViewModel {
             volumeView = VolumeView()
             volumeView.translatesAutoresizingMaskIntoConstraints = false
             self.contentView.addSubview(volumeView)
             volumeView.fitSuperviewConstraint()
+            volumeView.currentVolume = Int(Float(volumeView.maxVolume) * (viewModel?.getValue() as? Float ?? 0.0))
+            self.volumeView.delegate = self
             self.contentLabel.text = AdjustmentType.volume.name()
-        case .filter:
-            break
-        case .trim:
-            break
-        case .remove:
-            break
         }
     }
 
@@ -113,7 +109,9 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
     }
 
     @IBAction func didTapDone(_ sender: Any) {
-        self.listener?.didTapDone(speedType: speedView.currentSpeed)
+        if let viewModel = self.viewModel {
+            self.listener?.didTapDone(adjustmentViewModel: viewModel)
+        }
     }
 
     @IBAction func didTapSelectForAll(_ sender: Any) {
@@ -123,9 +121,23 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
 
 // MARK: - AdjustmentPresentable
 extension AdjustmentViewController: AdjustmentPresentable {
-    func bind(viewModel: AdjustmentViewModel) {
+    func bind(viewModel: AdjustmentViewModelType) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
         self.loadContentView()
+    }
+}
+
+// MARK: - SpeedViewDelegate
+extension AdjustmentViewController: SpeedViewDelegate {
+    func speedViewCurrentSpeed(currentSpeed: SpeedType) {
+        self.viewModel?.setValue(value: currentSpeed)
+    }
+}
+
+// MARK: - VolumeViewDelegate
+extension AdjustmentViewController: VolumeViewDelegate {
+    func volumeViewCurrentSpeed(volume: Float) {
+        self.viewModel?.setValue(value: volume)
     }
 }

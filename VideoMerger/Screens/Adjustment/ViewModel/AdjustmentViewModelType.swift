@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AdjustmentViewModel {
-    var adjustmentType: AdjustmentType
-    var speedType: SpeedType
+protocol AdjustmentViewModelType {
+    func getValue() -> Any
+    mutating func setValue(value: Any)
 }
