@@ -8,7 +8,7 @@
 import Foundation
 
 extension EditorInteractor: AdjustmentListener {
-    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModel) {
+    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModelType) {
         self.router?.dismissAdjustment()
         if adjustmentViewModel is SpeedViewModel, let speedType = adjustmentViewModel.getValue() as? SpeedType {
             self.changeVideoSpeed(speedType: speedType, startTime: self.viewModel.startTimeEdit, endTime: self.viewModel.endTimeEdit)

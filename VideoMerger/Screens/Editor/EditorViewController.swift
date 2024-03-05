@@ -18,7 +18,7 @@ protocol EditorPresentableListener: AnyObject {
     func didTapAddMore()
     func didTapPreview()
     func didTapExport()
-    func didTapEdit(adjustmentViewModel: AdjustmentViewModel)
+    func didTapEdit(adjustmentType: AdjustmentType, value: Any)
     func didTapAddMusic()
     func trimVideo(startTime: TimeInterval, endTime: TimeInterval)
     func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double)
@@ -173,17 +173,13 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
             case .volume:
                 item.onTap = { [weak self] () -> Void in
-                    if let self = self {
-                        self.expandableFrameView.isHidden = true
-                        self.listener?.didTapEdit(adjustmentViewModel: VolumeViewModel(value: self.viewModel.volume))
-                    }
+                    self?.expandableFrameView.isHidden = true
+                    self?.listener?.didTapEdit(adjustmentType: .volume, value: self?.viewModel.volume as Any)
                 }
 
             case .speed:
                 item.onTap = { [weak self] () -> Void in
-                    if let self = self {
-                        self.listener?.didTapEdit(adjustmentViewModel: SpeedViewModel(value: self.viewModel.speedType))
-                    }
+                    self?.listener?.didTapEdit(adjustmentType: .speed, value: self?.viewModel.speedType as Any)
                 }
 
             case .remove:

@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AdjustmentViewModel {
+protocol AdjustmentViewModelType {
     func getValue() -> Any
     mutating func setValue(value: Any)
 }

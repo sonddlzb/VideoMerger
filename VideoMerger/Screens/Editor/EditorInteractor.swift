@@ -11,7 +11,7 @@ import Photos
 
 protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
-    func showAdjustment(adjustmentViewModel: AdjustmentViewModel)
+    func showAdjustment(adjustmentType: AdjustmentType, value: Any)
     func dismissAdjustment()
     func showExport()
     func dismissExport()
@@ -207,8 +207,8 @@ extension EditorInteractor: EditorInteractable {
         }
     }
 
-    func didTapEdit(adjustmentViewModel: AdjustmentViewModel) {
-        self.router?.showAdjustment(adjustmentViewModel: adjustmentViewModel)
+    func didTapEdit(adjustmentType: AdjustmentType, value: Any) {
+        self.router?.showAdjustment(adjustmentType: adjustmentType, value: value)
     }
 
     func didTapAddMusic() {

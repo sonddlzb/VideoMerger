@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SpeedViewModel: AdjustmentViewModel {
+struct SpeedViewModel: AdjustmentViewModelType {
     private var value: SpeedType
 
     init(value: SpeedType) {

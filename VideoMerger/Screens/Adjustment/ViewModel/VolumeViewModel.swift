@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct VolumeViewModel: AdjustmentViewModel {
+struct VolumeViewModel: AdjustmentViewModelType {
     private var value: Float
 
     init(value: Float) {

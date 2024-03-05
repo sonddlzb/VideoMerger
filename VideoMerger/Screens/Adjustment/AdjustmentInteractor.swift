@@ -14,12 +14,12 @@ protocol AdjustmentRouting: ViewableRouting {
 protocol AdjustmentPresentable: Presentable {
     var listener: AdjustmentPresentableListener? { get set }
 
-    func bind(viewModel: AdjustmentViewModel)
+    func bind(viewModel: AdjustmentViewModelType)
 }
 
 protocol AdjustmentListener: AnyObject {
     func adjusmentWantToDismiss()
-    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModel)
+    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModelType)
 }
 
 final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, AdjustmentInteractable {
@@ -27,17 +27,17 @@ final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, 
     weak var router: AdjustmentRouting?
     weak var listener: AdjustmentListener?
 
-    var adjustmentViewModel: AdjustmentViewModel?
+    var adjustmentViewModelType: AdjustmentViewModelType?
 
-    init(presenter: AdjustmentPresentable, adjustmentViewModel: AdjustmentViewModel) {
+    init(presenter: AdjustmentPresentable, adjustmentViewModelType: AdjustmentViewModelType) {
         super.init(presenter: presenter)
-        self.adjustmentViewModel = adjustmentViewModel
+        self.adjustmentViewModelType = adjustmentViewModelType
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        if let viewModel = self.adjustmentViewModel {
+        if let viewModel = self.adjustmentViewModelType {
             self.presenter.bind(viewModel: viewModel)
         }
     }
@@ -52,7 +52,7 @@ extension AdjustmentInteractor: AdjustmentPresentableListener {
         self.listener?.adjusmentWantToDismiss()
     }
 
-    func didTapDone(adjustmentViewModel: AdjustmentViewModel) {
+    func didTapDone(adjustmentViewModel: AdjustmentViewModelType) {
         self.listener?.adjustmentWantToDone(adjustmentViewModel: adjustmentViewModel)
     }
 }

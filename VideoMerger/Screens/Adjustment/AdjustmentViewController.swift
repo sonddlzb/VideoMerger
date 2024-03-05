@@ -48,7 +48,7 @@ enum AdjustmentType: CaseIterable {
 
 protocol AdjustmentPresentableListener: AnyObject {
     func didTapCancel()
-    func didTapDone(adjustmentViewModel: AdjustmentViewModel)
+    func didTapDone(adjustmentViewModel: AdjustmentViewModelType)
 }
 
 final class AdjustmentViewController: UIViewController, AdjustmentViewControllable {
@@ -72,7 +72,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
         }
     }
 
-    var viewModel: AdjustmentViewModel?
+    var viewModel: AdjustmentViewModelType?
 
     // MARK: - Lifecycle
     override func viewDidLayoutSubviews() {
@@ -121,7 +121,7 @@ final class AdjustmentViewController: UIViewController, AdjustmentViewControllab
 
 // MARK: - AdjustmentPresentable
 extension AdjustmentViewController: AdjustmentPresentable {
-    func bind(viewModel: AdjustmentViewModel) {
+    func bind(viewModel: AdjustmentViewModelType) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
         self.loadContentView()
