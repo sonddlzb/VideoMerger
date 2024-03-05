@@ -23,6 +23,7 @@ protocol EditorPresentableListener: AnyObject {
     func trimVideo(startTime: TimeInterval, endTime: TimeInterval)
     func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double)
     func changeVideoVolume(volume: Float)
+    func removeVideo(startTime: TimeInterval, endTime: TimeInterval)
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -184,7 +185,13 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
             case .remove:
                 item.onTap = { [weak self] () -> Void in
-                    //self?.listener?.didTapEdit(type: .remove)
+                    if let self = self, let viewModelDuration = self.playView.duration()?.toDouble() {
+                        let startTimeEdit = self.viewModel.startTimeEdit
+                        let endTimeEdit = self.viewModel.endTimeEdit
+                        if startTimeEdit > 0.1 || endTimeEdit < viewModelDuration {
+                            self.listener?.removeVideo(startTime: startTimeEdit, endTime: endTimeEdit)
+                        }
+                    }
                 }
             }
 
@@ -405,7 +412,7 @@ extension EditorViewController: EditorPresentable {
             self.playBarView.bind(duration: self.viewModel.duration())
             var isReload = false
 
-            if adjustmentType == .trim {
+            if adjustmentType == .trim || adjustmentType == .remove {
                 let duration = composedAsset.duration
                 self.viewModel.startTimeEdit = 0.0
                 self.viewModel.endTimeEdit = CMTimeGetSeconds(duration)
@@ -423,7 +430,7 @@ extension EditorViewController: EditorPresentable {
                 self.expandableFrameView.isHidden = false
             }
 
-            self.listener?.bind(viewModel: viewModel)
+            self.listener?.bind(viewModel: self.viewModel)
             if isReload {
                 listFrame.removeAll()
                 dispatchGroup.enter()

@@ -59,6 +59,43 @@ final class EditorInteractor: PresentableInteractor<EditorPresentable> {
 
 // MARK: - EditorPresentableListener
 extension EditorInteractor: EditorPresentableListener {
+    func removeVideo(startTime: TimeInterval, endTime: TimeInterval) {
+        let composition = AVMutableComposition()
+        guard let videoTrack = composition.addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid),
+              let audioTrack = composition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid) else {
+            print("Error: Failed to create video or audio track.")
+            return
+        }
+
+        var totalDuration: CMTime = .zero
+        guard let viewModelAvAsset = self.viewModel.currentComposedAsset else {
+            return
+        }
+
+        let start1 = CMTime(seconds: .zero, preferredTimescale: 1000)
+        let end1 = CMTime(seconds: startTime, preferredTimescale: 1000)
+        let start2 = CMTime(seconds: endTime, preferredTimescale: 1000)
+        let end2 = CMTime(seconds: viewModelAvAsset.duration.seconds, preferredTimescale: 1000)
+        let duration1 = CMTimeSubtract(end1, start1)
+        let timeRange1 = CMTimeRange(start: start1, duration: duration1)
+        let duration2 = CMTimeSubtract(end2, start2)
+        let timeRange2 = CMTimeRange(start: start2, duration: duration2)
+        do {
+            try videoTrack.insertTimeRange(timeRange1, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange1, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            totalDuration = CMTimeAdd(totalDuration, duration1)
+            try videoTrack.insertTimeRange(timeRange2, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange2, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+        } catch {
+            print("Error when remove video: \(error.localizedDescription)")
+        }
+
+        DispatchQueue.main.async {
+            self.viewModel.currentComposedAsset = composition
+            self.presenter.bind(viewModel: self.viewModel, adjustmentType: .remove)
+        }
+    }
+
     func changeVideoVolume(volume: Float) {
         DispatchQueue.main.async {
             self.viewModel.volume = volume
