@@ -117,8 +117,8 @@ class SeekBarView: UIView {
     }
 
     func updateSeekBarWith(currentTimeProgress: Double) {
-        self.timeFillViewTrailingConstraint.constant = currentTimeProgress * self.timeNotFillView.bounds.width
         self.layoutIfNeeded()
+        self.timeFillViewTrailingConstraint.constant = currentTimeProgress * self.timeNotFillView.bounds.width
     }
 
     // MARK: - Touches

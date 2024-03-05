@@ -19,7 +19,7 @@ protocol AdjustmentPresentable: Presentable {
 
 protocol AdjustmentListener: AnyObject {
     func adjusmentWantToDismiss()
-    func adjustmentWantToDone(speedType: SpeedType)
+    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModel)
 }
 
 final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, AdjustmentInteractable {
@@ -27,17 +27,19 @@ final class AdjustmentInteractor: PresentableInteractor<AdjustmentPresentable>, 
     weak var router: AdjustmentRouting?
     weak var listener: AdjustmentListener?
 
-    var viewModel = AdjustmentViewModel(adjustmentType: .volume, speedType: .speedC)
+    var adjustmentViewModel: AdjustmentViewModel?
 
-    init(presenter: AdjustmentPresentable, type: AdjustmentType, speedType: SpeedType) {
-        self.viewModel = AdjustmentViewModel(adjustmentType: type, speedType: speedType)
+    init(presenter: AdjustmentPresentable, adjustmentViewModel: AdjustmentViewModel) {
         super.init(presenter: presenter)
+        self.adjustmentViewModel = adjustmentViewModel
         presenter.listener = self
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        self.presenter.bind(viewModel: self.viewModel)
+        if let viewModel = self.adjustmentViewModel {
+            self.presenter.bind(viewModel: viewModel)
+        }
     }
 
     override func willResignActive() {
@@ -50,7 +52,7 @@ extension AdjustmentInteractor: AdjustmentPresentableListener {
         self.listener?.adjusmentWantToDismiss()
     }
 
-    func didTapDone(speedType: SpeedType) {
-        self.listener?.adjustmentWantToDone(speedType: speedType)
+    func didTapDone(adjustmentViewModel: AdjustmentViewModel) {
+        self.listener?.adjustmentWantToDone(adjustmentViewModel: adjustmentViewModel)
     }
 }

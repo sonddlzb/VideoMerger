@@ -20,6 +20,7 @@ struct EditorViewModel {
         }
     }
 
+    var volume: Float = 1.0
     var oldSpeedType: SpeedType = .speedC
     var startTimeEdit: TimeInterval = 0.0
     var endTimeEdit: TimeInterval = 0.0
@@ -73,7 +74,6 @@ struct EditorViewModel {
 
         do {
             try data.write(to: fileURL)
-            print("File saved successfully: \(fileURL.path)")
             return fileURL
         } catch {
             print("Error saving file: \(error.localizedDescription)")
@@ -86,7 +86,6 @@ struct EditorViewModel {
         if FileManager.default.fileExists(atPath: self.editorDirectory.path) {
             do {
                 try FileManager.default.removeItem(at: self.editorDirectory)
-                print("Folder deleted successfully.")
             } catch {
                 print("Error deleting folder: \(error.localizedDescription)")
             }
@@ -99,7 +98,6 @@ struct EditorViewModel {
           do {
               if !FileManager.default.fileExists(atPath: directory.path) {
                   try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-                  print("Directory created: \(directory.path)")
               }
           } catch {
               print("Error creating directory: \(error.localizedDescription)")

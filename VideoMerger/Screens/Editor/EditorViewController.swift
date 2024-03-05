@@ -18,10 +18,11 @@ protocol EditorPresentableListener: AnyObject {
     func didTapAddMore()
     func didTapPreview()
     func didTapExport()
-    func didTapEdit(type: AdjustmentType)
+    func didTapEdit(adjustmentViewModel: AdjustmentViewModel)
     func didTapAddMusic()
     func trimVideo(startTime: TimeInterval, endTime: TimeInterval)
     func changeVideoSpeed(speedType: SpeedType, startTime: Double, endTime: Double)
+    func changeVideoVolume(volume: Float)
 }
 
 final class EditorViewController: UIViewController, EditorViewControllable {
@@ -172,17 +173,22 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
             case .volume:
                 item.onTap = { [weak self] () -> Void in
-                    self?.listener?.didTapEdit(type: .volume)
+                    if let self = self {
+                        self.expandableFrameView.isHidden = true
+                        self.listener?.didTapEdit(adjustmentViewModel: VolumeViewModel(value: self.viewModel.volume))
+                    }
                 }
 
             case .speed:
                 item.onTap = { [weak self] () -> Void in
-                    self?.listener?.didTapEdit(type: .speed)
+                    if let self = self {
+                        self.listener?.didTapEdit(adjustmentViewModel: SpeedViewModel(value: self.viewModel.speedType))
+                    }
                 }
 
             case .remove:
                 item.onTap = { [weak self] () -> Void in
-                    self?.listener?.didTapEdit(type: .remove)
+                    //self?.listener?.didTapEdit(type: .remove)
                 }
             }
 
@@ -391,13 +397,17 @@ extension EditorViewController: PlayBarViewDelegate {
 
 // MARK: - EditorPresentable
 extension EditorViewController: EditorPresentable {
+    func showExpandableView(isShow: Bool) {
+        self.expandableFrameView.isHidden = !isShow
+    }
+
     func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType) {
         self.viewModel = viewModel
-        listFrame.removeAll()
         if let composedAsset = self.viewModel.currentComposedAsset {
             self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
             self.viewModel.currentTime = 0.0
             self.playBarView.bind(duration: self.viewModel.duration())
+            var isReload = false
 
             if adjustmentType == .trim {
                 let duration = composedAsset.duration
@@ -405,38 +415,45 @@ extension EditorViewController: EditorPresentable {
                 self.viewModel.endTimeEdit = CMTimeGetSeconds(duration)
                 self.expandableFrameView.trailingConstraint.constant = self.frameCollectionView.frame.width / 2 - 15.0
                 self.expandableFrameView.leadingConstraint.constant = -self.frameCollectionView.frame.width / 2 + 15.0
+                isReload = true
             } else if adjustmentType == .speed {
                 let oldSpeed = viewModel.oldSpeedType.rawValue
                 let speed = viewModel.speedType.rawValue
                 self.viewModel.startTimeEdit = self.viewModel.startTimeEdit * oldSpeed / speed
                 self.viewModel.endTimeEdit = self.viewModel.endTimeEdit * oldSpeed / speed
+                isReload = true
+            } else if adjustmentType == .volume {
+                self.playView.setVolume(volume: self.viewModel.volume)
+                self.expandableFrameView.isHidden = false
             }
 
             self.listener?.bind(viewModel: viewModel)
+            if isReload {
+                listFrame.removeAll()
+                dispatchGroup.enter()
+                composedAsset.extractFrames(fps: 1) { [weak self] (imageData, error, second, isFinish, scale) in
+                    guard error == nil else {
+                        print("Error when extracting frames: \(error!.localizedDescription)")
+                        return
+                    }
 
-            dispatchGroup.enter()
-            composedAsset.extractFrames(fps: 1) { [weak self] (imageData, error, second, isFinish, scale) in
-                guard error == nil else {
-                    print("Error when extracting frames: \(error!.localizedDescription)")
-                    return
-                }
+                    DispatchQueue.main.async {
+                        if let self = self, let imageData = imageData {
+                            if self.scale < 0 {
+                                self.scale = scale
+                            }
 
-                DispatchQueue.main.async {
-                    if let self = self, let imageData = imageData {
-                        if self.scale < 0 {
-                            self.scale = scale
-                        }
+                            let fileName = "\(imageData.description)\(second)"
+                            guard let imageURL = self.viewModel.saveImageToCaches(fileName, data: imageData) else {
+                                return
+                            }
 
-                        let fileName = "\(imageData.description)\(second)"
-                        guard let imageURL = self.viewModel.saveImageToCaches(fileName, data: imageData) else {
-                            return
-                        }
-
-                        self.listFrame.append(ItemFrameViewModel(url: imageURL, time: String(second).formatVideoDuration(), scale: scale, isFrame: true))
-                        if isFinish {
-                            self.dispatchGroup.leave()
-                            self.dispatchGroup.notify(queue: .main) {
-                                self.frameCollectionView.reloadData()
+                            self.listFrame.append(ItemFrameViewModel(url: imageURL, time: String(second).formatVideoDuration(), scale: scale, isFrame: true))
+                            if isFinish {
+                                self.dispatchGroup.leave()
+                                self.dispatchGroup.notify(queue: .main) {
+                                    self.frameCollectionView.reloadData()
+                                }
                             }
                         }
                     }

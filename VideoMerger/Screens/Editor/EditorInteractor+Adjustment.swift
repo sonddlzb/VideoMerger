@@ -8,12 +8,17 @@
 import Foundation
 
 extension EditorInteractor: AdjustmentListener {
-    func adjustmentWantToDone(speedType: SpeedType) {
+    func adjustmentWantToDone(adjustmentViewModel: AdjustmentViewModel) {
         self.router?.dismissAdjustment()
-        self.changeVideoSpeed(speedType: speedType, startTime: self.viewModel.startTimeEdit, endTime: self.viewModel.endTimeEdit)
+        if adjustmentViewModel is SpeedViewModel, let speedType = adjustmentViewModel.getValue() as? SpeedType {
+            self.changeVideoSpeed(speedType: speedType, startTime: self.viewModel.startTimeEdit, endTime: self.viewModel.endTimeEdit)
+        } else if adjustmentViewModel is VolumeViewModel, let volume = adjustmentViewModel.getValue() as? Float {
+            self.changeVideoVolume(volume: volume)
+        }
     }
 
     func adjusmentWantToDismiss() {
         self.router?.dismissAdjustment()
+        self.presenter.showExpandableView(isShow: true)
     }
 }

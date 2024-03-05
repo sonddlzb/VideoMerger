@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SpeedViewDelegate: AnyObject {
+    func speedViewCurrentSpeed(currentSpeed: SpeedType)
+}
+
 enum SpeedType: Double {
     case speedA = 0.4
     case speedB = 0.8
@@ -35,6 +39,7 @@ class SpeedView: UIView {
     }
 
     var listContainerSpeeds: [UIView] = []
+    weak var delegate: SpeedViewDelegate?
 
     // MARK: - Init
     override init(frame: CGRect) {
@@ -82,29 +87,36 @@ class SpeedView: UIView {
 
     @IBAction func didTapSpeedA(_ sender: Any) {
         self.currentSpeed = .speedA
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedA)
     }
 
     @IBAction func didTapSpeedB(_ sender: Any) {
         self.currentSpeed = .speedB
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedB)
     }
 
     @IBAction func didTapSpeedC(_ sender: Any) {
         self.currentSpeed = .speedC
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedC)
     }
 
     @IBAction func didTapSpeedD(_ sender: Any) {
         self.currentSpeed = .speedD
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedD)
     }
 
     @IBAction func didTapSpeedE(_ sender: Any) {
         self.currentSpeed = .speedE
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedE)
     }
 
     @IBAction func didTapSpeedF(_ sender: Any) {
         self.currentSpeed = .speedF
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedF)
     }
 
     @IBAction func didTapSpeedG(_ sender: Any) {
         self.currentSpeed = .speedG
+        self.delegate?.speedViewCurrentSpeed(currentSpeed: .speedG)
     }
 }

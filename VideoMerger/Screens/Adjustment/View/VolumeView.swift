@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol VolumeViewDelegate: AnyObject {
+    func volumeViewCurrentSpeed(volume: Float)
+}
+
 class VolumeView: UIView {
 
     // MARK: - Outlets
@@ -18,7 +22,13 @@ class VolumeView: UIView {
     // MARK: - Variables
     var minVolume = 0
     var maxVolume = 300
-    var currentVolume = 150
+    var currentVolume = 150 {
+        didSet {
+            self.delegate?.volumeViewCurrentSpeed(volume: Float(self.currentVolume)/Float(maxVolume))
+        }
+    }
+
+    weak var delegate: VolumeViewDelegate?
 
     // MARK: - Init
     override init(frame: CGRect) {
@@ -29,6 +39,11 @@ class VolumeView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.loadView()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.seekBar.updateSeekBarWith(currentTimeProgress: Double(currentVolume)/Double(maxVolume))
     }
 
     func loadView() {
