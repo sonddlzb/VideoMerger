@@ -81,11 +81,15 @@ extension EditorInteractor: EditorPresentableListener {
         let duration2 = CMTimeSubtract(end2, start2)
         let timeRange2 = CMTimeRange(start: start2, duration: duration2)
         do {
-            try videoTrack.insertTimeRange(timeRange1, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
-            try audioTrack.insertTimeRange(timeRange1, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            guard let avVideoTrack = viewModelAvAsset.tracks(withMediaType: .video).first, let avAudioTrack = viewModelAvAsset.tracks(withMediaType: .audio).first else {
+                return
+            }
+
+            try videoTrack.insertTimeRange(timeRange1, of: avVideoTrack, at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange1, of: avAudioTrack, at: totalDuration)
             totalDuration = CMTimeAdd(totalDuration, duration1)
-            try videoTrack.insertTimeRange(timeRange2, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
-            try audioTrack.insertTimeRange(timeRange2, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            try videoTrack.insertTimeRange(timeRange2, of: avVideoTrack, at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange2, of: avAudioTrack, at: totalDuration)
         } catch {
             print("Error when remove video: \(error.localizedDescription)")
         }
@@ -128,8 +132,12 @@ extension EditorInteractor: EditorPresentableListener {
         let end = CMTime(seconds: endTime, preferredTimescale: 1000)
         let duration = CMTimeSubtract(end, start)
         do {
-            try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
-            try audioTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            guard let avVideoTrack = viewModelAvAsset.tracks(withMediaType: .video).first, let avAudioTrack = viewModelAvAsset.tracks(withMediaType: .audio).first else {
+                return
+            }
+
+            try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: avVideoTrack, at: totalDuration)
+            try audioTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: viewModelAvAsset.duration), of: avAudioTrack, at: totalDuration)
             if duration.seconds > 0 {
                 let scaledTimeRange = CMTimeRange(start: start, duration: duration)
                 let scaledDuration = CMTimeMultiplyByFloat64(duration, multiplier: 1.0 * oldSpeed / speed)
@@ -176,10 +184,15 @@ extension EditorInteractor: EditorPresentableListener {
             PHImageManager.default().requestAVAsset(forVideo: asset, options: options) { aVAsset, _, _ in
                 if let aVAsset = aVAsset as? AVURLAsset {
                     do {
-                        try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration), of: aVAsset.tracks(withMediaType: .video)[0], at: currentTime)
-                        try audioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration),
-                                                         of: aVAsset.tracks(withMediaType: .audio)[0],
-                                                         at: currentTime)
+                        if let avVideoTrack = aVAsset.tracks(withMediaType: .video).first {
+                            try videoTrack.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration),
+                                                           of: avVideoTrack, at: currentTime)
+                        }
+
+                        if let avAudioTrack = aVAsset.tracks(withMediaType: .audio).first {
+                            try audioTrack?.insertTimeRange(CMTimeRangeMake(start: CMTime.zero, duration: aVAsset.duration),
+                                                            of: avAudioTrack, at: currentTime)
+                        }
 
                         currentTime = CMTimeAdd(currentTime, aVAsset.duration)
                         if asset == self.viewModel.listAssets.last {
@@ -214,8 +227,12 @@ extension EditorInteractor: EditorPresentableListener {
         let duration = CMTimeSubtract(end, start)
         let timeRange = CMTimeRange(start: start, duration: duration)
         do {
-            try videoTrack.insertTimeRange(timeRange, of: viewModelAvAsset.tracks(withMediaType: .video)[0], at: totalDuration)
-            try audioTrack.insertTimeRange(timeRange, of: viewModelAvAsset.tracks(withMediaType: .audio)[0], at: totalDuration)
+            guard let avVideoTrack = viewModelAvAsset.tracks(withMediaType: .video).first, let avAudioTrack = viewModelAvAsset.tracks(withMediaType: .audio).first else {
+                return
+            }
+
+            try videoTrack.insertTimeRange(timeRange, of: avVideoTrack, at: totalDuration)
+            try audioTrack.insertTimeRange(timeRange, of: avAudioTrack, at: totalDuration)
         } catch {
             print("Error when trimming video: \(error.localizedDescription)")
         }
