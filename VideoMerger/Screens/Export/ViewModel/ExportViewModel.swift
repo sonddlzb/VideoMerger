@@ -53,6 +53,7 @@ enum VideoFps: String, CaseIterable {
 struct ExportConfiguration {
     var resolution: VideoResolution
     var fps: VideoFps
+    var volume: Float
 }
 
 struct ExportViewModel {
