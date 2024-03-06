@@ -18,7 +18,7 @@ final class ExportComponent: Component<ExportDependency> {
 // MARK: - Builder
 
 protocol ExportBuildable: Buildable {
-    func build(withListener listener: ExportListener, avAsset: AVAsset) -> ExportRouting
+    func build(withListener listener: ExportListener, avAsset: AVAsset, volume: Float) -> ExportRouting
 }
 
 final class ExportBuilder: Builder<ExportDependency>, ExportBuildable {
@@ -27,10 +27,10 @@ final class ExportBuilder: Builder<ExportDependency>, ExportBuildable {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: ExportListener, avAsset: AVAsset) -> ExportRouting {
+    func build(withListener listener: ExportListener, avAsset: AVAsset, volume: Float) -> ExportRouting {
         let component = ExportComponent(dependency: dependency)
         let viewController = ExportViewController()
-        let interactor = ExportInteractor(presenter: viewController, avAsset: avAsset)
+        let interactor = ExportInteractor(presenter: viewController, avAsset: avAsset, volume: volume)
         interactor.listener = listener
         return ExportRouter(interactor: interactor, viewController: viewController)
     }

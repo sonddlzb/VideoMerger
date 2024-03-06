@@ -30,8 +30,8 @@ final class ExportInteractor: PresentableInteractor<ExportPresentable>, ExportIn
 
     private var viewModel: ExportViewModel
 
-    init(presenter: ExportPresentable, avAsset: AVAsset) {
-        self.viewModel = ExportViewModel(config: ExportConfiguration(resolution: .p1080, fps: .fps30))
+    init(presenter: ExportPresentable, avAsset: AVAsset, volume: Float) {
+        self.viewModel = ExportViewModel(config: ExportConfiguration(resolution: .p1080, fps: .fps30, volume: volume))
         super.init(presenter: presenter)
         presenter.listener = self
     }

@@ -16,7 +16,7 @@ protocol ExportResultViewControllable: ViewControllable {
 }
 
 final class ExportResultRouter: ViewableRouter<ExportResultInteractable, ExportResultViewControllable>, ExportResultRouting {
-    
+
     override init(interactor: ExportResultInteractable, viewController: ExportResultViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self

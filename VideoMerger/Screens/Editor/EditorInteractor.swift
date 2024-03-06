@@ -13,7 +13,7 @@ protocol EditorRouting: ViewableRouting {
     func bind(listAddedAssets: [PHAsset])
     func showAdjustment(adjustmentType: AdjustmentType, value: Any)
     func dismissAdjustment()
-    func showExport(avAsset: AVAsset)
+    func showExport(avAsset: AVAsset, volume: Float)
     func dismissExport()
     func showAddAudio()
     func dismissAddAudio()
@@ -159,7 +159,7 @@ extension EditorInteractor: EditorPresentableListener {
 
     func didTapExport() {
         if let avAsset = self.viewModel.currentComposedAsset {
-            self.router?.showExport(avAsset: avAsset)
+            self.router?.showExport(avAsset: avAsset, volume: self.viewModel.volume)
         }
     }
 

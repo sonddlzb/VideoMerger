@@ -79,12 +79,12 @@ extension EditorRouter: EditorRouting {
         self.adjustmentRouter = nil
     }
 
-    func showExport(avAsset: AVAsset) {
+    func showExport(avAsset: AVAsset, volume: Float) {
         guard self.adjustmentRouter == nil else {
             return
         }
 
-        let router = self.exportBuilder.build(withListener: self.interactor, avAsset: avAsset)
+        let router = self.exportBuilder.build(withListener: self.interactor, avAsset: avAsset, volume: volume)
         self.attachChild(router)
         router.viewControllable.uiviewController.modalPresentationStyle = .overFullScreen
         self.viewController.present(viewControllable: router.viewControllable)

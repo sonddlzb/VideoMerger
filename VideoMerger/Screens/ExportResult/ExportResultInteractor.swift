@@ -14,6 +14,8 @@ protocol ExportResultRouting: ViewableRouting {
 
 protocol ExportResultPresentable: Presentable {
     var listener: ExportResultPresentableListener? { get set }
+
+    func bind(viewModel: ExportResultViewModel, outputURL: URL?, progress: Float)
 }
 
 protocol ExportResultListener: AnyObject {
@@ -26,6 +28,7 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
     weak var router: ExportResultRouting?
     weak var listener: ExportResultListener?
     var viewModel: ExportResultViewModel
+    let disposeBag = DisposeBag()
 
     init(presenter: ExportResultPresentable, avAsset: AVAsset, config: ExportConfiguration) {
         self.viewModel = ExportResultViewModel(avAsset: avAsset, config: config)
@@ -47,7 +50,8 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
             return nil
         }
 
-        guard let videoTrack = exportAsset.tracks(withMediaType: .video).first else {
+        guard let videoTrack = exportAsset.tracks(withMediaType: .video).first,
+              let audioTrack = exportAsset.tracks(withMediaType: .audio).first else {
             return nil
         }
 
@@ -60,7 +64,12 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
         let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
         instruction.layerInstructions = [layerInstruction]
         videoComposition.instructions = [instruction]
+        let audioMix = AVMutableAudioMix()
+        let audioMixInputParams = AVMutableAudioMixInputParameters(track: audioTrack)
+        audioMixInputParams.setVolume(self.viewModel.config.volume, at: .zero)
+        audioMix.inputParameters = [audioMixInputParams]
 
+        exportSession.audioMix = audioMix
         exportSession.outputFileType = AVFileType.mp4
         exportSession.videoComposition = videoComposition
         return exportSession
@@ -95,6 +104,7 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
                 switch exportSession.status {
                 case .completed:
                     print("Export completed. Video file saved at \(outputURL) with file size \(self.getFileSize(atURL: outputURL)!.formatStorage()))")
+                    completion(outputURL)
                 case .failed:
                     print("Export failed: \(exportSession.error?.localizedDescription ?? "Unknown error")")
                 case .cancelled:
@@ -132,6 +142,20 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
 
 // MARK: - ExportResultPresentableListener
 extension ExportResultInteractor: ExportResultPresentableListener {
+    func exportVideo() {
+        if let fps = Int(self.viewModel.config.fps.rawValue) {
+            self.exportAsset(resolution: self.viewModel.config.resolution, fps: fps, name: "avava", completion: { [weak self] outputURL in
+                if let self = self {
+                    self.presenter.bind(viewModel: self.viewModel, outputURL: outputURL, progress: 1.0)
+                }
+            })?.subscribe(onNext: { [weak self] progress in
+                if let self = self {
+                    self.presenter.bind(viewModel: self.viewModel, outputURL: nil, progress: progress)
+                }
+            }).disposed(by: disposeBag)
+        }
+    }
+
     func didTapBack() {
         self.listener?.exportResultWantToDismiss()
     }
