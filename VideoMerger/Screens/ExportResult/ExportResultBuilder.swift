@@ -33,6 +33,7 @@ final class ExportResultBuilder: Builder<ExportResultDependency>, ExportResultBu
         let viewController = ExportResultViewController()
         let interactor = ExportResultInteractor(presenter: viewController, exportSession: exportSession, name: name)
         interactor.listener = listener
-        return ExportResultRouter(interactor: interactor, viewController: viewController)
+        let previewVideoBuilder = DIContainer.resolve(PreviewVideoBuildable.self, agrument: component)
+        return ExportResultRouter(interactor: interactor, viewController: viewController, previewVideoBuilder: previewVideoBuilder)
     }
 }

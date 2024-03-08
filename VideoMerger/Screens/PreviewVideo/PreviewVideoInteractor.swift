@@ -31,11 +31,11 @@ final class PreviewVideoInteractor: PresentableInteractor<PreviewVideoPresentabl
         self.viewModel = PreviewVideoViewModel(asset: asset, avAsset: avAsset)
         super.init(presenter: presenter)
         presenter.listener = self
+        presenter.bind(viewModel: self.viewModel)
     }
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        presenter.bind(viewModel: self.viewModel)
     }
 
     override func willResignActive() {

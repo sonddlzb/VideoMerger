@@ -10,6 +10,8 @@ import RxSwift
 import AVFoundation
 
 protocol ExportResultRouting: ViewableRouting {
+    func showPreviewVideo(_ asset: AVAsset)
+    func dismissPreviewVideo()
 }
 
 protocol ExportResultPresentable: Presentable {
@@ -24,6 +26,9 @@ protocol ExportResultListener: AnyObject {
 }
 
 final class ExportResultInteractor: PresentableInteractor<ExportResultPresentable>, ExportResultInteractable {
+    func previewVideoWantToDismiss() {
+        self.router?.dismissPreviewVideo()
+    }
 
     weak var router: ExportResultRouting?
     weak var listener: ExportResultListener?
@@ -103,6 +108,12 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
 
 // MARK: - ExportResultPresentableListener
 extension ExportResultInteractor: ExportResultPresentableListener {
+    func showPreviewVideo() {
+        if let asset = self.viewModel.exportSession?.asset {
+            self.router?.showPreviewVideo(asset)
+        }
+    }
+
     func exportVideo() {
         let name = self.viewModel.name
         let defaultName = "Project 1"

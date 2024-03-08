@@ -19,7 +19,7 @@ protocol MediaPickerViewControllable: ViewControllable {
 final class MediaPickerRouter: ViewableRouter<MediaPickerInteractable, MediaPickerViewControllable> {
 
     override init(interactor: MediaPickerInteractable,
-         viewController: MediaPickerViewControllable) {
+                  viewController: MediaPickerViewControllable) {
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
