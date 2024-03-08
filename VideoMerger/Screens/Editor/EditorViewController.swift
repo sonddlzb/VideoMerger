@@ -41,6 +41,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
     @IBOutlet private weak var imgFilterHide: UIImageView!
     @IBOutlet private weak var editMainTabBarView: EditMainTabBarView!
     @IBOutlet private weak var frameCollectionView: UICollectionView!
+    @IBOutlet private weak var projectNameTextField: UITextField!
+    @IBOutlet private weak var editProjectNameImage: UIImageView!
+
     var expandableWidthConstraint: NSLayoutConstraint!
     var expandableHeightConstraint: NSLayoutConstraint!
     lazy private var expandableFrameView: ExpandableView = {
@@ -52,7 +55,9 @@ final class EditorViewController: UIViewController, EditorViewControllable {
 
     // MARK: - Variables
     weak var listener: EditorPresentableListener?
-    var editCompositionBar: EditCompositionBarView?
+    private lazy var editCompositionBar: EditCompositionBarView = {
+        return EditCompositionBarView()
+    }()
     var editBarTopMainBarBottomConstraint: NSLayoutConstraint?
     var viewModel = EditorViewModel.makeEmpty()
     private var timeObserverToken: Any?
@@ -135,11 +140,11 @@ final class EditorViewController: UIViewController, EditorViewControllable {
         expandableFrameView.delegate = self
         playBarView.delegate = self
         editMainTabBarView.delegate = self
+        projectNameTextField.delegate = self
         frameCollectionView.register(UINib(nibName: "FrameCell", bundle: .main), forCellWithReuseIdentifier: "FrameCell")
         let longPressFrameStackGesture = UILongPressGestureRecognizer(target: self, action: #selector(onLongPressEditFrame(_:)))
         longPressFrameStackGesture.minimumPressDuration = 1.0
         frameCollectionView.addGestureRecognizer(longPressFrameStackGesture)
-        editCompositionBar = EditCompositionBarView()
         var listView: [TapableView] = []
         self.frameCollectionView.addSubview(expandableFrameView)
         frameCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -198,20 +203,24 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             listView.append(item)
         }
 
-        if let editCompositionBar = editCompositionBar {
-            editCompositionBar.listView = listView
-            self.view.addSubview(editCompositionBar)
-            NSLayoutConstraint.activate([
-                editCompositionBar.heightAnchor.constraint(equalTo: editMainTabBarView.heightAnchor),
-                self.view.leftAnchor.constraint(equalTo: editCompositionBar.leftAnchor),
-                self.view.rightAnchor.constraint(equalTo: editCompositionBar.rightAnchor)
-            ])
-            editBarTopMainBarBottomConstraint = self.editMainTabBarView.bottomAnchor.constraint(equalTo: editCompositionBar.topAnchor)
-            editBarTopMainBarBottomConstraint?.isActive = true
-            let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
-            swipeDownGesture.direction = .down
-            self.view.addGestureRecognizer(swipeDownGesture)
-        }
+        editCompositionBar.listView = listView
+        self.view.addSubview(editCompositionBar)
+        NSLayoutConstraint.activate([
+            editCompositionBar.heightAnchor.constraint(equalTo: editMainTabBarView.heightAnchor),
+            self.view.leftAnchor.constraint(equalTo: editCompositionBar.leftAnchor),
+            self.view.rightAnchor.constraint(equalTo: editCompositionBar.rightAnchor)
+        ])
+        editBarTopMainBarBottomConstraint = self.editMainTabBarView.bottomAnchor.constraint(equalTo: editCompositionBar.topAnchor)
+        editBarTopMainBarBottomConstraint?.isActive = true
+        let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
+        swipeDownGesture.direction = .down
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapPlayView(_:)))
+        let tapEditProjectNameGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapEditProjectName(_:)))
+        self.view.addGestureRecognizer(swipeDownGesture)
+        self.playView.addGestureRecognizer(tapGesture)
+        self.projectNameTextField.addTarget(self, action: #selector(handlePressReturn), for: .editingDidEndOnExit)
+        self.editProjectNameImage.isUserInteractionEnabled = true
+        self.editProjectNameImage.addGestureRecognizer(tapEditProjectNameGesture)
     }
 
     func loadAssets(index: Int) {
@@ -362,6 +371,19 @@ final class EditorViewController: UIViewController, EditorViewControllable {
             self.expandableFrameView.isHidden = true
         }
     }
+    @objc private func handleTapPlayView(_ gesture: UITapGestureRecognizer) {
+        if gesture.state == .ended {
+            self.hiddenEditCompositionBar()
+            self.expandableFrameView.isHidden = true
+            self.projectNameTextField.resignFirstResponder()
+        }
+    }
+    @objc func handlePressReturn() {
+        self.projectNameTextField.resignFirstResponder()
+    }
+    @objc func handleTapEditProjectName(_ gesture: UITapGestureRecognizer) {
+        self.projectNameTextField.becomeFirstResponder()
+    }
     @objc private func onLongPressEditFrame(_ gesture: UILongPressGestureRecognizer) {
         if gesture.state == .ended {
             self.showEditCompositionBar()
@@ -406,6 +428,7 @@ extension EditorViewController: EditorPresentable {
 
     func bind(viewModel: EditorViewModel, adjustmentType: AdjustmentType) {
         self.viewModel = viewModel
+        self.viewModel.projectName = projectNameTextField.text ?? ""
         if let composedAsset = self.viewModel.currentComposedAsset {
             self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
             self.viewModel.currentTime = 0.0
@@ -468,6 +491,7 @@ extension EditorViewController: EditorPresentable {
     func bind(viewModel: EditorViewModel, isNeedToReload: Bool) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
+        self.viewModel.projectName = projectNameTextField.text ?? ""
         if !isNeedToReload {
             if let composedAsset = self.viewModel.currentComposedAsset {
                 self.playView.replacePlayerItem(AVPlayerItem(asset: composedAsset))
@@ -629,5 +653,19 @@ extension EditorViewController: UICollectionViewDelegate, UICollectionViewDataSo
         }
 
         return CGSize(width: self.frameCollectionView.frame.height*self.scale, height: self.frameCollectionView.frame.height)
+    }
+}
+
+// MARK: TextField
+extension EditorViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if let text = textField.text,
+            let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange, with: string)
+            self.viewModel.projectName = updatedText
+            self.listener?.bind(viewModel: self.viewModel)
+        }
+
+        return true
     }
 }

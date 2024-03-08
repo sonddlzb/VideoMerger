@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="audioSwitch" destination="8gg-wd-ca1" id="CYJ-rm-daq"/>
                 <outlet property="containerView" destination="404-fA-8vi" id="sL3-Eo-jtg"/>
+                <outlet property="estimatedSizeLabel" destination="Sv1-UB-AcB" id="JCa-WE-hOi"/>
                 <outlet property="fpsBar" destination="mTn-tI-pN6" id="yJA-h1-32W"/>
                 <outlet property="resolutionBar" destination="2VR-9P-b7X" id="gQQ-kn-UCK"/>
                 <outlet property="videoOptionStackView" destination="OgS-kw-HD6" id="LrO-0E-9EP"/>
@@ -129,7 +130,7 @@
                                         </view>
                                     </subviews>
                                 </stackView>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KAx-SE-OfV">
+                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KAx-SE-OfV">
                                     <rect key="frame" x="41.5" y="200" width="331" height="30"/>
                                     <subviews>
                                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="8gg-wd-ca1">

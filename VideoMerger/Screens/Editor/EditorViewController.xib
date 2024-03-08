@@ -9,16 +9,12 @@
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="Outfit-Medium.otf">
-            <string>Outfit-Medium</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditorViewController">
             <connections>
                 <outlet property="borderView" destination="6vV-Tj-Z5f" id="VNL-y8-uPI"/>
                 <outlet property="editMainTabBarView" destination="Hy1-Mb-vnG" id="Vu2-rP-wV8"/>
+                <outlet property="editProjectNameImage" destination="kBx-mF-QE7" id="tfc-mf-Sa7"/>
                 <outlet property="frameCollectionView" destination="3Ux-Je-mHQ" id="ewO-dc-4uX"/>
                 <outlet property="gradientView" destination="OoI-Yr-OcH" id="7XI-JS-UHe"/>
                 <outlet property="headerView" destination="0Q5-CF-3mX" id="xGP-t7-wgm"/>
@@ -28,6 +24,7 @@
                 <outlet property="imgTextHide" destination="3MS-UZ-PUx" id="U4U-Y1-3T6"/>
                 <outlet property="playBarView" destination="ZxD-eW-nqD" id="TNT-oc-Co0"/>
                 <outlet property="playView" destination="8ng-lR-jIj" id="aet-dx-m6X"/>
+                <outlet property="projectNameTextField" destination="bNA-KU-xnH" id="lTZ-IW-8Vt"/>
                 <outlet property="timeScrollView" destination="knr-XJ-E61" id="dXN-e1-SSg"/>
                 <outlet property="timeStackView" destination="LgG-Eb-Xbt" id="YVF-e5-fKz"/>
                 <outlet property="view" destination="iN0-l3-epB" id="jYO-eb-xeE"/>
@@ -620,16 +617,23 @@
                                     </connections>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m8h-cl-437">
-                                    <rect key="frame" x="165.33333333333334" y="11.333333333333334" width="99.333333333333343" height="21.333333333333329"/>
+                                    <rect key="frame" x="175" y="11.666666666666664" width="80" height="21"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Project 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kx-HT-MI2">
-                                            <rect key="frame" x="0.0" y="0.0" width="75" height="21.333333333333332"/>
-                                            <fontDescription key="fontDescription" name="Outfit-Medium" family="Outfit" pointSize="20"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Project 1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bNA-KU-xnH">
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                                    <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </textField>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_pencil" translatesAutoresizingMaskIntoConstraints="NO" id="kBx-mF-QE7">
-                                            <rect key="frame" x="85" y="1.0000000000000009" width="14.333333333333329" height="14.333333333333336"/>
+                                            <rect key="frame" x="66" y="1" width="14" height="14"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="kBx-mF-QE7" secondAttribute="height" id="sRA-yO-rja"/>
                                             </constraints>
@@ -637,13 +641,13 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="9kx-HT-MI2" firstAttribute="leading" secondItem="m8h-cl-437" secondAttribute="leading" id="7af-fX-qi5"/>
-                                        <constraint firstItem="9kx-HT-MI2" firstAttribute="top" secondItem="m8h-cl-437" secondAttribute="top" id="MhU-9S-2o1"/>
                                         <constraint firstItem="kBx-mF-QE7" firstAttribute="top" secondItem="m8h-cl-437" secondAttribute="top" constant="1" id="NNK-bx-I3G"/>
+                                        <constraint firstAttribute="bottom" secondItem="bNA-KU-xnH" secondAttribute="bottom" id="RYm-7o-OOh"/>
                                         <constraint firstAttribute="bottom" secondItem="kBx-mF-QE7" secondAttribute="bottom" constant="6" id="f8X-eq-qh2"/>
-                                        <constraint firstItem="9kx-HT-MI2" firstAttribute="trailing" secondItem="kBx-mF-QE7" secondAttribute="leading" constant="-10" id="iSY-hd-jTb"/>
+                                        <constraint firstItem="bNA-KU-xnH" firstAttribute="leading" secondItem="m8h-cl-437" secondAttribute="leading" id="jY9-Il-zpS"/>
+                                        <constraint firstItem="kBx-mF-QE7" firstAttribute="leading" secondItem="bNA-KU-xnH" secondAttribute="trailing" constant="10" id="lLC-EM-CtY"/>
+                                        <constraint firstItem="bNA-KU-xnH" firstAttribute="top" secondItem="m8h-cl-437" secondAttribute="top" id="lQ8-Ke-wl0"/>
                                         <constraint firstAttribute="trailing" secondItem="kBx-mF-QE7" secondAttribute="trailing" id="uvU-Xj-h8o"/>
-                                        <constraint firstAttribute="bottom" secondItem="9kx-HT-MI2" secondAttribute="bottom" id="vZB-PU-utq"/>
                                     </constraints>
                                 </view>
                             </subviews>

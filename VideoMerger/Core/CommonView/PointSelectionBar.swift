@@ -12,6 +12,10 @@ private struct Const {
     static let lineWidth = 6.0
 }
 
+protocol PointSelectionBarDelegate: AnyObject {
+    func pointSelectionBar(_ pointSelectionBar: PointSelectionBar, didSelected state: Int)
+}
+
 class PointSelectionBar: UIView {
 
     // MARK: - Outlets
@@ -21,6 +25,7 @@ class PointSelectionBar: UIView {
     private var containerLabels: UIView!
     private var listPointViews: [UIView] = []
     private var listLabels: [UILabel] = []
+    weak var delegate: PointSelectionBarDelegate?
 
     // MARK: - Variables
     public var pointsData: [String] = [] {
@@ -156,5 +161,6 @@ class PointSelectionBar: UIView {
         }
 
         self.selectedIndex = sender.tag
+        delegate?.pointSelectionBar(self, didSelected: self.selectedIndex)
     }
 }

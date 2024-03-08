@@ -24,6 +24,7 @@ struct EditorViewModel {
     var oldSpeedType: SpeedType = .speedC
     var startTimeEdit: TimeInterval = 0.0
     var endTimeEdit: TimeInterval = 0.0
+    var projectName: String = "Project 1"
     private lazy var editorDirectory: URL = {
         return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent("editorData")
     }()

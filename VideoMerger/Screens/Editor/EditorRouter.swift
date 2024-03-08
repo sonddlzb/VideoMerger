@@ -123,12 +123,12 @@ extension EditorRouter: EditorRouting {
         self.addAudioRouter = nil
     }
 
-    func showExportResult(avAsset: AVAsset, config: ExportConfiguration) {
+    func showExportResult(exportSession: AVAssetExportSession?, name: String) {
         guard self.exportResultRouter == nil else {
             return
         }
 
-        let router = self.exportResultBuilder.build(withListener: self.interactor, avAsset: avAsset, config: config)
+        let router = self.exportResultBuilder.build(withListener: self.interactor, exportSession: exportSession, name: name)
         self.attachChild(router)
         self.viewControllable.push(viewControllable: router.viewControllable)
         self.exportResultRouter = router

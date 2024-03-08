@@ -17,7 +17,7 @@ protocol ExportResultPresentableListener: AnyObject {
 
 final class ExportResultViewController: UIViewController, ExportResultViewControllable {
     // MARK: - Outlets
-    @IBOutlet weak var thumbnailUIImageView: UIImageView!
+    @IBOutlet private weak var thumbnailUIImageView: UIImageView!
     private lazy var borderProgressView: BorderProgressView = {
         return BorderProgressView()
     }()
@@ -59,7 +59,7 @@ extension ExportResultViewController: ExportResultPresentable {
     func bind(viewModel: ExportResultViewModel, outputURL: URL?, progress: Float) {
         DispatchQueue.main.async {
             if self.thumbnailUIImageView.image == nil {
-                self.thumbnailUIImageView.image = viewModel.avAsset.thumbnailImage
+                self.thumbnailUIImageView.image = viewModel.exportSession?.asset.thumbnailImage
             }
 
             self.borderProgressView.setProgress(CGFloat(progress), animated: true)
