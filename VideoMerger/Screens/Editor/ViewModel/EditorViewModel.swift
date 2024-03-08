@@ -60,7 +60,7 @@ struct EditorViewModel {
 
         var currentSecond = 0
         for id in 0...index-1 {
-            currentSecond += Int(self.listAssets[id].duration)
+            currentSecond += Int(ceil(self.listAssets[id].duration))
         }
 
         return currentSecond + localSecond
