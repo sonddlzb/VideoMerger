@@ -86,7 +86,7 @@ public extension AVAsset {
 
         let duration = CMTimeGetSeconds(self.duration)
         var count = 0
-        let times = (0...Int64(duration)).map{CMTime(seconds: Double($0), preferredTimescale: 60)}.map{ NSValue(time: $0) }
+        let times = (0...Int64(duration)).map {CMTime(seconds: Double($0), preferredTimescale: 60)}.map { NSValue(time: $0) }
         imageGenerator.generateCGImagesAsynchronously(forTimes: times) { _, cgImage, _, _, error in
             if let error = error {
                 completion(nil, error, 0, false, 0)
