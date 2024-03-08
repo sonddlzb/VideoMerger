@@ -61,7 +61,6 @@ class BorderProgressView: UIView {
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = progressLayer.strokeEnd
         animation.toValue = progress
-        animation.duration = 0.05
 
         if animated {
             progressLayer.add(animation, forKey: "progressAnimation")
