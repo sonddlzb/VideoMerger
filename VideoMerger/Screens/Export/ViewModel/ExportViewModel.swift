@@ -54,8 +54,11 @@ struct ExportConfiguration {
     var resolution: VideoResolution
     var fps: VideoFps
     var volume: Float
+    var projectName: String?
 }
 
 struct ExportViewModel {
+    var avAsset: AVAsset
     var config: ExportConfiguration
+    var exportSession: AVAssetExportSession?
 }

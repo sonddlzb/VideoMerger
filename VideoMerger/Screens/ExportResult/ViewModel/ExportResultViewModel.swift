@@ -9,6 +9,6 @@ import Foundation
 import AVFoundation
 
 struct ExportResultViewModel {
-    var avAsset: AVAsset
-    var config: ExportConfiguration
+    var exportSession: AVAssetExportSession?
+    var name: String
 }

@@ -30,8 +30,8 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
     var viewModel: ExportResultViewModel
     let disposeBag = DisposeBag()
 
-    init(presenter: ExportResultPresentable, avAsset: AVAsset, config: ExportConfiguration) {
-        self.viewModel = ExportResultViewModel(avAsset: avAsset, config: config)
+    init(presenter: ExportResultPresentable, exportSession: AVAssetExportSession?, name: String) {
+        self.viewModel = ExportResultViewModel(exportSession: exportSession, name: name)
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -44,39 +44,8 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
         super.willResignActive()
     }
 
-    func configExportSession(resolution: VideoResolution, fps: Int) -> AVAssetExportSession? {
-        let exportAsset = self.viewModel.avAsset
-        guard let exportSession = AVAssetExportSession(asset: exportAsset, presetName: AVAssetExportPresetHighestQuality) else {
-            return nil
-        }
-
-        guard let videoTrack = exportAsset.tracks(withMediaType: .video).first,
-              let audioTrack = exportAsset.tracks(withMediaType: .audio).first else {
-            return nil
-        }
-
-        let videoComposition = AVMutableVideoComposition()
-        videoComposition.renderSize = resolution.size
-        videoComposition.frameDuration = CMTime(value: 1, timescale: Int32(fps))
-
-        let instruction = AVMutableVideoCompositionInstruction()
-        instruction.timeRange = CMTimeRange(start: .zero, duration: exportAsset.duration)
-        let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
-        instruction.layerInstructions = [layerInstruction]
-        videoComposition.instructions = [instruction]
-        let audioMix = AVMutableAudioMix()
-        let audioMixInputParams = AVMutableAudioMixInputParameters(track: audioTrack)
-        audioMixInputParams.setVolume(self.viewModel.config.volume, at: .zero)
-        audioMix.inputParameters = [audioMixInputParams]
-
-        exportSession.audioMix = audioMix
-        exportSession.outputFileType = AVFileType.mp4
-        exportSession.videoComposition = videoComposition
-        return exportSession
-    }
-
-    func exportAsset(resolution: VideoResolution, fps: Int, name: String, completion: @escaping (_ outputURL: URL?) -> Void) -> Observable<Float>? {
-        guard let exportSession = self.configExportSession(resolution: resolution, fps: fps) else {
+    func exportAsset(exportSession: AVAssetExportSession?, name: String, completion: @escaping (_ outputURL: URL?) -> Void) -> Observable<Float>? {
+        guard let exportSession = exportSession else {
             completion(nil)
             return nil
         }
@@ -96,8 +65,6 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
                 if progress == 1 {
                     observer.onCompleted()
                 }
-
-                print("current progress is \(progress)")
             }
 
             exportSession.exportAsynchronously(completionHandler: {
@@ -115,12 +82,6 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
             })
 
             return Disposables.create()
-        }
-    }
-
-    func estimatedStorage(exportSession: AVAssetExportSession, completion: @escaping (String) -> Void) {
-        exportSession.estimateOutputFileLength { size, _ in
-            completion(size.formatStorage())
         }
     }
 
@@ -143,17 +104,17 @@ final class ExportResultInteractor: PresentableInteractor<ExportResultPresentabl
 // MARK: - ExportResultPresentableListener
 extension ExportResultInteractor: ExportResultPresentableListener {
     func exportVideo() {
-        if let fps = Int(self.viewModel.config.fps.rawValue) {
-            self.exportAsset(resolution: self.viewModel.config.resolution, fps: fps, name: "avava", completion: { [weak self] outputURL in
-                if let self = self {
-                    self.presenter.bind(viewModel: self.viewModel, outputURL: outputURL, progress: 1.0)
-                }
-            })?.subscribe(onNext: { [weak self] progress in
-                if let self = self {
-                    self.presenter.bind(viewModel: self.viewModel, outputURL: nil, progress: progress)
-                }
-            }).disposed(by: disposeBag)
-        }
+        let name = self.viewModel.name
+        let defaultName = "Project 1"
+        self.exportAsset(exportSession: self.viewModel.exportSession, name: !name.isEmpty ? name : defaultName, completion: { [weak self] outputURL in
+            if let self = self {
+                self.presenter.bind(viewModel: self.viewModel, outputURL: outputURL, progress: 1.0)
+            }
+        })?.subscribe(onNext: { [weak self] progress in
+            if let self = self {
+                self.presenter.bind(viewModel: self.viewModel, outputURL: nil, progress: progress)
+            }
+        }).disposed(by: disposeBag)
     }
 
     func didTapBack() {

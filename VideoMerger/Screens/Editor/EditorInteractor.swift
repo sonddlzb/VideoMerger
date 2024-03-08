@@ -17,7 +17,7 @@ protocol EditorRouting: ViewableRouting {
     func dismissExport()
     func showAddAudio()
     func dismissAddAudio()
-    func showExportResult(avAsset: AVAsset, config: ExportConfiguration)
+    func showExportResult(exportSession: AVAssetExportSession?, name: String)
     func dismissExportResult()
 }
 
