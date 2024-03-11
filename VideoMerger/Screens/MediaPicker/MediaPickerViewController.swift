@@ -176,16 +176,8 @@ extension MediaPickerViewController: MediaPickerPresentable {
     func bind(viewModel: MediaPickerViewModel) {
         self.loadViewIfNeeded()
         self.viewModel = viewModel
-        if self.viewModel.isSelectAudio {
-            self.photoHeaderView.isHidden = true
-            self.videosSelectedBorder.isHidden = true
-        } else {
-            self.photoHeaderView.isHidden = false
-            self.photosCollectionView.reloadData()
-            if self.photosRefresher != nil {
-                self.photosRefresher.endRefreshing()
-            }
-        }
+        self.photoHeaderView.isHidden = true
+        self.videosSelectedBorder.isHidden = true
 
         self.videosCollectionView.reloadData()
         if self.videosRefresher != nil {
